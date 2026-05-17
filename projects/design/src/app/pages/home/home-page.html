@@ -1,3 +1,40 @@
-@for (item of items; track $index) {
-  <a [routerLink]="[item.route]">{{ item.label }}</a>
-}
+<div
+  class="grid min-h-full gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid max-w-3xl gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Promptgist Design</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-6xl">Design system workspace</h1>
+    <p class="m-0 leading-7 text-[var(--ui-color-text-muted)]">
+      Navigate the foundations, components, and form controls that make up the shared UI library.
+    </p>
+  </header>
+
+  <nav aria-labelledby="home-navigation-title">
+    <h2 id="home-navigation-title" class="mb-4 mt-0 text-base font-bold">Sections</h2>
+    <ul
+      class="m-0 grid list-none gap-4 p-0 [grid-template-columns:repeat(auto-fit,minmax(16rem,1fr))]"
+    >
+      @for (item of items; track item.route) {
+        <li>
+          <ui-card variant="outline" padding="none" uiClass="h-full">
+            <a
+              class="grid min-h-44 gap-3 p-5 text-inherit no-underline hover:bg-[var(--ui-color-surface-muted)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color-mix(in_srgb,var(--ui-color-primary)_60%,transparent)]"
+              [routerLink]="[item.route]"
+            >
+              <span class="text-lg font-bold">{{ item.label }}</span>
+              <span class="leading-6 text-[var(--ui-color-text-muted)]">{{
+                item.description
+              }}</span>
+              <span
+                aria-hidden="true"
+                class="self-end justify-self-end text-2xl font-bold leading-none text-[var(--ui-color-primary)]"
+              >
+                →
+              </span>
+            </a>
+          </ui-card>
+        </li>
+      }
+    </ul>
+  </nav>
+</div>

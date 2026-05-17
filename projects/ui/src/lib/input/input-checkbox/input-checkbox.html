@@ -1,1 +1,32 @@
-<p>input-checkbox works!</p>
+<label [class]="rootClasses()" [attr.for]="inputId">
+  <span class="relative grid shrink-0 place-items-center">
+    <input
+      class="peer sr-only"
+      type="checkbox"
+      [id]="inputId"
+      [checked]="value()"
+      [disabled]="disabled()"
+      [attr.aria-invalid]="hasErrors() || null"
+      (change)="setChecked($event)"
+      (blur)="touched.set(true)"
+    />
+    <span aria-hidden="true" [class]="controlClasses()">
+      @if (value()) {
+        <svg class="size-3.5" viewBox="0 0 16 16" fill="none">
+          <path
+            d="M3.5 8.5 6.5 11.5 12.5 4.5"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      }
+    </span>
+  </span>
+  <span class="grid min-w-0 gap-1 leading-none">
+    <span class="text-sm font-medium leading-5">
+      <ng-content />
+    </span>
+  </span>
+</label>

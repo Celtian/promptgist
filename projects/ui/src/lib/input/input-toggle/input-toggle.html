@@ -1,1 +1,22 @@
-<p>input-toggle works!</p>
+<label [class]="rootClasses()" [attr.for]="inputId">
+  <span class="relative inline-flex shrink-0">
+    <input
+      class="peer sr-only"
+      type="checkbox"
+      role="switch"
+      [id]="inputId"
+      [checked]="value()"
+      [disabled]="disabled()"
+      [attr.aria-checked]="value()"
+      [attr.aria-invalid]="hasErrors() || null"
+      (change)="setChecked($event)"
+      (blur)="touched.set(true)"
+    />
+    <span aria-hidden="true" [class]="trackClasses()">
+      <span [class]="thumbClasses()"></span>
+    </span>
+  </span>
+  <span class="min-w-0 text-sm font-medium leading-5">
+    <ng-content />
+  </span>
+</label>
