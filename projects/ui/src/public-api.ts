@@ -1,5 +1,10 @@
-/*
- * Public API Surface of ui
- */
-
-export * from './lib/ui';
+export * from './lib/badge/public-api';
+export * from './lib/button/public-api';
+export * from './lib/input/public-api';
+export * from './lib/modal/public-api';
+export * from './lib/progress-bar/public-api';
+export * from './lib/progress-spinner/public-api';
+export * from './lib/scrollbar/public-api';
+export * from './lib/skeleton/public-api';
+export * from './lib/spinner/public-api';
+export * from './lib/tooltip/public-api';

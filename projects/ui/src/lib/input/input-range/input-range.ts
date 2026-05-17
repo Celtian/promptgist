@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-ui',
+  selector: 'ui-input-range',
   imports: [],
-  template: ` <p>ui works!</p> `,
-  styles: ``,
+  templateUrl: './input-range.html',
+  styleUrl: './input-range.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Ui {}
+export class InputRange {}
