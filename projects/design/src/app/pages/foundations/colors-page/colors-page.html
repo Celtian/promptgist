@@ -1,1 +1,53 @@
-<p>colors-page works!</p>
+<section class="colors-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Foundations</p>
+      <h1>Colors</h1>
+    </div>
+    <p>
+      Shared UI tokens for light and dark themes. The semantic colors follow the 60-30-10
+      composition rule while each palette exposes the usual 50-950 shade scale.
+    </p>
+  </header>
+
+  <section class="composition" aria-label="60-30-10 color composition">
+    @for (color of colors; track color.name) {
+      <ui-card
+        uiClass="composition-item"
+        padding="lg"
+        [style.--ui-card-background]="'var(' + color.variable + ')'"
+        [style.--ui-card-color]="'var(' + color.contrastVariable + ')'"
+        [style.--ui-card-border]="'var(' + color.variable + ')'"
+      >
+        <span>{{ color.ratio }}</span>
+        <h2>{{ color.name }}</h2>
+        <p>{{ color.role }}</p>
+        <code>var({{ color.variable }})</code>
+      </ui-card>
+    }
+  </section>
+
+  <section class="palette-list" aria-label="Color shade scales">
+    @for (color of colors; track color.name) {
+      <ui-card uiClass="palette" variant="outline" padding="lg">
+        <div class="palette-header">
+          <div>
+            <h2>{{ color.name }}</h2>
+            <p>{{ color.ratio }} role color</p>
+          </div>
+          <code>--ui-color-{{ color.name.toLowerCase() }}-50...950</code>
+        </div>
+
+        <div class="shade-grid">
+          @for (shade of color.shades; track shade.value) {
+            <ui-card uiClass="shade" padding="sm">
+              <div class="swatch" [style.background]="'var(' + shade.variable + ')'"></div>
+              <span>{{ shade.value }}</span>
+              <code>{{ shade.variable }}</code>
+            </ui-card>
+          }
+        </div>
+      </ui-card>
+    }
+  </section>
+</section>

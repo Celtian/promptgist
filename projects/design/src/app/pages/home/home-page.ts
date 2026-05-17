@@ -20,5 +20,9 @@ export class HomePage {
       label: 'Foundations',
       route: ROUTE_DEFINITION.APP.FOUNDATIONS,
     },
+    {
+      label: 'Components',
+      route: ROUTE_DEFINITION.APP.COMPONENTS,
+    },
   ];
 }

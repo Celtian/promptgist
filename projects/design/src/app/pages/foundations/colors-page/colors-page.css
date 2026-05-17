@@ -1,0 +1,152 @@
+.colors-page {
+  background: var(--ui-color-surface);
+  color: var(--ui-color-text);
+  display: grid;
+  gap: 2rem;
+  min-height: 100%;
+  padding: 2rem;
+}
+
+.page-header {
+  align-items: end;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 32rem);
+}
+
+.eyebrow {
+  color: var(--ui-color-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+}
+
+h2 {
+  font-size: 1.125rem;
+  font-weight: 750;
+}
+
+.page-header > p,
+.palette-header p,
+.composition-item p {
+  color: var(--ui-color-text-muted);
+  line-height: 1.6;
+}
+
+code {
+  color: inherit;
+  font-size: 0.75rem;
+}
+
+.composition {
+  border: 1px solid var(--ui-color-border);
+  display: grid;
+  grid-template-columns: 6fr 3fr 1fr;
+  min-height: 16rem;
+  overflow: hidden;
+}
+
+.composition-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: end;
+}
+
+.composition-item span {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 850;
+  line-height: 0.9;
+}
+
+.composition-item p {
+  color: color-mix(in srgb, currentColor 74%, transparent);
+}
+
+.composition-item code {
+  overflow-wrap: anywhere;
+}
+
+.palette-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.palette {
+  display: grid;
+  gap: 1rem;
+}
+
+.palette-header {
+  align-items: start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.palette-header code {
+  color: var(--ui-color-text-muted);
+  text-align: right;
+}
+
+.shade-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+}
+
+.shade {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.swatch {
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--ui-color-border) 55%, transparent);
+}
+
+.shade span {
+  font-weight: 750;
+}
+
+.shade code {
+  color: var(--ui-color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 48rem) {
+  .colors-page {
+    padding: 1rem;
+  }
+
+  .page-header,
+  .composition {
+    grid-template-columns: 1fr;
+  }
+
+  .composition-item {
+    min-height: 10rem;
+  }
+
+  .palette-header {
+    display: grid;
+  }
+
+  .palette-header code {
+    text-align: left;
+  }
+}
