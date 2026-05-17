@@ -1,1 +1,40 @@
-<p>input-checkbox-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Forms</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Checkbox</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      A checkbox control that allows the user to select one or more options from a set.
+    </p>
+  </header>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Interactive Demo</h2>
+    <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+      <div class="flex flex-col gap-4">
+        <ui-input-checkbox [(checked)]="isChecked"> Accept terms and conditions </ui-input-checkbox>
+      </div>
+
+      <div class="rounded-md bg-[var(--ui-color-surface-muted)] p-4 font-mono text-sm">
+        <p class="m-0">Value: {{ isChecked() }}</p>
+      </div>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">States</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-col gap-6 sm:flex-row sm:gap-12">
+      <div class="grid gap-4">
+        <h3 class="m-0 text-sm font-semibold text-[var(--ui-color-text-muted)]">Default</h3>
+        <ui-input-checkbox [checked]="false">Unchecked</ui-input-checkbox>
+        <ui-input-checkbox [checked]="true">Checked</ui-input-checkbox>
+      </div>
+      <div class="grid gap-4">
+        <h3 class="m-0 text-sm font-semibold text-[var(--ui-color-text-muted)]">Disabled</h3>
+        <ui-input-checkbox disabled [checked]="false">Unchecked (Disabled)</ui-input-checkbox>
+        <ui-input-checkbox disabled [checked]="true">Checked (Disabled)</ui-input-checkbox>
+      </div>
+    </ui-card>
+  </section>
+</section>

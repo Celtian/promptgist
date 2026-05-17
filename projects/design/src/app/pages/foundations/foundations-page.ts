@@ -20,5 +20,5 @@ export class FoundationsPage {
       label: 'Typography',
       route: ROUTE_DEFINITION.FOUNDATIONS.TYPOGRAPHY,
     },
-  ];
+  ].sort((a, b) => a.label.localeCompare(b.label));
 }

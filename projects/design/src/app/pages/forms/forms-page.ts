@@ -17,8 +17,40 @@ export class FormsPage {
       route: ROUTE_DEFINITION.FORMS.INPUT_AUTOCOMPLETE,
     },
     {
+      label: 'Checkbox',
+      route: ROUTE_DEFINITION.FORMS.INPUT_CHECKBOX,
+    },
+    {
+      label: 'Multiselect',
+      route: ROUTE_DEFINITION.FORMS.INPUT_MULTISELECT,
+    },
+    {
+      label: 'Password',
+      route: ROUTE_DEFINITION.FORMS.INPUT_PASSWORD,
+    },
+    {
+      label: 'Radio',
+      route: ROUTE_DEFINITION.FORMS.INPUT_RADIO,
+    },
+    {
+      label: 'Range',
+      route: ROUTE_DEFINITION.FORMS.INPUT_RANGE,
+    },
+    {
       label: 'Select',
       route: ROUTE_DEFINITION.FORMS.INPUT_SELECT,
     },
-  ];
+    {
+      label: 'Text',
+      route: ROUTE_DEFINITION.FORMS.INPUT_TEXT,
+    },
+    {
+      label: 'Textarea',
+      route: ROUTE_DEFINITION.FORMS.INPUT_TEXTAREA,
+    },
+    {
+      label: 'Toggle',
+      route: ROUTE_DEFINITION.FORMS.INPUT_TOGGLE,
+    },
+  ].sort((a, b) => a.label.localeCompare(b.label));
 }
