@@ -4,6 +4,21 @@
   "cli": {
     "packageManager": "yarn"
   },
+  "schematics": {
+    "@schematics/angular:component": {
+      "changeDetection": "OnPush",
+      "skipTests": true
+    },
+    "@schematics/angular:class": {
+      "skipTests": true
+    },
+    "@schematics/angular:directive": {
+      "skipTests": true
+    },
+    "@schematics/angular:service": {
+      "skipTests": true
+    }
+  },
   "newProjectRoot": "projects",
   "projects": {
     "portal": {
