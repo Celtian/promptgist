@@ -1,1 +1,79 @@
-<p>alert-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Alert</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Alerts surface contextual feedback near the workflow that needs attention.
+    </p>
+  </header>
+
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem]">
+      <div
+        class="rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-6"
+      >
+        <ui-alert [variant]="variant()">
+          <div class="grid gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <strong>Preview alert</strong>
+              <span ui-badge size="sm" [variant]="variant()">Live</span>
+            </div>
+            <p>Your prompt library was updated. Review the generated summary before publishing.</p>
+          </div>
+        </ui-alert>
+      </div>
+
+      <div class="grid content-start gap-4">
+        <ui-input-select
+          ariaLabel="Alert variant"
+          placeholder="Variant"
+          fullWidth
+          [options]="variantOptions"
+          [value]="variant()"
+          (valueChange)="setVariant($event)"
+        />
+      </div>
+    </div>
+  </ui-card>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Variants</h2>
+    <div class="grid gap-4">
+      @for (item of variants; track item) {
+        <ui-alert [variant]="item">
+          <div class="grid gap-1">
+            <strong class="capitalize">{{ item }} alert</strong>
+            <p>Use this treatment for contextual feedback inside dense product screens.</p>
+          </div>
+        </ui-alert>
+      }
+    </div>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Compositions</h2>
+    <div class="grid gap-4 md:grid-cols-2">
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-4">
+        <ui-alert variant="primary">
+          <div class="grid gap-2">
+            <strong>Import complete</strong>
+            <p>36 snippets were added to your workspace.</p>
+          </div>
+        </ui-alert>
+        <button ui-button type="button" size="sm">Open import</button>
+      </ui-card>
+
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-4">
+        <ui-alert variant="accent" role="alert">
+          <div class="grid gap-2">
+            <strong>Conflicting prompt names</strong>
+            <p>Rename duplicate entries before you sync this collection.</p>
+          </div>
+        </ui-alert>
+        <button ui-button type="button" variant="outline" size="sm">Resolve conflicts</button>
+      </ui-card>
+    </div>
+  </section>
+</section>

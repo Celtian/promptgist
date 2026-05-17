@@ -1,1 +1,84 @@
-<p>badge-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Badge</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Badges label metadata, status, and compact counts without competing with primary actions.
+    </p>
+  </header>
+
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem]">
+      <div
+        class="grid place-items-center rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-8"
+      >
+        <span ui-badge [variant]="variant()" [size]="size()">Preview badge</span>
+      </div>
+
+      <div class="grid content-start gap-4">
+        <ui-input-select
+          ariaLabel="Badge variant"
+          placeholder="Variant"
+          fullWidth
+          [options]="variantOptions"
+          [value]="variant()"
+          (valueChange)="setVariant($event)"
+        />
+        <ui-input-select
+          ariaLabel="Badge size"
+          placeholder="Size"
+          fullWidth
+          [options]="sizeOptions"
+          [value]="size()"
+          (valueChange)="setSize($event)"
+        />
+      </div>
+    </div>
+  </ui-card>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Variants</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-wrap gap-3">
+      @for (item of variants; track item) {
+        <span ui-badge [variant]="item">{{ item }}</span>
+      }
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Sizes</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-wrap items-center gap-3">
+      @for (item of sizes; track item) {
+        <span ui-badge variant="primary" [size]="item">{{ item }}</span>
+      }
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Examples</h2>
+    <div class="grid gap-4 md:grid-cols-3">
+      <ui-card variant="surface" padding="lg" uiClass="grid content-start gap-3">
+        <h3 class="m-0 text-base font-bold">Status</h3>
+        <div class="flex flex-wrap gap-2">
+          <span ui-badge variant="primary">Published</span>
+          <span ui-badge variant="accent">Needs review</span>
+        </div>
+      </ui-card>
+      <ui-card variant="surface" padding="lg" uiClass="grid content-start gap-3">
+        <h3 class="m-0 text-base font-bold">Count</h3>
+        <div class="flex flex-wrap gap-2">
+          <span ui-badge variant="secondary">12 updates</span>
+          <span ui-badge variant="outline">3 drafts</span>
+        </div>
+      </ui-card>
+      <ui-card variant="surface" padding="lg" uiClass="grid content-start gap-3">
+        <h3 class="m-0 text-base font-bold">Inline</h3>
+        <p class="m-0 leading-6 text-[var(--ui-color-text-muted)]">
+          Sync complete <span ui-badge size="sm" variant="primary">new</span>
+        </p>
+      </ui-card>
+    </div>
+  </section>
+</section>

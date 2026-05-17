@@ -1,3 +1,4 @@
+export * from './lib/alert/public-api';
 export * from './lib/badge/public-api';
 export * from './lib/button/public-api';
 export * from './lib/card/public-api';
