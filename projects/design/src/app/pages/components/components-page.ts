@@ -1,10 +1,11 @@
+import { Listbox, Option } from '@angular/aria/listbox';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ROUTE_DEFINITION } from '../../constants/route-definition';
 
 @Component({
   selector: 'app-components-page',
-  imports: [RouterLink, RouterOutlet],
+  imports: [Listbox, Option, RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './components-page.html',
   styleUrl: './components-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

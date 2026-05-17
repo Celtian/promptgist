@@ -10,7 +10,7 @@ import { ROUTE_DEFINITION } from './constants/route-definition';
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'flex flex-col h-full',
+    class: 'flex min-h-dvh flex-col',
   },
   hostDirectives: [NgxAppVersionDirective],
 })

@@ -1,5 +1,36 @@
-@for (item of items; track $index) {
-  <a [routerLink]="[item.route]">{{ item.label }}</a>
-}
+<div
+  class="grid min-h-full grid-cols-[12rem_minmax(0,1fr)] gap-6 px-8 py-6 max-lg:grid-cols-1 max-md:px-4"
+>
+  <aside class="min-w-0" aria-labelledby="foundations-nav-title">
+    <nav
+      class="sticky top-20 rounded-lg border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-2"
+      aria-label="Foundations"
+    >
+      <h2 id="foundations-nav-title" class="m-0 px-3 py-2 text-sm font-bold">Foundations</h2>
+      <div
+        ngListbox
+        class="grid gap-1"
+        aria-label="Foundations navigation"
+        selectionMode="explicit"
+      >
+        @for (item of items; track item.route) {
+          <a
+            class="flex min-h-9 items-center rounded px-3 py-2 text-sm font-medium text-[var(--ui-color-text-muted)] no-underline hover:bg-[var(--ui-color-surface)] hover:text-[var(--ui-color-text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[color-mix(in_srgb,var(--ui-color-primary)_55%,transparent)] data-[active=true]:outline data-[active=true]:outline-2 data-[active=true]:outline-offset-[-2px] data-[active=true]:outline-[color-mix(in_srgb,var(--ui-color-primary)_55%,transparent)] [&.active]:bg-[color-mix(in_srgb,var(--ui-color-primary)_12%,transparent)] [&.active]:text-[var(--ui-color-primary)]"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            ngOption
+            [routerLink]="[item.route]"
+            [value]="item.route"
+            [label]="item.label"
+          >
+            {{ item.label }}
+          </a>
+        }
+      </div>
+    </nav>
+  </aside>
 
-<router-outlet />
+  <section class="min-w-0" aria-label="Foundation preview">
+    <router-outlet />
+  </section>
+</div>
