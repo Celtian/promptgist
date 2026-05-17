@@ -1,0 +1,36 @@
+# Normalize line endings for text files in the repository
+* text=auto eol=lf
+
+# Platform-specific script endings
+*.sh text eol=lf
+*.bash text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Mark binary assets to avoid text diffs/merges
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.svg binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.tgz binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# Keep lockfiles and generated metadata as text
+*.json text eol=lf
+*.md text eol=lf
+*.ts text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
