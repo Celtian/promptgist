@@ -141,7 +141,13 @@ export class InputSelect implements FormValueControl<string | null> {
   }
 
   protected setValue(values: string[]): void {
-    this.value.set(values[0] ?? null);
+    const nextValue = values[0] ?? null;
+
+    this.value.set(nextValue);
     this.touched.set(true);
+
+    if (nextValue !== null) {
+      this.combobox()?.close();
+    }
   }
 }

@@ -1,1 +1,68 @@
-<p>card-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Card</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Cards group related content and actions without creating a new page section.
+    </p>
+  </header>
+
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem]">
+      <div
+        class="rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-6"
+      >
+        <ui-card uiClass="grid gap-4" [variant]="variant()" [padding]="padding()">
+          <div>
+            <h2 class="m-0 text-xl font-bold">Preview card</h2>
+            <p class="m-0 mt-2 leading-6 text-[var(--ui-color-text-muted)]">
+              This card follows theme tokens and can be used in light or dark mode.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <button ui-button type="button" size="sm">Open</button>
+            <button ui-button type="button" variant="ghost" size="sm">Dismiss</button>
+          </div>
+        </ui-card>
+      </div>
+
+      <div class="grid content-start gap-4">
+        <ui-input-select
+          ariaLabel="Card variant"
+          placeholder="Variant"
+          fullWidth
+          [options]="variantOptions"
+          [value]="variant()"
+          (valueChange)="setVariant($event)"
+        />
+        <ui-input-select
+          ariaLabel="Card padding"
+          placeholder="Padding"
+          fullWidth
+          [options]="paddingOptions"
+          [value]="padding()"
+          (valueChange)="setPadding($event)"
+        />
+      </div>
+    </div>
+  </ui-card>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Variants</h2>
+    <div class="grid gap-4 md:grid-cols-3">
+      @for (item of variants; track item) {
+        <ui-card padding="lg" uiClass="grid min-h-36 content-between gap-4" [variant]="item">
+          <div>
+            <h3 class="m-0 text-base font-bold capitalize">{{ item }}</h3>
+            <p class="m-0 mt-2 text-sm leading-6 text-[var(--ui-color-text-muted)]">
+              Theme-aware card surface.
+            </p>
+          </div>
+          <code class="text-xs [overflow-wrap:anywhere]">variant="{{ item }}"</code>
+        </ui-card>
+      }
+    </div>
+  </section>
+</section>

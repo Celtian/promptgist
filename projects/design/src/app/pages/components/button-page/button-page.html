@@ -1,1 +1,91 @@
-<p>button-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Button</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Buttons trigger commands and navigation. Use strong variants sparingly and keep labels short.
+    </p>
+  </header>
+
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem]">
+      <div
+        class="grid place-items-center rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-8"
+      >
+        @if (size() === 'icon') {
+          <button
+            ui-button
+            type="button"
+            size="icon"
+            aria-label="Add item"
+            [variant]="variant()"
+            [fullWidth]="fullWidth()"
+          >
+            +
+          </button>
+        } @else {
+          <button
+            ui-button
+            type="button"
+            [variant]="variant()"
+            [size]="size()"
+            [fullWidth]="fullWidth()"
+          >
+            Preview button
+          </button>
+        }
+      </div>
+
+      <div class="grid content-start gap-4">
+        <ui-input-select
+          ariaLabel="Button variant"
+          placeholder="Variant"
+          fullWidth
+          [options]="variantOptions"
+          [value]="variant()"
+          (valueChange)="setVariant($event)"
+        />
+        <ui-input-select
+          ariaLabel="Button size"
+          placeholder="Size"
+          fullWidth
+          [options]="sizeOptions"
+          [value]="size()"
+          (valueChange)="setSize($event)"
+        />
+        <ui-input-toggle [checked]="fullWidth()" (checkedChange)="fullWidth.set($event)">
+          Full width
+        </ui-input-toggle>
+      </div>
+    </div>
+  </ui-card>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Variants</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-wrap gap-3">
+      @for (item of variants; track item) {
+        <button ui-button type="button" [variant]="item">{{ item }}</button>
+      }
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">States</h2>
+    <div class="grid gap-4 md:grid-cols-3">
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+        <h3 class="m-0 text-base font-bold">Default</h3>
+        <button ui-button type="button">Save changes</button>
+      </ui-card>
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+        <h3 class="m-0 text-base font-bold">Disabled</h3>
+        <button ui-button type="button" disabled>Save changes</button>
+      </ui-card>
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+        <h3 class="m-0 text-base font-bold">Link</h3>
+        <a ui-button variant="link" href="https://angular.dev">Angular docs</a>
+      </ui-card>
+    </div>
+  </section>
+</section>
