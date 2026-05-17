@@ -1,1 +1,108 @@
-<p>skeleton-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Skeleton</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Skeleton loaders act as placeholders while content is loading, reducing perceived load time
+      and preventing layout shifts.
+    </p>
+  </header>
+
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem]">
+      <div
+        class="grid place-items-center rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-8"
+      >
+        @if (shape() === 'circle') {
+          <ui-skeleton uiClass="size-16" [shape]="shape()" [animation]="animation()" />
+        } @else if (shape() === 'text') {
+          <div class="grid w-full max-w-xs gap-2">
+            <ui-skeleton uiClass="h-4 w-3/4" [shape]="shape()" [animation]="animation()" />
+            <ui-skeleton uiClass="h-4 w-full" [shape]="shape()" [animation]="animation()" />
+            <ui-skeleton uiClass="h-4 w-5/6" [shape]="shape()" [animation]="animation()" />
+          </div>
+        } @else {
+          <ui-skeleton uiClass="h-20 w-full max-w-xs" [shape]="shape()" [animation]="animation()" />
+        }
+      </div>
+
+      <div class="grid content-start gap-4">
+        <ui-input-select
+          ariaLabel="Skeleton shape"
+          placeholder="Shape"
+          fullWidth
+          [options]="shapeOptions"
+          [value]="shape()"
+          (valueChange)="setShape($event)"
+        />
+        <ui-input-select
+          ariaLabel="Skeleton animation"
+          placeholder="Animation"
+          fullWidth
+          [options]="animationOptions"
+          [value]="animation()"
+          (valueChange)="setAnimation($event)"
+        />
+      </div>
+    </div>
+  </ui-card>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Shapes</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-wrap items-end gap-6">
+      <div class="grid gap-2 text-center">
+        <ui-skeleton shape="rect" uiClass="h-16 w-32" />
+        <span class="text-xs text-[var(--ui-color-text-muted)]">Rectangle</span>
+      </div>
+      <div class="grid gap-2 text-center">
+        <ui-skeleton shape="circle" uiClass="size-16" />
+        <span class="text-xs text-[var(--ui-color-text-muted)]">Circle</span>
+      </div>
+      <div class="grid w-40 gap-2">
+        <ui-skeleton shape="text" uiClass="h-4 w-3/4" />
+        <ui-skeleton shape="text" uiClass="h-4 w-full" />
+        <ui-skeleton shape="text" uiClass="h-4 w-5/6" />
+        <span class="text-xs text-[var(--ui-color-text-muted)]">Text</span>
+      </div>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Animations</h2>
+    <div class="grid gap-4 md:grid-cols-3">
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+        <h3 class="m-0 text-base font-bold">Pulse</h3>
+        <ui-skeleton animation="pulse" uiClass="h-10 w-full" />
+      </ui-card>
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+        <h3 class="m-0 text-base font-bold">Shimmer</h3>
+        <ui-skeleton animation="shimmer" uiClass="h-10 w-full" />
+      </ui-card>
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+        <h3 class="m-0 text-base font-bold">None</h3>
+        <ui-skeleton animation="none" uiClass="h-10 w-full" />
+      </ui-card>
+    </div>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Card skeleton example</h2>
+    <ui-card variant="outline" padding="lg" uiClass="grid gap-4">
+      <div class="flex items-center gap-4">
+        <ui-skeleton shape="circle" animation="shimmer" uiClass="size-12 shrink-0" />
+        <div class="grid flex-1 gap-2">
+          <ui-skeleton shape="text" animation="shimmer" uiClass="h-4 w-2/5" />
+          <ui-skeleton shape="text" animation="shimmer" uiClass="h-3 w-3/5" />
+        </div>
+      </div>
+      <ui-skeleton animation="shimmer" uiClass="h-40 w-full" />
+      <div class="grid gap-2">
+        <ui-skeleton shape="text" animation="shimmer" uiClass="h-3 w-full" />
+        <ui-skeleton shape="text" animation="shimmer" uiClass="h-3 w-full" />
+        <ui-skeleton shape="text" animation="shimmer" uiClass="h-3 w-4/5" />
+      </div>
+    </ui-card>
+  </section>
+</section>

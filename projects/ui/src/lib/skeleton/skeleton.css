@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+:host(.ui-skeleton-shimmer) {
+  position: relative;
+  overflow: hidden;
+}
+
+:host(.ui-skeleton-shimmer)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--ui-color-surface) 60%, transparent) 50%,
+    transparent 100%
+  );
+  animation: ui-skeleton-shimmer 1.6s infinite;
+}
+
+@keyframes ui-skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

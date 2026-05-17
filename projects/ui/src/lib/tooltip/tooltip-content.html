@@ -1,1 +1,4 @@
-<p>tooltip-content works!</p>
+<div [class]="classes()">
+  {{ text() }}
+  <div class="ui-tooltip-arrow" [attr.data-placement]="placement()"></div>
+</div>

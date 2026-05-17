@@ -1,0 +1,88 @@
+:host {
+  display: block;
+}
+
+.ui-tooltip-arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--tooltip-bg);
+  border: 1px solid var(--tooltip-border);
+  border-top-color: transparent;
+  border-left-color: transparent;
+  transform: rotate(45deg);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Base placements */
+.ui-tooltip-arrow[data-placement^='top'] {
+  bottom: -4.5px;
+}
+
+.ui-tooltip-arrow[data-placement^='bottom'] {
+  top: -4.5px;
+  border-top-color: var(--tooltip-border);
+  border-left-color: var(--tooltip-border);
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+}
+
+.ui-tooltip-arrow[data-placement^='left'] {
+  right: -4.5px;
+  border-top-color: var(--tooltip-border);
+  border-right-color: var(--tooltip-border);
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  transform: rotate(-45deg);
+}
+
+.ui-tooltip-arrow[data-placement^='right'] {
+  left: -4.5px;
+  border-bottom-color: var(--tooltip-border);
+  border-left-color: var(--tooltip-border);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  transform: rotate(135deg);
+}
+
+/* Specific alignments for corners */
+.ui-tooltip-arrow[data-placement='top'] {
+  left: calc(50% - 4px);
+}
+.ui-tooltip-arrow[data-placement='topLeft'] {
+  left: 12px;
+}
+.ui-tooltip-arrow[data-placement='topRight'] {
+  right: 12px;
+}
+
+.ui-tooltip-arrow[data-placement='bottom'] {
+  left: calc(50% - 4px);
+}
+.ui-tooltip-arrow[data-placement='bottomLeft'] {
+  left: 12px;
+}
+.ui-tooltip-arrow[data-placement='bottomRight'] {
+  right: 12px;
+}
+
+.ui-tooltip-arrow[data-placement='left'] {
+  top: calc(50% - 4px);
+}
+.ui-tooltip-arrow[data-placement='leftTop'] {
+  top: 12px;
+}
+.ui-tooltip-arrow[data-placement='leftBottom'] {
+  bottom: 12px;
+}
+
+.ui-tooltip-arrow[data-placement='right'] {
+  top: calc(50% - 4px);
+}
+.ui-tooltip-arrow[data-placement='rightTop'] {
+  top: 12px;
+}
+.ui-tooltip-arrow[data-placement='rightBottom'] {
+  bottom: 12px;
+}

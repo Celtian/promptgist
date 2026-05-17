@@ -1,1 +1,124 @@
-<p>spinner-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Spinner</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Spinners indicate an ongoing operation or loading state. Use them sparingly to avoid
+      overloading the interface.
+    </p>
+  </header>
+
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem]">
+      <div
+        class="grid place-items-center rounded-md border border-[var(--ui-color-border)] p-8"
+        [class]="
+          variant() === 'white'
+            ? 'bg-[var(--ui-color-secondary-800)]'
+            : 'bg-[var(--ui-color-surface-muted)]'
+        "
+      >
+        <ui-spinner [size]="size()" [variant]="variant()" />
+      </div>
+
+      <div class="grid content-start gap-4">
+        <ui-input-select
+          ariaLabel="Spinner size"
+          placeholder="Size"
+          fullWidth
+          [options]="sizeOptions"
+          [value]="size()"
+          (valueChange)="setSize($event)"
+        />
+        <ui-input-select
+          ariaLabel="Spinner variant"
+          placeholder="Variant"
+          fullWidth
+          [options]="variantOptions"
+          [value]="variant()"
+          (valueChange)="setVariant($event)"
+        />
+      </div>
+    </div>
+  </ui-card>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Sizes</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-wrap items-center gap-6">
+      @for (s of sizes; track s) {
+        <div class="grid place-items-center gap-2">
+          <ui-spinner [size]="s" />
+          <span class="text-xs text-[var(--ui-color-text-muted)]">{{ s }}</span>
+        </div>
+      }
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Variants</h2>
+    <div class="grid gap-4 md:grid-cols-4">
+      @for (v of variants; track v) {
+        <ui-card
+          padding="lg"
+          uiClass="grid place-items-center gap-3"
+          [variant]="v === 'white' ? 'secondary' : 'surface'"
+          [uiClass]="
+            v === 'white'
+              ? 'bg-[var(--ui-color-secondary-800)]! grid place-items-center gap-3'
+              : 'grid place-items-center gap-3'
+          "
+        >
+          <ui-spinner [variant]="v" />
+          <span
+            class="text-xs"
+            [class]="
+              v === 'white'
+                ? 'text-[var(--ui-color-secondary-300)]'
+                : 'text-[var(--ui-color-text-muted)]'
+            "
+            >{{ v }}</span
+          >
+        </ui-card>
+      }
+    </div>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Usage examples</h2>
+    <div class="grid gap-4 md:grid-cols-3">
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+        <h3 class="m-0 text-base font-bold">Button loading</h3>
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            class="inline-flex h-10 items-center gap-2 rounded-md bg-[var(--ui-color-primary)] px-4 text-sm font-medium text-[var(--ui-color-primary-contrast)] opacity-80"
+          >
+            <ui-spinner size="xs" variant="white" />
+            Saving…
+          </button>
+        </div>
+      </ui-card>
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+        <h3 class="m-0 text-base font-bold">Full overlay</h3>
+        <div
+          class="relative h-24 rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)]"
+        >
+          <div
+            class="absolute inset-0 grid place-items-center rounded-md bg-[color-mix(in_srgb,var(--ui-color-surface)_70%,transparent)]"
+          >
+            <ui-spinner size="lg" />
+          </div>
+        </div>
+      </ui-card>
+      <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+        <h3 class="m-0 text-base font-bold">Inline loading</h3>
+        <div class="flex items-center gap-2 text-sm text-[var(--ui-color-text-muted)]">
+          <ui-spinner size="sm" />
+          <span>Loading data…</span>
+        </div>
+      </ui-card>
+    </div>
+  </section>
+</section>

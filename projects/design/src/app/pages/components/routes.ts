@@ -27,6 +27,10 @@ export const routesComponents: Routes = [
         loadComponent: () => import('./modal-page/modal-page').then((m) => m.ModalPage),
       },
       {
+        path: ROUTE_DEFINITION.COMPONENTS.SKELETON,
+        loadComponent: () => import('./skeleton-page/skeleton-page').then((m) => m.SkeletonPage),
+      },
+      {
         path: ROUTE_DEFINITION.COMPONENTS.TOOLTIP,
         loadComponent: () => import('./tooltip-page/tooltip-page').then((m) => m.TooltipPage),
       },
