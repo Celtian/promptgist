@@ -1,0 +1,97 @@
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Progress Spinner</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      A circular indicator for determinate and indeterminate progress.
+    </p>
+  </header>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Interactive Demo</h2>
+    <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+      <div class="flex justify-center p-4">
+        <ui-progress-spinner
+          size="lg"
+          variant="primary"
+          [value]="indeterminate() ? null : value()"
+          [max]="max()"
+        />
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button
+          ui-button
+          type="button"
+          variant="outline"
+          [disabled]="indeterminate()"
+          (click)="decrease()"
+        >
+          -15%
+        </button>
+        <button
+          ui-button
+          type="button"
+          variant="outline"
+          [disabled]="indeterminate()"
+          (click)="increase()"
+        >
+          +15%
+        </button>
+        <button ui-button type="button" variant="secondary" (click)="toggleIndeterminate()">
+          {{ indeterminate() ? 'Switch to Determinate' : 'Switch to Indeterminate' }}
+        </button>
+      </div>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Variants</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-wrap items-center gap-8">
+      <div class="grid place-items-center gap-2">
+        <ui-progress-spinner variant="primary" [value]="60" />
+        <span class="text-sm font-semibold">Primary</span>
+      </div>
+      <div class="grid place-items-center gap-2">
+        <ui-progress-spinner variant="secondary" [value]="45" />
+        <span class="text-sm font-semibold">Secondary</span>
+      </div>
+      <div class="grid place-items-center gap-2">
+        <ui-progress-spinner variant="accent" [value]="75" />
+        <span class="text-sm font-semibold">Accent</span>
+      </div>
+      <div class="grid place-items-center gap-2">
+        <ui-progress-spinner variant="success" [value]="100" />
+        <span class="text-sm font-semibold">Success</span>
+      </div>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Sizes</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-wrap items-end gap-8">
+      <div class="grid place-items-center gap-2">
+        <ui-progress-spinner size="xs" [value]="30" />
+        <span class="text-sm font-semibold">xs</span>
+      </div>
+      <div class="grid place-items-center gap-2">
+        <ui-progress-spinner size="sm" [value]="40" />
+        <span class="text-sm font-semibold">sm</span>
+      </div>
+      <div class="grid place-items-center gap-2">
+        <ui-progress-spinner size="md" [value]="50" />
+        <span class="text-sm font-semibold">md</span>
+      </div>
+      <div class="grid place-items-center gap-2">
+        <ui-progress-spinner size="lg" [value]="60" />
+        <span class="text-sm font-semibold">lg</span>
+      </div>
+      <div class="grid place-items-center gap-2">
+        <ui-progress-spinner size="xl" [value]="70" />
+        <span class="text-sm font-semibold">xl</span>
+      </div>
+    </ui-card>
+  </section>
+</section>

@@ -32,5 +32,7 @@ export const ROUTE_DEFINITION = {
     SKELETON: 'skeleton',
     SPINNER: 'spinner',
     TOOLTIP: 'tooltip',
+    PROGRESS_BAR: 'progress-bar',
+    PROGRESS_SPINNER: 'progress-spinner',
   },
 } as const;

@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+@keyframes ui-progress-bar-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.ui-progress-bar-indeterminate {
+  width: 100%;
+  animation: ui-progress-bar-indeterminate 1.5s infinite ease-in-out;
+  transform-origin: left center;
+}

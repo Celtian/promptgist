@@ -1,0 +1,95 @@
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Progress Bar</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      A horizontal progress bar to indicate the completion status of a task.
+    </p>
+  </header>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Interactive Demo</h2>
+    <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+      <ui-progress-bar
+        size="md"
+        variant="primary"
+        [value]="indeterminate() ? null : value()"
+        [max]="max()"
+      />
+
+      <div class="flex items-center gap-4">
+        <button
+          ui-button
+          type="button"
+          variant="outline"
+          [disabled]="indeterminate()"
+          (click)="decrease()"
+        >
+          -15%
+        </button>
+        <button
+          ui-button
+          type="button"
+          variant="outline"
+          [disabled]="indeterminate()"
+          (click)="increase()"
+        >
+          +15%
+        </button>
+        <button ui-button type="button" variant="secondary" (click)="toggleIndeterminate()">
+          {{ indeterminate() ? 'Switch to Determinate' : 'Switch to Indeterminate' }}
+        </button>
+      </div>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Variants</h2>
+    <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+      <div class="grid gap-2">
+        <span class="text-sm font-semibold">Primary</span>
+        <ui-progress-bar variant="primary" [value]="60" />
+      </div>
+      <div class="grid gap-2">
+        <span class="text-sm font-semibold">Secondary</span>
+        <ui-progress-bar variant="secondary" [value]="45" />
+      </div>
+      <div class="grid gap-2">
+        <span class="text-sm font-semibold">Accent</span>
+        <ui-progress-bar variant="accent" [value]="75" />
+      </div>
+      <div class="grid gap-2">
+        <span class="text-sm font-semibold">Success</span>
+        <ui-progress-bar variant="success" [value]="100" />
+      </div>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Sizes</h2>
+    <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+      <div class="grid gap-2">
+        <span class="text-sm font-semibold">Extra Small (xs)</span>
+        <ui-progress-bar size="xs" [value]="30" />
+      </div>
+      <div class="grid gap-2">
+        <span class="text-sm font-semibold">Small (sm)</span>
+        <ui-progress-bar size="sm" [value]="40" />
+      </div>
+      <div class="grid gap-2">
+        <span class="text-sm font-semibold">Medium (md)</span>
+        <ui-progress-bar size="md" [value]="50" />
+      </div>
+      <div class="grid gap-2">
+        <span class="text-sm font-semibold">Large (lg)</span>
+        <ui-progress-bar size="lg" [value]="60" />
+      </div>
+      <div class="grid gap-2">
+        <span class="text-sm font-semibold">Extra Large (xl)</span>
+        <ui-progress-bar size="xl" [value]="70" />
+      </div>
+    </ui-card>
+  </section>
+</section>

@@ -23,6 +23,10 @@ export const routesComponents: Routes = [
         loadComponent: () => import('./card-page/card-page').then((m) => m.CardPage),
       },
       {
+        path: ROUTE_DEFINITION.COMPONENTS.SCROLLBAR,
+        loadComponent: () => import('./scrollbar-page/scrollbar-page').then((m) => m.ScrollbarPage),
+      },
+      {
         path: ROUTE_DEFINITION.COMPONENTS.MODAL,
         loadComponent: () => import('./modal-page/modal-page').then((m) => m.ModalPage),
       },
@@ -37,6 +41,18 @@ export const routesComponents: Routes = [
       {
         path: ROUTE_DEFINITION.COMPONENTS.SPINNER,
         loadComponent: () => import('./spinner-page/spinner-page').then((m) => m.SpinnerPage),
+      },
+      {
+        path: ROUTE_DEFINITION.COMPONENTS.PROGRESS_BAR,
+        loadComponent: () =>
+          import('./progress-bar-page/progress-bar-page').then((m) => m.ProgressBarPage),
+      },
+      {
+        path: ROUTE_DEFINITION.COMPONENTS.PROGRESS_SPINNER,
+        loadComponent: () =>
+          import('./progress-spinner-page/progress-spinner-page').then(
+            (m) => m.ProgressSpinnerPage,
+          ),
       },
     ],
   },

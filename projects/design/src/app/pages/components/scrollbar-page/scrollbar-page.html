@@ -1,1 +1,99 @@
-<p>scrollbar-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Scrollbar</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Custom scrollbar directive to style overflowing containers consistently across platforms.
+    </p>
+  </header>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Variants</h2>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <ui-card variant="outline" padding="md" uiClass="grid gap-4">
+        <h3 class="m-0 text-sm font-semibold">Surface</h3>
+        <ul
+          uiScrollbar
+          variant="surface"
+          class="m-0 grid h-48 list-none gap-2 rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-4"
+        >
+          @for (item of items; track item) {
+            <li class="rounded bg-[var(--ui-color-surface)] p-2 text-sm">{{ item }}</li>
+          }
+        </ul>
+      </ui-card>
+
+      <ui-card variant="outline" padding="md" uiClass="grid gap-4">
+        <h3 class="m-0 text-sm font-semibold">Primary</h3>
+        <ul
+          uiScrollbar
+          variant="primary"
+          class="m-0 grid h-48 list-none gap-2 rounded-md border border-[var(--ui-color-primary)] bg-[color-mix(in_srgb,var(--ui-color-primary)_10%,transparent)] p-4"
+        >
+          @for (item of items; track item) {
+            <li class="rounded bg-[var(--ui-color-surface)] p-2 text-sm">{{ item }}</li>
+          }
+        </ul>
+      </ui-card>
+
+      <ui-card variant="outline" padding="md" uiClass="grid gap-4">
+        <h3 class="m-0 text-sm font-semibold">Accent</h3>
+        <ul
+          uiScrollbar
+          variant="accent"
+          class="m-0 grid h-48 list-none gap-2 rounded-md border border-[var(--ui-color-accent)] bg-[color-mix(in_srgb,var(--ui-color-accent)_10%,transparent)] p-4"
+        >
+          @for (item of items; track item) {
+            <li class="rounded bg-[var(--ui-color-surface)] p-2 text-sm">{{ item }}</li>
+          }
+        </ul>
+      </ui-card>
+    </div>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Sizes</h2>
+    <ui-card variant="outline" padding="md" uiClass="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div class="grid gap-3">
+        <h3 class="m-0 text-sm font-semibold">Small (sm)</h3>
+        <div
+          uiScrollbar
+          size="sm"
+          class="h-32 rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-4"
+        >
+          <div class="h-64 w-[150%] rounded bg-[var(--ui-color-surface)] p-4">
+            Scroll both horizontally and vertically to see the scrollbar size.
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-3">
+        <h3 class="m-0 text-sm font-semibold">Medium (md)</h3>
+        <div
+          uiScrollbar
+          size="md"
+          class="h-32 rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-4"
+        >
+          <div class="h-64 w-[150%] rounded bg-[var(--ui-color-surface)] p-4">
+            Scroll both horizontally and vertically to see the scrollbar size.
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-3">
+        <h3 class="m-0 text-sm font-semibold">Large (lg)</h3>
+        <div
+          uiScrollbar
+          size="lg"
+          class="h-32 rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-4"
+        >
+          <div class="h-64 w-[150%] rounded bg-[var(--ui-color-surface)] p-4">
+            Scroll both horizontally and vertically to see the scrollbar size.
+          </div>
+        </div>
+      </div>
+    </ui-card>
+  </section>
+</section>

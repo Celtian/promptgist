@@ -29,6 +29,10 @@ export class ComponentsPage {
       route: ROUTE_DEFINITION.COMPONENTS.CARD,
     },
     {
+      label: 'Scrollbar',
+      route: ROUTE_DEFINITION.COMPONENTS.SCROLLBAR,
+    },
+    {
       label: 'Modal',
       route: ROUTE_DEFINITION.COMPONENTS.MODAL,
     },
@@ -44,5 +48,13 @@ export class ComponentsPage {
       label: 'Tooltip',
       route: ROUTE_DEFINITION.COMPONENTS.TOOLTIP,
     },
-  ];
+    {
+      label: 'Progress Bar',
+      route: ROUTE_DEFINITION.COMPONENTS.PROGRESS_BAR,
+    },
+    {
+      label: 'Progress Spinner',
+      route: ROUTE_DEFINITION.COMPONENTS.PROGRESS_SPINNER,
+    },
+  ].sort((a, b) => a.label.localeCompare(b.label));
 }

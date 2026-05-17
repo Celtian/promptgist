@@ -1,0 +1,22 @@
+:host {
+  display: inline-flex;
+}
+
+@keyframes ui-progress-spinner-stroke {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+.ui-progress-spinner-indeterminate {
+  animation: ui-progress-spinner-stroke 1.5s ease-in-out infinite;
+}
