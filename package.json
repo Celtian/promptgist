@@ -1,6 +1,11 @@
 {
   "name": "promptgist",
   "version": "0.0.0",
+  "author": {
+    "name": "Dominik Hladík",
+    "email": "dominik.hladik@seznam.cz",
+    "url": "https://github.com/Celtian"
+  },
   "scripts": {
     "ng": "ng",
     "start": "yarn start:portal",
@@ -10,7 +15,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "yarn create-version",
+    "create-version": "npx package-version-info -o generated/version-info.ts",
+    "check-circular-dependencies": "madge --circular --ts-config tsconfig.json ./projects/*/src/public-api.ts"
   },
   "private": true,
   "packageManager": "yarn@1.22.22",
@@ -39,6 +47,7 @@
     "jsdom": "^29.1.1",
     "lint-staged": "^17.0.5",
     "ng-packagr": "^21.2.3",
+    "package-version-info": "^0.0.6",
     "postcss": "^8.5.14",
     "prettier": "^3.8.3",
     "tailwindcss": "^4.3.0",
