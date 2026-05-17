@@ -232,6 +232,13 @@
   dependencies:
     "@angular-eslint/bundled-angular-compiler" "21.4.0"
 
+"@angular/aria@^21.2.11":
+  version "21.2.11"
+  resolved "https://registry.yarnpkg.com/@angular/aria/-/aria-21.2.11.tgz#56a0660f8db7edf00910789ed04049d0583b0474"
+  integrity sha512-qC9Uhu3WbV9vJjlIQ5xVVGzrbC5CdeB/poiMhvww5EpRHctsLPQf685rxUb/3iYF1AAMxqGWyvrhOj9QN1lZ6g==
+  dependencies:
+    tslib "^2.3.0"
+
 "@angular/build@^21.2.11":
   version "21.2.11"
   resolved "https://registry.yarnpkg.com/@angular/build/-/build-21.2.11.tgz#218efccd7a45ef2e6a6696e3d1f1827c3f822a26"
@@ -2078,6 +2085,13 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@standard-schema/spec/-/spec-1.1.0.tgz#a79b55dbaf8604812f52d140b2c9ab41bc150bb8"
   integrity sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==
+
+"@tailwindcss/forms@^0.5.11":
+  version "0.5.11"
+  resolved "https://registry.yarnpkg.com/@tailwindcss/forms/-/forms-0.5.11.tgz#e77039e96fa7b87c3d001a991f77f9418e666700"
+  integrity sha512-h9wegbZDPurxG22xZSoWtdzc41/OlNEUQERNqI/0fOwa2aVlWGu7C35E/x6LDyD3lgtztFSSjKZyuVM0hxhbgA==
+  dependencies:
+    mini-svg-data-uri "^1.2.3"
 
 "@tailwindcss/node@4.3.0":
   version "4.3.0"
@@ -4184,6 +4198,11 @@ mimic-function@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/mimic-function/-/mimic-function-5.0.1.tgz#acbe2b3349f99b9deaca7fb70e48b83e94e67076"
   integrity sha512-VP79XUPxV2CigYP3jWwAUFSku2aKqBH7uTAapFWCBqutsbmDo96KY5o8uh6U+/YSIn5OxJnXp73beVkpqMIGhA==
+
+mini-svg-data-uri@^1.2.3:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/mini-svg-data-uri/-/mini-svg-data-uri-1.4.4.tgz#8ab0aabcdf8c29ad5693ca595af19dd2ead09939"
+  integrity sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==
 
 minimatch@^10.0.3, minimatch@^10.1.1, minimatch@^10.2.2, minimatch@^10.2.4:
   version "10.2.5"
