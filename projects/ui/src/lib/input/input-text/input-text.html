@@ -1,1 +1,10 @@
-<p>input-text works!</p>
+<input
+  type="text"
+  [id]="inputId()"
+  [class]="inputClasses()"
+  [disabled]="disabled()"
+  [placeholder]="placeholder()"
+  [value]="value()"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+/>

@@ -52,5 +52,9 @@ export class FormsPage {
       label: 'Toggle',
       route: ROUTE_DEFINITION.FORMS.INPUT_TOGGLE,
     },
+    {
+      label: 'Number',
+      route: ROUTE_DEFINITION.FORMS.INPUT_NUMBER,
+    },
   ].sort((a, b) => a.label.localeCompare(b.label));
 }

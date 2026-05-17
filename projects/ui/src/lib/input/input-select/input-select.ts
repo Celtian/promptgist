@@ -43,7 +43,7 @@ const triggerClasses = cva([
   'bg-[var(--ui-input-background,var(--ui-color-surface))]',
   'text-[var(--ui-color-text)]',
   'focus-within:outline focus-within:outline-2 focus-within:outline-offset-2',
-  'focus-within:outline-[color-mix(in_srgb,var(--ui-input-focus,var(--ui-color-primary))_60%,transparent)]',
+  'outline-[color-mix(in_srgb,var(--ui-input-focus,var(--ui-color-primary))_60%,transparent)]',
   'hover:bg-[var(--ui-color-surface-muted)]',
   'has-[[aria-disabled=true]]:cursor-not-allowed has-[[aria-disabled=true]]:opacity-55',
 ]);

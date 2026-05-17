@@ -25,7 +25,7 @@ const toggleTrack = cva([
   'border-[var(--ui-input-border,var(--ui-color-border))]',
   'bg-[var(--ui-input-background,var(--ui-color-surface-muted))]',
   'group-focus-within:outline group-focus-within:outline-2 group-focus-within:outline-offset-2',
-  'group-focus-within:outline-[color-mix(in_srgb,var(--ui-color-primary)_60%,transparent)]',
+  'outline-[color-mix(in_srgb,var(--ui-color-primary)_60%,transparent)]',
 ]);
 
 const toggleThumb = cva([
@@ -57,7 +57,7 @@ export class InputToggle implements FormValueControl<boolean> {
       this.value() &&
         '[--ui-input-background:var(--ui-color-primary)] [--ui-input-border:var(--ui-color-primary)]',
       this.hasErrors() &&
-        '[--ui-input-border:var(--ui-color-accent)] group-focus-within:outline-[color-mix(in_srgb,var(--ui-color-accent)_60%,transparent)]',
+        '[--ui-input-border:var(--ui-color-accent)] outline-[color-mix(in_srgb,var(--ui-color-accent)_60%,transparent)]',
     ),
   );
   protected readonly thumbClasses = computed(() => cn(toggleThumb()));

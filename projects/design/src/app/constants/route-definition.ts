@@ -21,6 +21,7 @@ export const ROUTE_DEFINITION = {
     INPUT_PASSWORD: 'password',
     INPUT_MULTISELECT: 'multiselect',
     INPUT_AUTOCOMPLETE: 'autocomplete',
+    INPUT_NUMBER: 'number',
   },
   COMPONENTS: {
     ALERT: 'alert',

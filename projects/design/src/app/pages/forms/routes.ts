@@ -60,6 +60,11 @@ export const routesForms: Routes = [
             (m) => m.InputAutocompletePage,
           ),
       },
+      {
+        path: ROUTE_DEFINITION.FORMS.INPUT_NUMBER,
+        loadComponent: () =>
+          import('./input-number-page/input-number-page').then((m) => m.InputNumberPage),
+      },
     ],
   },
 ];

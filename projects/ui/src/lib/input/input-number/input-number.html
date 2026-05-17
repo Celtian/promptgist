@@ -1,1 +1,13 @@
-<p>input-number works!</p>
+<input
+  type="number"
+  [id]="inputId()"
+  [class]="inputClasses()"
+  [disabled]="disabled()"
+  [placeholder]="placeholder()"
+  [value]="value()"
+  [attr.min]="min()"
+  [attr.max]="max()"
+  [attr.step]="step()"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+/>
