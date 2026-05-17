@@ -1,1 +1,26 @@
-<p>input-radio works!</p>
+<div
+  ngListbox
+  focusMode="roving"
+  selectionMode="explicit"
+  [id]="inputId"
+  [attr.aria-label]="ariaLabel()"
+  [disabled]="disabled()"
+  [class]="listboxClasses()"
+  [values]="selectedValues()"
+  (valuesChange)="setValue($event)"
+>
+  @for (option of options(); track option.value) {
+    <div
+      ngOption
+      [value]="option.value"
+      [label]="option.label"
+      [disabled]="disabled() || !!option.disabled"
+      [class]="optionClasses()"
+    >
+      <div [class]="radioCircleClasses()">
+        <div [class]="radioDotClasses()"></div>
+      </div>
+      <span>{{ option.label }}</span>
+    </div>
+  }
+</div>

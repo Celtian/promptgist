@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { InputRange, Card } from '@/ui';
 
 @Component({
   selector: 'app-input-range-page',
-  imports: [],
+  imports: [InputRange, Card],
   templateUrl: './input-range-page.html',
   styleUrl: './input-range-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputRangePage {}
+export class InputRangePage {
+  protected readonly rangeValue = signal<number>(50);
+}

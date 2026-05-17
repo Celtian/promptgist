@@ -1,1 +1,45 @@
-<p>input-range-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Forms</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Range Input</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      A sliding range control that allows users to select a specific numeric value.
+    </p>
+  </header>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Interactive Demo</h2>
+    <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+      <div class="grid max-w-sm gap-2">
+        <label for="demo-input-range" class="text-sm font-semibold">Volume</label>
+        <ui-input-range
+          id="demo-input-range"
+          [min]="0"
+          [max]="100"
+          [step]="1"
+          [(value)]="rangeValue"
+        />
+      </div>
+
+      <div class="rounded-md bg-[var(--ui-color-surface-muted)] p-4 font-mono text-sm">
+        <p class="m-0">Value: {{ rangeValue() }}</p>
+      </div>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">States</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-col gap-6 sm:flex-row sm:gap-12">
+      <div class="grid w-full max-w-sm gap-4">
+        <h3 class="m-0 text-sm font-semibold text-[var(--ui-color-text-muted)]">Default</h3>
+        <ui-input-range [value]="25" />
+      </div>
+      <div class="grid w-full max-w-sm gap-4">
+        <h3 class="m-0 text-sm font-semibold text-[var(--ui-color-text-muted)]">Disabled</h3>
+        <ui-input-range disabled [value]="75" />
+      </div>
+    </ui-card>
+  </section>
+</section>

@@ -1,1 +1,12 @@
-<p>input-range works!</p>
+<input
+  type="range"
+  [id]="inputId()"
+  [class]="inputClasses()"
+  [disabled]="disabled()"
+  [min]="min()"
+  [max]="max()"
+  [step]="step()"
+  [value]="value()"
+  (input)="onInput($event)"
+  (blur)="onBlur()"
+/>

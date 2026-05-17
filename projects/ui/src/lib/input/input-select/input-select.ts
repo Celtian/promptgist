@@ -59,7 +59,7 @@ const popupClasses = cva([
 const listboxClasses = cva('flex max-h-56 flex-col gap-1 overflow-auto outline-none');
 
 const optionClasses = cva([
-  'flex min-h-9 cursor-pointer items-center gap-2 rounded px-3 py-2 transition-colors',
+  'flex min-h-9 cursor-pointer items-center gap-2 rounded px-3 py-2',
   'hover:bg-[var(--ui-color-surface-muted)]',
   'data-[active=true]:bg-[var(--ui-color-surface-muted)]',
   'data-[active=true]:outline data-[active=true]:outline-2 data-[active=true]:outline-offset-[-2px]',
