@@ -1,0 +1,62 @@
+{
+  "Method not implemented": {
+    "scope": "javascript,typescript",
+    "prefix": "notimpl",
+    "body": ["throw new Error('Method not implemented.');"],
+    "description": "Throw error in method which is not implemented."
+  },
+  "DestroyRef": {
+    "scope": "typescript",
+    "prefix": "destr",
+    "body": ["private readonly destroyRef = inject(DestroyRef);"],
+    "description": "Destroy ref added."
+  },
+  "FormBuilder": {
+    "scope": "typescript",
+    "prefix": "fb",
+    "body": ["private readonly fb = inject(FormBuilder);"],
+    "description": "FormBuilder added."
+  },
+  "ElementRef": {
+    "scope": "typescript",
+    "prefix": "elem",
+    "body": ["private readonly element = inject(ElementRef);"],
+    "description": "ElementRef added."
+  },
+  "Router": {
+    "scope": "typescript",
+    "prefix": "router",
+    "body": ["private readonly router = inject(Router);"],
+    "description": "Router added."
+  },
+  "Route definition": {
+    "scope": "typescript",
+    "prefix": "routedef",
+    "body": ["public readonly ROUTE_DEFINITION = ROUTE_DEFINITION;"],
+    "description": "Route definition added."
+  },
+  "ChangeDetectorRef": {
+    "scope": "typescript",
+    "prefix": "cdr",
+    "body": ["private readonly cdr = inject(ChangeDetectorRef);"],
+    "description": "ChangeDetectorRef added."
+  },
+  "HttpClient": {
+    "scope": "typescript",
+    "prefix": "http",
+    "body": ["private readonly http = inject(HttpClient);"],
+    "description": "Http client added."
+  },
+  "Toast": {
+    "scope": "typescript",
+    "prefix": "toast",
+    "body": ["private readonly toast = inject(ToastService);"],
+    "description": "Toast service added."
+  },
+  "Notification": {
+    "scope": "typescript",
+    "prefix": "notif",
+    "body": ["private readonly notification = inject(NotificationService);"],
+    "description": "Notification service added."
+  }
+}
