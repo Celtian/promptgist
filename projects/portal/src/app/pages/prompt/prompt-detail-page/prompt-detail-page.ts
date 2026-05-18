@@ -84,10 +84,17 @@ export class PromptDetailPage implements OnInit {
       return;
     }
 
-    await this.fetchPrompt(id);
+    const promptId = Number(id);
+    if (!Number.isInteger(promptId)) {
+      this.toastService.warning('Prompt ID is invalid.');
+      this.router.navigate(['/prompt']);
+      return;
+    }
+
+    await this.fetchPrompt(promptId);
   }
 
-  private async fetchPrompt(id: string): Promise<void> {
+  private async fetchPrompt(id: Prompt['id']): Promise<void> {
     this.isLoading.set(true);
     this.errorMessage.set(null);
 

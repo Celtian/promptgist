@@ -19,7 +19,8 @@
     "postinstall": "yarn create-version",
     "create-version": "npx package-version-info -o generated/version-info.ts",
     "check-circular-dependencies": "madge --circular --ts-config tsconfig.json ./projects/*/src/public-api.ts",
-    "script:flags": "tsx scripts/create-flags.ts"
+    "script:flags": "tsx scripts/create-flags.ts",
+    "supabase:types": "npx supabase gen types typescript --project-id vqkmoveelkfkhrpehgcb --schema public > projects/portal/src/app/core/supabase/database.types.ts"
   },
   "private": true,
   "packageManager": "yarn@1.22.22",
@@ -61,6 +62,7 @@
     "postcss": "^8.5.14",
     "prettier": "^3.8.3",
     "sharp": "^0.34.5",
+    "supabase": "^2.99.0",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.3.0",
     "tsx": "^4.22.1",

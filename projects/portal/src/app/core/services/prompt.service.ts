@@ -1,20 +1,18 @@
 import { Injectable, inject } from '@angular/core';
+import { Tables, TablesInsert, TablesUpdate } from '../supabase/database.types';
 import { AuthService } from './auth.service';
 import { SupabaseService } from './supabase.service';
 
-type PromptId = string | number;
+type PromptRow = Tables<'prompts'>;
+type PromptInsert = TablesInsert<'prompts'>;
+type PromptUpdate = TablesUpdate<'prompts'>;
+type PromptStarInsert = TablesInsert<'promptStars'>;
+type PromptId = PromptRow['id'];
 
-export interface Prompt {
-  id?: PromptId;
-  name: string;
-  content: string;
+export type Prompt = Omit<PromptRow, 'isPublic'> & {
   isPublic: boolean;
   isStarred: boolean;
-  createdBy: string;
-  createdAt: string;
-  editedBy: string;
-  editedAt: string;
-}
+};
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +38,7 @@ export class PromptService {
     const userId = user.id;
     const now = new Date().toISOString();
 
-    const promptData: Omit<Prompt, 'id' | 'isStarred'> = {
+    const promptData: PromptInsert = {
       name,
       content,
       isPublic,
@@ -50,7 +48,6 @@ export class PromptService {
       editedAt: now,
     };
 
-    // First attempt inserting into the 'prompt' table
     const { data, error } = await this.supabase
       .from('prompts')
       .insert(promptData)
@@ -58,15 +55,6 @@ export class PromptService {
       .single();
 
     if (error) {
-      // If table is missing or doesn't match singular, try fallback plural table 'prompts'
-      if (error.code === 'PGRST205' || error.message?.includes('schema cache')) {
-        const fallback = await this.supabase.from('prompts').insert(promptData).select().single();
-
-        return {
-          data: fallback.data ? mapPrompt(fallback.data) : null,
-          error: fallback.error,
-        };
-      }
       return { data: null, error };
     }
 
@@ -134,14 +122,15 @@ export class PromptService {
     }
 
     if (isStarred) {
-      const { error } = await this.supabase.from('promptStars').upsert(
-        {
-          promptId,
-          userId: user.id,
-          createdAt: new Date().toISOString(),
-        },
-        { onConflict: 'promptId,userId' },
-      );
+      const starData: PromptStarInsert = {
+        promptId,
+        userId: user.id,
+        createdAt: new Date().toISOString(),
+      };
+
+      const { error } = await this.supabase
+        .from('promptStars')
+        .upsert(starData, { onConflict: 'promptId,userId' });
 
       return { error };
     }
@@ -166,36 +155,6 @@ export class PromptService {
       .order('createdAt', { ascending: false });
 
     if (error) {
-      // Fallback to the plural table 'prompts'
-      if (
-        error.code === 'PGRST205' ||
-        error.message?.includes('schema cache') ||
-        error.message?.includes('relation "prompt" does not exist')
-      ) {
-        const fallback = await this.supabase
-          .from('prompts')
-          .select('*')
-          .order('createdAt', { ascending: false });
-
-        if (fallback.error) {
-          // If sorting by created_at failed (maybe they named it createdAt), try sorting by default
-          const unsortedFallback = await this.supabase.from('prompts').select('*');
-
-          if (unsortedFallback.error) {
-            return { data: null, error: unsortedFallback.error };
-          }
-
-          const mapped = (unsortedFallback.data || []).map(mapPrompt);
-          // Sort in memory by createdAt descending
-          mapped.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-          return { data: mapped, error: null };
-        }
-
-        return {
-          data: (fallback.data || []).map(mapPrompt),
-          error: null,
-        };
-      }
       return { data: null, error };
     }
 
@@ -206,23 +165,12 @@ export class PromptService {
    * Retrieves a single prompt template by its ID.
    * Standardizes fields robustly mapping case mismatch styles.
    */
-  async getPrompt(id: string): Promise<{ data: Prompt | null; error: { message: string } | null }> {
+  async getPrompt(
+    id: PromptId,
+  ): Promise<{ data: Prompt | null; error: { message: string } | null }> {
     const { data, error } = await this.supabase.from('prompts').select('*').eq('id', id).single();
 
     if (error) {
-      // Fallback to the plural table 'prompts'
-      if (
-        error.code === 'PGRST205' ||
-        error.message?.includes('schema cache') ||
-        error.message?.includes('relation "prompt" does not exist')
-      ) {
-        const fallback = await this.supabase.from('prompts').select('*').eq('id', id).single();
-
-        return {
-          data: fallback.data ? mapPrompt(fallback.data) : null,
-          error: fallback.error,
-        };
-      }
       return { data: null, error };
     }
 
@@ -247,7 +195,7 @@ export class PromptService {
     const userId = user.id;
     const now = new Date().toISOString();
 
-    const updateData = {
+    const updateData: PromptUpdate = {
       name,
       content,
       isPublic,
@@ -255,7 +203,6 @@ export class PromptService {
       editedAt: now,
     };
 
-    // First attempt updating the 'prompt' table
     const { data, error } = await this.supabase
       .from('prompts')
       .update(updateData)
@@ -264,24 +211,6 @@ export class PromptService {
       .single();
 
     if (error) {
-      // Fallback to the plural table 'prompts'
-      if (
-        error.code === 'PGRST205' ||
-        error.message?.includes('schema cache') ||
-        error.message?.includes('relation "prompt" does not exist')
-      ) {
-        const fallback = await this.supabase
-          .from('prompts')
-          .update(updateData)
-          .eq('id', id)
-          .select()
-          .single();
-
-        return {
-          data: fallback.data ? mapPrompt(fallback.data) : null,
-          error: fallback.error,
-        };
-      }
       return { data: null, error };
     }
 
@@ -289,38 +218,16 @@ export class PromptService {
   }
 }
 
-/**
- * Database row interface matching either camelCase or snake_case column styles.
- */
-interface DatabaseRow {
-  id?: PromptId;
-  name?: string;
-  content?: string;
-  isPublic?: boolean;
-  is_public?: boolean;
-  createdBy?: string;
-  created_by?: string;
-  createdAt?: string;
-  created_at?: string;
-  editedBy?: string;
-  edited_by?: string;
-  editedAt?: string;
-  edited_at?: string;
-}
-
-/**
- * Robust database-to-frontend mapper to normalize camelCase / snake_case discrepancies.
- */
-function mapPrompt(row: DatabaseRow): Prompt {
+function mapPrompt(row: PromptRow): Prompt {
   return {
     id: row.id,
-    name: row.name || 'Untitled Prompt',
-    content: row.content || '',
-    isPublic: row.isPublic ?? row.is_public ?? false,
+    name: row.name,
+    content: row.content,
+    isPublic: row.isPublic ?? false,
     isStarred: false,
-    createdBy: row.createdBy || 'system',
-    createdAt: row.createdAt || new Date().toISOString(),
-    editedBy: row.editedBy || 'system',
-    editedAt: row.editedAt || new Date().toISOString(),
+    createdBy: row.createdBy,
+    createdAt: row.createdAt,
+    editedBy: row.editedBy,
+    editedAt: row.editedAt,
   };
 }
