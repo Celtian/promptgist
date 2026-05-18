@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxAppVersionDirective } from 'ngx-app-version';
 import { ThemeSwitcher, Button } from '@/ui';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -16,4 +17,5 @@ import { ThemeSwitcher, Button } from '@/ui';
 })
 export class App {
   protected readonly title = signal('portal');
+  protected readonly auth = inject(AuthService);
 }

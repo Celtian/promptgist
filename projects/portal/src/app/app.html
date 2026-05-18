@@ -60,15 +60,24 @@
       <ui-theme-switcher />
 
       <!-- Mock User Profile / Action button -->
-      <button
-        type="button"
-        ui-button
-        variant="primary"
-        size="sm"
-        class="hidden sm:inline-flex shadow-sm"
-      >
-        Connect Account
-      </button>
+      @if (auth.isAuthenticated()) {
+        <span class="text-xs font-mono text-(--ui-color-text-muted) hidden sm:inline">
+          {{ auth.user()?.email }}
+        </span>
+        <button type="button" ui-button variant="secondary" size="sm" (click)="auth.signOut()">
+          Sign Out
+        </button>
+      } @else {
+        <a
+          ui-button
+          variant="primary"
+          size="sm"
+          href="/login"
+          class="hidden sm:inline-flex shadow-sm"
+        >
+          Sign In
+        </a>
+      }
     </div>
   </div>
 </header>
