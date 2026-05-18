@@ -112,7 +112,7 @@ export class PromptCreatePage {
         this.toastService.warning(`Database error: ${error.message || 'Could not save prompt.'}`);
       } else {
         this.toastService.success('Your new prompt template has been created successfully!');
-        this.router.navigate(['/prompt']);
+        this.router.navigate(['/workspace/prompt']);
       }
     } catch (err: unknown) {
       console.error('Unexpected error while creating prompt:', err);

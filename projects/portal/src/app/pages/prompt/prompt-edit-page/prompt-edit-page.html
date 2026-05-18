@@ -19,7 +19,7 @@
       <p class="text-xs text-(--ui-color-text-muted)">{{ errorMessage() }}</p>
       <a
         class="inline-block px-5 py-2 font-semibold"
-        routerLink="/prompt"
+        routerLink="/workspace/prompt"
         ui-button
         variant="outline"
       >
@@ -36,13 +36,15 @@
         >
           <a class="hover:text-(--ui-color-primary) transition-colors" routerLink="/">Home</a>
           <span>/</span>
-          <a class="hover:text-(--ui-color-primary) transition-colors" routerLink="/prompt"
+          <a
+            class="hover:text-(--ui-color-primary) transition-colors"
+            routerLink="/workspace/prompt"
             >Prompts</a
           >
           <span>/</span>
           <a
             class="hover:text-(--ui-color-primary) transition-colors"
-            [routerLink]="['/prompt', prompt()!.id]"
+            [routerLink]="['/workspace/prompt', prompt()!.id]"
           >
             {{ prompt()!.name }}
           </a>
@@ -59,7 +61,7 @@
           class="px-4 py-2 font-semibold"
           ui-button
           variant="outline"
-          [routerLink]="['/prompt', prompt()!.id]"
+          [routerLink]="['/workspace/prompt', prompt()!.id]"
         >
           Cancel
         </a>

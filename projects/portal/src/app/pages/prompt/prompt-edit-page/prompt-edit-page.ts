@@ -93,18 +93,11 @@ export class PromptEditPage implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       this.toastService.warning('Prompt ID was not provided in the route.');
-      this.router.navigate(['/prompt']);
+      this.router.navigate(['/workspace/prompt']);
       return;
     }
 
-    const promptId = Number(id);
-    if (!Number.isInteger(promptId)) {
-      this.toastService.warning('Prompt ID is invalid.');
-      this.router.navigate(['/prompt']);
-      return;
-    }
-
-    await this.fetchPrompt(promptId);
+    await this.fetchPrompt(id);
   }
 
   private async fetchPrompt(id: Prompt['id']): Promise<void> {
@@ -160,7 +153,7 @@ export class PromptEditPage implements OnInit {
         this.toastService.warning(`Database error: ${error.message}`);
       } else {
         this.toastService.success('Your prompt template was successfully updated!');
-        this.router.navigate(['/prompt', data?.id ?? currentId]);
+        this.router.navigate(['/workspace/prompt', data?.id ?? currentId]);
       }
     } catch (err: unknown) {
       this.toastService.warning(

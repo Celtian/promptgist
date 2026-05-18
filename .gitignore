@@ -48,4 +48,6 @@ Thumbs.db
 generated
 
 # Supabase local state
-/supabase/
+/supabase/*
+!/supabase/migrations/
+!/supabase/migrations/*.sql

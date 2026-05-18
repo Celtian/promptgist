@@ -3,7 +3,12 @@ export const ROUTE_DEFINITION = {
     HOME: '',
     LOGIN: 'login',
     ACCOUNT: 'account',
-    PROMPT: 'prompt',
+    WORKSPACE: 'workspace',
     NOT_FOUND: '**',
+  },
+  WORKSPACE: {
+    PROMPT: 'prompt',
+    JOB: 'job',
+    WORKFLOW: 'workflow',
   },
 } as const;

@@ -1,0 +1,202 @@
+<div class="mx-auto max-w-6xl px-4 py-8 md:py-12 animate-in fade-in duration-300">
+  @if (isLoading()) {
+    <div class="flex flex-col items-center justify-center gap-4 py-32 animate-pulse">
+      <span
+        class="inline-block h-10 w-10 animate-spin rounded-full border-4 border-(--ui-color-primary) border-t-transparent"
+      ></span>
+      <span class="text-sm font-semibold text-(--ui-color-text-muted)">
+        Loading workflow editor...
+      </span>
+    </div>
+  } @else if (errorMessage()) {
+    <div
+      class="mx-auto max-w-md space-y-4 rounded-lg border border-red-500/20 bg-red-500/10 p-8 text-center shadow-sm animate-in zoom-in-95 duration-200"
+    >
+      <div
+        class="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-red-500/10 text-red-500"
+      >
+        <ng-icon name="faSolidTriangleExclamation" class="h-6 w-6" />
+      </div>
+      <h3 class="text-lg font-bold text-(--ui-color-text)">Failed to load workflow</h3>
+      <p class="text-xs text-(--ui-color-text-muted)">{{ errorMessage() }}</p>
+      <a
+        class="inline-block px-5 py-2 font-semibold"
+        routerLink="/workspace/workflow"
+        ui-button
+        variant="outline"
+      >
+        Back to Workflows
+      </a>
+    </div>
+  } @else if (workflow()) {
+    <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
+      <div>
+        <div
+          class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-(--ui-color-text-muted)"
+        >
+          <a routerLink="/" class="hover:text-(--ui-color-primary) transition-colors">Home</a>
+          <span>/</span>
+          <a
+            routerLink="/workspace/workflow"
+            class="hover:text-(--ui-color-primary) transition-colors"
+          >
+            Workflows
+          </a>
+          <span>/</span>
+          <a
+            class="hover:text-(--ui-color-primary) transition-colors"
+            [routerLink]="['/workspace/workflow', workflow()!.id]"
+          >
+            {{ workflow()!.name }}
+          </a>
+          <span>/</span>
+          <span class="text-(--ui-color-text)">Edit</span>
+        </div>
+        <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-(--ui-color-text) md:text-4xl">
+          Edit Workflow
+        </h1>
+        <p class="mt-1 text-sm text-(--ui-color-text-muted)">
+          Update this workflow's identity and visibility.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <ui-card variant="outline" padding="lg" class="shadow-sm">
+          <form class="space-y-6" [formRoot]="workflowForm" (submit)="onSave($event)">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label for="workflow-name" class="block text-sm font-bold text-(--ui-color-text)">
+                  Workflow Name
+                </label>
+                <span class="text-xs text-(--ui-color-text-muted)">
+                  {{ workflowForm.name().value().length }} / 100
+                </span>
+              </div>
+              <ui-input-text
+                id="workflow-name"
+                placeholder="e.g., Research and Draft Pipeline"
+                uiClass="w-full"
+                [formField]="workflowForm.name"
+              />
+              @if (workflowForm.name().touched() && workflowForm.name().errors().length > 0) {
+                <div
+                  class="mt-1 text-xs font-semibold text-(--ui-color-accent) animate-in fade-in duration-200"
+                >
+                  {{
+                    workflowForm.name().errors()[0].message ||
+                      'Name must be between 3 and 100 characters'
+                  }}
+                </div>
+              } @else {
+                <p class="text-xs text-(--ui-color-text-muted)">
+                  Keep names short enough to scan in the workflow list.
+                </p>
+              }
+            </div>
+
+            <div class="space-y-2 rounded-lg border border-(--ui-color-border) p-4">
+              <ui-input-toggle [formField]="workflowForm.isPublic">
+                Public workflow
+              </ui-input-toggle>
+              <p class="text-xs text-(--ui-color-text-muted)">
+                Public workflows can be discovered outside your private workspace.
+              </p>
+            </div>
+
+            <div
+              class="flex items-center justify-end gap-3 border-t border-(--ui-color-border) pt-4"
+            >
+              <a
+                ui-button
+                type="button"
+                variant="outline"
+                class="px-5 py-2"
+                [routerLink]="['/workspace/workflow', workflow()!.id]"
+              >
+                Cancel
+              </a>
+              <button
+                class="px-6 py-2"
+                type="submit"
+                ui-button
+                variant="primary"
+                [disabled]="isSaving() || workflowForm().invalid()"
+              >
+                @if (isSaving()) {
+                  <span
+                    class="mr-2 inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
+                  ></span>
+                  Saving...
+                } @else {
+                  Save Workflow
+                }
+              </button>
+            </div>
+          </form>
+        </ui-card>
+      </div>
+
+      <div class="lg:col-span-5">
+        <ui-card
+          variant="outline"
+          padding="lg"
+          class="flex h-full flex-col bg-(--ui-color-surface) shadow-sm"
+        >
+          <div class="mb-4 border-b border-(--ui-color-border) pb-4">
+            <h2
+              class="text-xs font-extrabold uppercase tracking-wider text-(--ui-color-text-muted)"
+            >
+              Preview
+            </h2>
+            <p class="mt-1 text-xs text-(--ui-color-text-muted)">
+              Changes here update the workflow container. Job ordering remains separate.
+            </p>
+          </div>
+
+          <div
+            class="mb-6 flex items-center gap-3 rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-4"
+          >
+            <div
+              class="flex h-11 w-11 items-center justify-center rounded-lg bg-(--ui-color-surface) text-(--ui-color-primary)"
+            >
+              <ng-icon name="faSolidDiagramProject" class="h-5 w-5" />
+            </div>
+            <div class="min-w-0">
+              <div class="truncate text-sm font-bold text-(--ui-color-text)">
+                {{ workflowForm.name().value() || 'Untitled workflow' }}
+              </div>
+              <div class="mt-1">
+                <span
+                  ui-badge
+                  size="sm"
+                  [variant]="workflowForm.isPublic().value() ? 'primary' : 'outline'"
+                >
+                  {{ workflowForm.isPublic().value() ? 'Public' : 'Private' }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div
+              class="rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-3"
+            >
+              <div class="text-xs font-semibold text-(--ui-color-text-muted)">Created</div>
+              <div class="mt-1 truncate text-sm font-bold text-(--ui-color-text)">
+                {{ workflow()!.createdAt | date: 'mediumDate' }}
+              </div>
+            </div>
+            <div
+              class="rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-3"
+            >
+              <div class="text-xs font-semibold text-(--ui-color-text-muted)">State</div>
+              <div class="mt-1 text-sm font-bold text-(--ui-color-text)">Draft</div>
+            </div>
+          </div>
+        </ui-card>
+      </div>
+    </div>
+  }
+</div>

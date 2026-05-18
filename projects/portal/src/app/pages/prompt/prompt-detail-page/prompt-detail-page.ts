@@ -87,18 +87,11 @@ export class PromptDetailPage implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       this.toastService.warning('Prompt ID was not provided in the route.');
-      this.router.navigate(['/prompt']);
+      this.router.navigate(['/workspace/prompt']);
       return;
     }
 
-    const promptId = Number(id);
-    if (!Number.isInteger(promptId)) {
-      this.toastService.warning('Prompt ID is invalid.');
-      this.router.navigate(['/prompt']);
-      return;
-    }
-
-    await this.fetchPrompt(promptId);
+    await this.fetchPrompt(id);
   }
 
   private async fetchPrompt(id: Prompt['id']): Promise<void> {

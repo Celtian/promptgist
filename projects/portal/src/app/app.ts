@@ -11,8 +11,8 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidAngleUp,
   faSolidBolt,
-  faSolidFileLines,
   faSolidGear,
+  faSolidLayerGroup,
   faSolidRightFromBracket,
   faSolidRightToBracket,
 } from '@ng-icons/font-awesome/solid';
@@ -41,8 +41,8 @@ import { AuthService } from './core/services/auth.service';
     provideIcons({
       faSolidAngleUp,
       faSolidBolt,
-      faSolidFileLines,
       faSolidGear,
+      faSolidLayerGroup,
       faSolidRightFromBracket,
       faSolidRightToBracket,
     }),

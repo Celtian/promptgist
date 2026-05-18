@@ -1,0 +1,30 @@
+<div class="grid gap-6 lg:grid-cols-[16rem_minmax(0,1fr)]">
+  <aside
+    class="lg:sticky lg:top-24 lg:self-start rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-3"
+    aria-label="Workspace navigation"
+  >
+    <div class="px-3 pb-3">
+      <h2 class="text-sm font-bold uppercase tracking-wide text-(--ui-color-text-muted)">
+        Workspace
+      </h2>
+    </div>
+
+    <nav class="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible">
+      @for (item of navItems; track item.label) {
+        <a
+          class="flex min-w-36 items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold text-(--ui-color-text-muted) transition-colors hover:bg-(--ui-color-surface) hover:text-(--ui-color-text) lg:min-w-0"
+          routerLinkActive="bg-(--ui-color-surface) text-(--ui-color-text) shadow-sm"
+          [routerLinkActiveOptions]="{ exact: false }"
+          [routerLink]="item.path"
+        >
+          <ng-icon class="h-4 w-4 shrink-0" [name]="item.icon" />
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    </nav>
+  </aside>
+
+  <section class="min-w-0">
+    <router-outlet />
+  </section>
+</div>

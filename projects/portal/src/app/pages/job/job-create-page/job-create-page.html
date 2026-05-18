@@ -1,0 +1,138 @@
+<div class="mx-auto max-w-6xl px-4 py-8 md:py-12 animate-in fade-in duration-300">
+  <!-- Breadcrumb & Header -->
+  <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
+    <div>
+      <div
+        class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-(--ui-color-text-muted)"
+      >
+        <a routerLink="/" class="hover:text-(--ui-color-primary) transition-colors">Home</a>
+        <span>/</span>
+        <a routerLink="/workspace/job" class="hover:text-(--ui-color-primary) transition-colors">
+          Jobs
+        </a>
+        <span>/</span>
+        <span class="text-(--ui-color-text)">New</span>
+      </div>
+      <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-(--ui-color-text) md:text-4xl">
+        Create Job
+      </h1>
+      <p class="mt-1 text-sm text-(--ui-color-text-muted)">
+        Define a reusable job shell, then add prompts to its sequence.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+    <!-- Left Column: Form -->
+    <div class="lg:col-span-7">
+      <ui-card variant="outline" padding="lg" class="shadow-sm">
+        <form class="space-y-6" [formRoot]="jobForm" (submit)="onSubmit($event)">
+          <!-- Name Field Group -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label for="job-name" class="block text-sm font-bold text-(--ui-color-text)">
+                Job Name
+              </label>
+              <span class="text-xs text-(--ui-color-text-muted)">
+                {{ jobForm.name().value().length }} / 100
+              </span>
+            </div>
+            <ui-input-text
+              id="job-name"
+              placeholder="e.g., Code Review Step"
+              uiClass="w-full"
+              [formField]="jobForm.name"
+            />
+            @if (jobForm.name().touched() && jobForm.name().errors().length > 0) {
+              <div
+                class="mt-1 text-xs font-semibold text-(--ui-color-accent) animate-in fade-in duration-200"
+              >
+                {{
+                  jobForm.name().errors()[0].message || 'Name must be between 3 and 100 characters'
+                }}
+              </div>
+            } @else {
+              <p class="text-xs text-(--ui-color-text-muted)">
+                Choose a concise name for the job users will run or expand later.
+              </p>
+            }
+          </div>
+
+          <!-- Form Actions -->
+          <div class="flex items-center justify-end gap-3 border-t border-(--ui-color-border) pt-4">
+            <a ui-button variant="outline" routerLink="/workspace/job" class="px-5 py-2">
+              Cancel
+            </a>
+            <button
+              class="px-6 py-2"
+              type="submit"
+              ui-button
+              variant="primary"
+              [disabled]="isSaving() || jobForm().invalid()"
+            >
+              @if (isSaving()) {
+                <span
+                  class="mr-2 inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
+                ></span>
+                Saving...
+              } @else {
+                Create Job
+              }
+            </button>
+          </div>
+        </form>
+      </ui-card>
+    </div>
+
+    <!-- Right Column: Job Preview -->
+    <div class="lg:col-span-5">
+      <ui-card
+        variant="outline"
+        padding="lg"
+        class="flex h-full flex-col bg-(--ui-color-surface) shadow-sm"
+      >
+        <div class="mb-4 border-b border-(--ui-color-border) pb-4">
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-(--ui-color-text-muted)">
+            Job Preview
+          </h2>
+          <p class="mt-1 text-xs text-(--ui-color-text-muted)">
+            This creates the job container. Prompts and steps can be added after creation.
+          </p>
+        </div>
+
+        <div
+          class="mb-6 flex items-center gap-3 rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-4"
+        >
+          <div
+            class="flex h-11 w-11 items-center justify-center rounded-lg bg-(--ui-color-surface) text-(--ui-color-primary)"
+          >
+            <ng-icon name="faSolidBriefcase" class="h-5 w-5" />
+          </div>
+          <div class="min-w-0">
+            <div class="truncate text-sm font-bold text-(--ui-color-text)">
+              {{ jobForm.name().value() || 'Untitled job' }}
+            </div>
+            <div class="mt-1">
+              <span ui-badge size="sm" variant="outline"> Draft </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div
+            class="rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-3"
+          >
+            <div class="text-xs font-semibold text-(--ui-color-text-muted)">Prompts</div>
+            <div class="mt-1 text-lg font-bold text-(--ui-color-text)">0</div>
+          </div>
+          <div
+            class="rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-3"
+          >
+            <div class="text-xs font-semibold text-(--ui-color-text-muted)">State</div>
+            <div class="mt-1 text-lg font-bold text-(--ui-color-text)">Draft</div>
+          </div>
+        </div>
+      </ui-card>
+    </div>
+  </div>
+</div>

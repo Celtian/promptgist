@@ -1,0 +1,155 @@
+<div class="mx-auto max-w-6xl px-4 py-8 md:py-12 animate-in fade-in duration-300">
+  <div
+    class="mb-10 flex flex-col justify-between gap-6 border-b border-(--ui-color-border) pb-6 sm:flex-row sm:items-center"
+  >
+    <div>
+      <h1 class="text-3xl font-extrabold tracking-tight text-(--ui-color-text) md:text-4xl">
+        Jobs
+      </h1>
+      <p class="mt-2 text-sm text-(--ui-color-text-muted)">
+        Build reusable job steps that can be added to workflows.
+      </p>
+    </div>
+
+    <a
+      class="flex items-center gap-2 px-5 py-2.5 font-semibold shadow-xs"
+      routerLink="/workspace/job/create"
+      ui-button
+      variant="primary"
+    >
+      <ng-icon name="faSolidPlus" class="h-4 w-4" />
+      Create Job
+    </a>
+  </div>
+
+  @if (isLoading()) {
+    <div class="flex flex-col items-center justify-center gap-4 py-24 animate-pulse">
+      <span
+        class="inline-block h-10 w-10 animate-spin rounded-full border-4 border-(--ui-color-primary) border-t-transparent"
+      ></span>
+      <span class="text-sm font-semibold text-(--ui-color-text-muted)">Retrieving jobs...</span>
+    </div>
+  } @else if (errorMessage()) {
+    <div
+      class="mx-auto max-w-md space-y-4 rounded-lg border border-red-500/20 bg-red-500/10 p-8 text-center shadow-sm animate-in zoom-in-95 duration-200"
+    >
+      <div
+        class="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-red-500/10 text-red-500"
+      >
+        <ng-icon name="faSolidTriangleExclamation" class="h-6 w-6" />
+      </div>
+      <h3 class="text-lg font-bold text-(--ui-color-text)">Failed to load jobs</h3>
+      <p class="text-xs text-(--ui-color-text-muted)">{{ errorMessage() }}</p>
+      <button
+        class="px-4 py-2 font-semibold"
+        ui-button
+        type="button"
+        variant="outline"
+        (click)="fetchJobs()"
+      >
+        Retry Fetch
+      </button>
+    </div>
+  } @else if (!jobs() || jobs()!.length === 0) {
+    <ui-card
+      class="mx-auto max-w-lg py-16 text-center shadow-xs border border-(--ui-color-border)"
+      padding="lg"
+      variant="outline"
+    >
+      <div
+        class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-(--ui-color-surface-muted) text-(--ui-color-text-muted)"
+      >
+        <ng-icon name="faSolidBriefcase" class="h-8 w-8" />
+      </div>
+      <h3 class="text-xl font-bold text-(--ui-color-text)">No jobs yet</h3>
+      <p class="mx-auto mt-2 max-w-sm text-sm text-(--ui-color-text-muted)">
+        Create your first job to define a reusable step for workflows.
+      </p>
+      <div class="mt-6">
+        <a
+          class="px-5 py-2.5 font-semibold shadow-xs"
+          routerLink="/workspace/job/create"
+          ui-button
+          variant="primary"
+        >
+          Create First Job
+        </a>
+      </div>
+    </ui-card>
+  } @else {
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      @for (job of jobs(); track job.id) {
+        <ui-card
+          class="group flex h-full flex-col justify-between border border-(--ui-color-border) shadow-xs transition-all duration-300 hover:border-(--ui-color-primary) hover:shadow-md"
+          padding="lg"
+          variant="outline"
+        >
+          <div class="flex-1">
+            <div class="mb-4 flex items-start justify-between gap-3">
+              <a
+                class="min-w-0 flex-1 no-underline focus:outline-none"
+                [routerLink]="['/workspace/job', job.id]"
+              >
+                <h3
+                  class="line-clamp-1 text-lg font-extrabold text-(--ui-color-text) transition-colors hover:text-(--ui-color-primary)"
+                >
+                  {{ getJobName(job) }}
+                </h3>
+              </a>
+            </div>
+
+            <a
+              class="block no-underline focus:outline-none"
+              [routerLink]="['/workspace/job', job.id]"
+            >
+              <div
+                class="mb-6 rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-4 transition-colors group-hover:bg-(--ui-color-surface)/50"
+              >
+                <div class="flex items-center gap-3 text-(--ui-color-text-muted)">
+                  <ng-icon name="faSolidBriefcase" class="h-5 w-5" />
+                  <span class="text-sm font-semibold">Workflow job step</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div
+            class="mt-auto border-t border-(--ui-color-border) pt-4 text-xs text-(--ui-color-text-muted)"
+          >
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex min-w-0 items-center gap-1.5">
+                <span>By</span>
+                <span
+                  class="max-w-[200px] truncate rounded bg-(--ui-color-surface-muted) px-1.5 py-0.5 font-mono font-semibold text-(--ui-color-text)"
+                >
+                  {{ getCreatorName(job) }}
+                </span>
+              </div>
+              <span>{{ formatDate(job.createdAt) }}</span>
+            </div>
+
+            <div class="mt-4 flex items-center justify-end gap-2">
+              <a
+                class="px-3 py-1.5 font-semibold"
+                ui-button
+                variant="outline"
+                [routerLink]="['/workspace/job', job.id]"
+              >
+                Open
+              </a>
+              <a
+                class="flex items-center gap-1.5 px-3 py-1.5 font-semibold"
+                ui-button
+                variant="primary"
+                [routerLink]="['/workspace/job', job.id, 'edit']"
+              >
+                <ng-icon name="faSolidPenToSquare" class="h-3.5 w-3.5" />
+                Edit
+              </a>
+            </div>
+          </div>
+        </ui-card>
+      }
+    </div>
+  }
+</div>

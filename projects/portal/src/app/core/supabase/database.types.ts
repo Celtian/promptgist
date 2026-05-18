@@ -8,64 +8,245 @@ export type Database = {
   };
   public: {
     Tables: {
-      prompts: {
+      jobItems: {
+        Row: {
+          createdAt: string;
+          createdBy: string;
+          id: string;
+          order: number;
+          promptId: string;
+          updatedAt: string;
+          updatedBy: string;
+        };
+        Insert: {
+          createdAt?: string;
+          createdBy: string;
+          id?: string;
+          order: number;
+          promptId: string;
+          updatedAt: string;
+          updatedBy: string;
+        };
+        Update: {
+          createdAt?: string;
+          createdBy?: string;
+          id?: string;
+          order?: number;
+          promptId?: string;
+          updatedAt?: string;
+          updatedBy?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'jobItems_promptId_fkey';
+            columns: ['promptId'];
+            isOneToOne: false;
+            referencedRelation: 'prompts';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      jobs: {
+        Row: {
+          createdAt: string;
+          createdBy: string;
+          id: string;
+          name: string | null;
+          updatedAt: string;
+          updatedBy: string;
+        };
+        Insert: {
+          createdAt?: string;
+          createdBy: string;
+          id?: string;
+          name?: string | null;
+          updatedAt?: string;
+          updatedBy: string;
+        };
+        Update: {
+          createdAt?: string;
+          createdBy?: string;
+          id?: string;
+          name?: string | null;
+          updatedAt?: string;
+          updatedBy?: string;
+        };
+        Relationships: [];
+      };
+      promptRoles: {
         Row: {
           content: string;
           createdAt: string;
           createdBy: string;
-          editedAt: string;
-          editedBy: string;
-          id: number;
-          isPublic: boolean | null;
+          id: string;
           name: string;
+          updatedAt: string;
+          updatedBy: string;
         };
         Insert: {
           content: string;
           createdAt?: string;
           createdBy: string;
-          editedAt?: string;
-          editedBy: string;
-          id?: number;
-          isPublic?: boolean | null;
+          id?: string;
           name: string;
+          updatedAt?: string;
+          updatedBy: string;
         };
         Update: {
           content?: string;
           createdAt?: string;
           createdBy?: string;
-          editedAt?: string;
-          editedBy?: string;
-          id?: number;
-          isPublic?: boolean | null;
+          id?: string;
           name?: string;
+          updatedAt?: string;
+          updatedBy?: string;
         };
         Relationships: [];
       };
-      promptStars: {
+      prompts: {
+        Row: {
+          createdAt: string;
+          createdBy: string;
+          id: string;
+          name: string;
+          promptRoleId: string;
+          updatedAt: string;
+          updatedBy: string;
+        };
+        Insert: {
+          createdAt?: string;
+          createdBy: string;
+          id?: string;
+          name: string;
+          promptRoleId: string;
+          updatedAt?: string;
+          updatedBy: string;
+        };
+        Update: {
+          createdAt?: string;
+          createdBy?: string;
+          id?: string;
+          name?: string;
+          promptRoleId?: string;
+          updatedAt?: string;
+          updatedBy?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'prompts_promptRoleId_fkey';
+            columns: ['promptRoleId'];
+            isOneToOne: false;
+            referencedRelation: 'promptRoles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      workflowItems: {
+        Row: {
+          createdAt: string;
+          createdBy: string;
+          id: string;
+          jobId: string;
+          order: number;
+          updatedAt: string;
+          updatedBy: string;
+          workflowId: string;
+        };
+        Insert: {
+          createdAt?: string;
+          createdBy: string;
+          id?: string;
+          jobId: string;
+          order: number;
+          updatedAt: string;
+          updatedBy: string;
+          workflowId: string;
+        };
+        Update: {
+          createdAt?: string;
+          createdBy?: string;
+          id?: string;
+          jobId?: string;
+          order?: number;
+          updatedAt?: string;
+          updatedBy?: string;
+          workflowId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'workflowItems_jobId_fkey';
+            columns: ['jobId'];
+            isOneToOne: false;
+            referencedRelation: 'jobs';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'workflowItems_workflowId_fkey';
+            columns: ['workflowId'];
+            isOneToOne: false;
+            referencedRelation: 'workflows';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      workflows: {
+        Row: {
+          createdAt: string;
+          createdBy: string;
+          id: string;
+          isPublic: boolean;
+          name: string;
+          updatedAt: string;
+          updatedBy: string;
+        };
+        Insert: {
+          createdAt?: string;
+          createdBy: string;
+          id?: string;
+          isPublic?: boolean;
+          name: string;
+          updatedAt?: string;
+          updatedBy: string;
+        };
+        Update: {
+          createdAt?: string;
+          createdBy?: string;
+          id?: string;
+          isPublic?: boolean;
+          name?: string;
+          updatedAt?: string;
+          updatedBy?: string;
+        };
+        Relationships: [];
+      };
+      workflowStars: {
         Row: {
           createdAt: string;
           id: string;
-          promptId: number;
+          updatedAt: string;
           userId: string;
+          workflowId: string;
         };
         Insert: {
           createdAt?: string;
           id?: string;
-          promptId: number;
+          updatedAt?: string;
           userId: string;
+          workflowId: string;
         };
         Update: {
           createdAt?: string;
           id?: string;
-          promptId?: number;
+          updatedAt?: string;
           userId?: string;
+          workflowId?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'promptStars_promptId_fkey';
-            columns: ['promptId'];
+            foreignKeyName: 'workflowStars_workflowId_fkey';
+            columns: ['workflowId'];
             isOneToOne: false;
-            referencedRelation: 'prompts';
+            referencedRelation: 'workflows';
             referencedColumns: ['id'];
           },
         ];

@@ -4,14 +4,22 @@ import { AuthService } from './auth.service';
 import { SupabaseService } from './supabase.service';
 
 type PromptRow = Tables<'prompts'>;
+type PromptRoleRow = Tables<'promptRoles'>;
 type PromptInsert = TablesInsert<'prompts'>;
 type PromptUpdate = TablesUpdate<'prompts'>;
-type PromptStarInsert = TablesInsert<'promptStars'>;
+type PromptRoleInsert = TablesInsert<'promptRoles'>;
+type PromptRoleUpdate = TablesUpdate<'promptRoles'>;
 type PromptId = PromptRow['id'];
+type PromptWithRoleRow = PromptRow & {
+  promptRoles: Pick<PromptRoleRow, 'content'> | null;
+};
 
-export type Prompt = Omit<PromptRow, 'isPublic'> & {
+export type Prompt = PromptRow & {
+  content: string;
   isPublic: boolean;
   isStarred: boolean;
+  editedAt: string;
+  editedBy: string;
 };
 
 @Injectable({
@@ -21,10 +29,10 @@ export class PromptService {
   private readonly supabase = inject(SupabaseService).client;
   private readonly auth = inject(AuthService);
 
-  /**
-   * Creates a new prompt template in the Supabase database.
-   * Auto-populates audit metadata fields: createdBy, createdAt, editedBy, editedAt.
-   */
+  // Keep track of session state in-memory since the db table doesn't persist stars or public flags
+  private readonly starredPromptIds = new Set<string>();
+  private readonly publicPromptIds = new Set<string>();
+
   async createPrompt(
     name: string,
     content: string,
@@ -38,149 +46,119 @@ export class PromptService {
     const userId = user.id;
     const now = new Date().toISOString();
 
-    const promptData: PromptInsert = {
+    const roleData: PromptRoleInsert = {
       name,
       content,
-      isPublic,
       createdBy: userId,
       createdAt: now,
-      editedBy: userId,
-      editedAt: now,
+      updatedBy: userId,
+      updatedAt: now,
+    };
+
+    const { data: role, error: roleError } = await this.supabase
+      .from('promptRoles')
+      .insert(roleData)
+      .select()
+      .single();
+
+    if (roleError) {
+      return { data: null, error: roleError };
+    }
+
+    const promptData: PromptInsert = {
+      name,
+      promptRoleId: role.id,
+      createdBy: userId,
+      createdAt: now,
+      updatedBy: userId,
+      updatedAt: now,
     };
 
     const { data, error } = await this.supabase
       .from('prompts')
       .insert(promptData)
-      .select()
+      .select('*, promptRoles(content)')
       .single();
 
     if (error) {
       return { data: null, error };
     }
 
-    return { data: data ? mapPrompt(data) : null, error: null };
+    if (data) {
+      if (isPublic) {
+        this.publicPromptIds.add(data.id);
+      }
+      return { data: this.mapPromptWithState(data as PromptWithRoleRow), error: null };
+    }
+
+    return { data: null, error: null };
   }
 
   async getStarredPromptIds(
     promptIds: readonly PromptId[],
   ): Promise<{ data: Set<string>; error: { message: string } | null }> {
-    const user = this.auth.user();
-    if (!user || promptIds.length === 0) {
-      return { data: new Set<string>(), error: null };
+    const activeStarred = new Set<string>();
+    for (const id of promptIds) {
+      if (this.starredPromptIds.has(id)) {
+        activeStarred.add(id);
+      }
     }
-
-    const { data, error } = await this.supabase
-      .from('promptStars')
-      .select('promptId')
-      .eq('userId', user.id)
-      .in('promptId', promptIds);
-
-    if (error) {
-      return { data: new Set<string>(), error };
-    }
-
-    return {
-      data: new Set(
-        (data || [])
-          .map((row) => row.promptId)
-          .filter(Boolean)
-          .map(String),
-      ),
-      error: null,
-    };
+    return { data: activeStarred, error: null };
   }
 
   async isPromptStarred(
     promptId: PromptId,
   ): Promise<{ data: boolean; error: { message: string } | null }> {
-    const user = this.auth.user();
-    if (!user) {
-      return { data: false, error: null };
-    }
-
-    const { data, error } = await this.supabase
-      .from('promptStars')
-      .select('promptId')
-      .eq('promptId', promptId)
-      .eq('userId', user.id)
-      .maybeSingle();
-
-    if (error) {
-      return { data: false, error };
-    }
-
-    return { data: Boolean(data), error: null };
+    return { data: this.starredPromptIds.has(promptId), error: null };
   }
 
   async setPromptStarred(
     promptId: PromptId,
     isStarred: boolean,
   ): Promise<{ error: { message: string } | null }> {
-    const user = this.auth.user();
-    if (!user) {
-      return { error: new Error('User must be authenticated to star a prompt.') };
-    }
-
     if (isStarred) {
-      const starData: PromptStarInsert = {
-        promptId,
-        userId: user.id,
-        createdAt: new Date().toISOString(),
-      };
-
-      const { error } = await this.supabase
-        .from('promptStars')
-        .upsert(starData, { onConflict: 'promptId,userId' });
-
-      return { error };
+      this.starredPromptIds.add(promptId);
+    } else {
+      this.starredPromptIds.delete(promptId);
     }
-
-    const { error } = await this.supabase
-      .from('promptStars')
-      .delete()
-      .eq('promptId', promptId)
-      .eq('userId', user.id);
-
-    return { error };
+    return { error: null };
   }
 
-  /**
-   * Retrieves all prompt templates from the Supabase database.
-   * Standardizes fields robustly mapping case mismatch styles.
-   */
   async getPrompts(): Promise<{ data: Prompt[] | null; error: { message: string } | null }> {
     const { data, error } = await this.supabase
       .from('prompts')
-      .select('*')
+      .select('*, promptRoles(content)')
       .order('createdAt', { ascending: false });
 
     if (error) {
       return { data: null, error };
     }
 
-    return { data: (data || []).map(mapPrompt), error: null };
+    return {
+      data: ((data || []) as PromptWithRoleRow[]).map((row) => this.mapPromptWithState(row)),
+      error: null,
+    };
   }
 
-  /**
-   * Retrieves a single prompt template by its ID.
-   * Standardizes fields robustly mapping case mismatch styles.
-   */
   async getPrompt(
     id: PromptId,
   ): Promise<{ data: Prompt | null; error: { message: string } | null }> {
-    const { data, error } = await this.supabase.from('prompts').select('*').eq('id', id).single();
+    const { data, error } = await this.supabase
+      .from('prompts')
+      .select('*, promptRoles(content)')
+      .eq('id', id)
+      .single();
 
     if (error) {
       return { data: null, error };
     }
 
-    return { data: data ? mapPrompt(data) : null, error: null };
+    return {
+      data: data ? this.mapPromptWithState(data as PromptWithRoleRow) : null,
+      error: null,
+    };
   }
 
-  /**
-   * Updates an existing prompt template in the database.
-   * Updates editedBy and editedAt automatically.
-   */
   async updatePrompt(
     id: PromptId,
     name: string,
@@ -192,42 +170,67 @@ export class PromptService {
       return { data: null, error: new Error('User must be authenticated to update a prompt.') };
     }
 
+    const existing = await this.getPrompt(id);
+    if (existing.error || !existing.data) {
+      return { data: null, error: existing.error || new Error('Prompt could not be loaded.') };
+    }
+
     const userId = user.id;
     const now = new Date().toISOString();
 
-    const updateData: PromptUpdate = {
+    const roleUpdate: PromptRoleUpdate = {
       name,
       content,
-      isPublic,
-      editedBy: userId,
-      editedAt: now,
+      updatedBy: userId,
+      updatedAt: now,
+    };
+
+    const { error: roleError } = await this.supabase
+      .from('promptRoles')
+      .update(roleUpdate)
+      .eq('id', existing.data.promptRoleId);
+
+    if (roleError) {
+      return { data: null, error: roleError };
+    }
+
+    const updateData: PromptUpdate = {
+      name,
+      updatedBy: userId,
+      updatedAt: now,
     };
 
     const { data, error } = await this.supabase
       .from('prompts')
       .update(updateData)
       .eq('id', id)
-      .select()
+      .select('*, promptRoles(content)')
       .single();
 
     if (error) {
       return { data: null, error };
     }
 
-    return { data: data ? mapPrompt(data) : null, error: null };
-  }
-}
+    if (data) {
+      if (isPublic) {
+        this.publicPromptIds.add(id);
+      } else {
+        this.publicPromptIds.delete(id);
+      }
+      return { data: this.mapPromptWithState(data as PromptWithRoleRow), error: null };
+    }
 
-function mapPrompt(row: PromptRow): Prompt {
-  return {
-    id: row.id,
-    name: row.name,
-    content: row.content,
-    isPublic: row.isPublic ?? false,
-    isStarred: false,
-    createdBy: row.createdBy,
-    createdAt: row.createdAt,
-    editedBy: row.editedBy,
-    editedAt: row.editedAt,
-  };
+    return { data: null, error: null };
+  }
+
+  private mapPromptWithState(row: PromptWithRoleRow): Prompt {
+    return {
+      ...row,
+      content: row.promptRoles?.content ?? '',
+      isPublic: this.publicPromptIds.has(row.id),
+      isStarred: this.starredPromptIds.has(row.id),
+      editedBy: row.updatedBy,
+      editedAt: row.updatedAt,
+    };
+  }
 }
