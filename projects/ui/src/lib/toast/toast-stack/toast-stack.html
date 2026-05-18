@@ -1,0 +1,14 @@
+@for (item of items(); track item.id) {
+  <ui-toast
+    [title]="item.data.title"
+    [message]="item.data.message"
+    [variant]="item.data.variant ?? 'surface'"
+    [actionLabel]="item.data.actionLabel"
+    [dismissible]="item.data.dismissible ?? true"
+    [role]="item.data.role ?? (item.data.variant === 'accent' ? 'alert' : 'status')"
+    [ariaLive]="item.data.ariaLive ?? (item.data.variant === 'accent' ? 'assertive' : 'polite')"
+    [uiClass]="item.data.uiClass ?? ''"
+    (dismissed)="dismissed.emit(item.id)"
+    (actionSelected)="actionSelected.emit(item.id)"
+  />
+}

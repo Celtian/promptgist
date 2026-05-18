@@ -56,5 +56,9 @@ export class ComponentsPage {
       label: 'Progress Spinner',
       route: ROUTE_DEFINITION.COMPONENTS.PROGRESS_SPINNER,
     },
+    {
+      label: 'Toast',
+      route: ROUTE_DEFINITION.COMPONENTS.TOAST,
+    },
   ].sort((a, b) => a.label.localeCompare(b.label));
 }

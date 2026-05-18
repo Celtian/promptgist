@@ -1,0 +1,90 @@
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Toast</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Toasts provide temporary feedback from the application shell. They are rendered with Angular
+      CDK Overlay and stack by viewport position.
+    </p>
+  </header>
+
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem]">
+      <div
+        class="grid min-h-72 content-center gap-4 rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-6"
+      >
+        <div class="grid gap-2">
+          <h2 class="m-0 text-xl font-bold">Preview toast</h2>
+          <p class="m-0 max-w-lg text-sm leading-6 text-[var(--ui-color-text-muted)]">
+            Trigger a toast, an action toast, or a persistent notification. Multiple toasts stack in
+            the selected corner.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button ui-button type="button" (click)="showToast()">Show toast</button>
+          <button ui-button type="button" variant="outline" (click)="showActionToast()">
+            With action
+          </button>
+          <button ui-button type="button" variant="accent" (click)="showPersistentToast()">
+            Persistent
+          </button>
+          <button ui-button type="button" variant="ghost" (click)="dismissAll()">
+            Dismiss all
+          </button>
+        </div>
+      </div>
+
+      <div class="grid content-start gap-4">
+        <ui-input-select
+          ariaLabel="Toast variant"
+          placeholder="Variant"
+          fullWidth
+          [options]="variantOptions"
+          [value]="variant()"
+          (valueChange)="setVariant($event)"
+        />
+        <ui-input-select
+          ariaLabel="Toast position"
+          placeholder="Position"
+          fullWidth
+          [options]="positionOptions"
+          [value]="position()"
+          (valueChange)="setPosition($event)"
+        />
+        <div class="grid gap-2 text-sm font-medium">
+          <span>Duration</span>
+          <ui-input-number
+            placeholder="Duration in ms"
+            [min]="0"
+            [step]="500"
+            [value]="duration()"
+            (valueChange)="setDuration($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </ui-card>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Variants</h2>
+    <div class="grid gap-4 md:grid-cols-2">
+      @for (item of variants; track item) {
+        <ui-card variant="surface" padding="lg" uiClass="grid gap-3">
+          <h3 class="m-0 text-base font-bold capitalize">{{ item }}</h3>
+          <button
+            ui-button
+            type="button"
+            size="sm"
+            [variant]="buttonVariantFor(item)"
+            (click)="showVariantToast(item)"
+          >
+            Show {{ item }}
+          </button>
+        </ui-card>
+      }
+    </div>
+  </section>
+</section>

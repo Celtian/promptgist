@@ -1,0 +1,29 @@
+<div class="flex min-w-0 items-start gap-3">
+  <div class="min-w-0 flex-1">
+    @if (title()) {
+      <strong class="block font-bold leading-6 text-[var(--ui-color-text)]">{{ title() }}</strong>
+    }
+    <p class="m-0 text-[var(--ui-color-text-muted)]">{{ message() }}</p>
+  </div>
+
+  @if (dismissible()) {
+    <button
+      ui-button
+      type="button"
+      variant="ghost"
+      size="icon"
+      [attr.aria-label]="dismissLabel()"
+      (click)="dismissed.emit()"
+    >
+      <span aria-hidden="true">x</span>
+    </button>
+  }
+</div>
+
+@if (actionLabel()) {
+  <div class="flex justify-end">
+    <button ui-button type="button" variant="outline" size="sm" (click)="actionSelected.emit()">
+      {{ actionLabel() }}
+    </button>
+  </div>
+}

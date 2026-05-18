@@ -35,5 +35,6 @@ export const ROUTE_DEFINITION = {
     TOOLTIP: 'tooltip',
     PROGRESS_BAR: 'progress-bar',
     PROGRESS_SPINNER: 'progress-spinner',
+    TOAST: 'toast',
   },
 } as const;

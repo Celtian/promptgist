@@ -9,4 +9,5 @@ export * from './lib/progress-spinner/public-api';
 export * from './lib/scrollbar/public-api';
 export * from './lib/skeleton/public-api';
 export * from './lib/spinner/public-api';
+export * from './lib/toast/public-api';
 export * from './lib/tooltip/public-api';

@@ -54,6 +54,10 @@ export const routesComponents: Routes = [
             (m) => m.ProgressSpinnerPage,
           ),
       },
+      {
+        path: ROUTE_DEFINITION.COMPONENTS.TOAST,
+        loadComponent: () => import('./toast-page/toast-page').then((m) => m.ToastPage),
+      },
     ],
   },
 ];
