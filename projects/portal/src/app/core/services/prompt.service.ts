@@ -109,6 +109,90 @@ export class PromptService {
 
     return { data: (data || []).map(mapPrompt), error: null };
   }
+
+  /**
+   * Retrieves a single prompt template by its ID.
+   * Standardizes fields robustly mapping case mismatch styles.
+   */
+  async getPrompt(id: string): Promise<{ data: Prompt | null; error: { message: string } | null }> {
+    const { data, error } = await this.supabase.from('prompt').select('*').eq('id', id).single();
+
+    if (error) {
+      // Fallback to the plural table 'prompts'
+      if (
+        error.code === 'PGRST205' ||
+        error.message?.includes('schema cache') ||
+        error.message?.includes('relation "prompt" does not exist')
+      ) {
+        const fallback = await this.supabase.from('prompts').select('*').eq('id', id).single();
+
+        return {
+          data: fallback.data ? mapPrompt(fallback.data) : null,
+          error: fallback.error,
+        };
+      }
+      return { data: null, error };
+    }
+
+    return { data: data ? mapPrompt(data) : null, error: null };
+  }
+
+  /**
+   * Updates an existing prompt template in the database.
+   * Updates editedBy and editedAt automatically.
+   */
+  async updatePrompt(
+    id: string,
+    name: string,
+    content: string,
+  ): Promise<{ data: Prompt | null; error: { message: string } | null }> {
+    const user = this.auth.user();
+    if (!user) {
+      return { data: null, error: new Error('User must be authenticated to update a prompt.') };
+    }
+
+    const userId = user.id;
+    const now = new Date().toISOString();
+
+    const updateData = {
+      name,
+      content,
+      editedBy: userId,
+      editedAt: now,
+    };
+
+    // First attempt updating the 'prompt' table
+    const { data, error } = await this.supabase
+      .from('prompt')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      // Fallback to the plural table 'prompts'
+      if (
+        error.code === 'PGRST205' ||
+        error.message?.includes('schema cache') ||
+        error.message?.includes('relation "prompt" does not exist')
+      ) {
+        const fallback = await this.supabase
+          .from('prompts')
+          .update(updateData)
+          .eq('id', id)
+          .select()
+          .single();
+
+        return {
+          data: fallback.data ? mapPrompt(fallback.data) : null,
+          error: fallback.error,
+        };
+      }
+      return { data: null, error };
+    }
+
+    return { data: data ? mapPrompt(data) : null, error: null };
+  }
 }
 
 /**

@@ -1,0 +1,250 @@
+<div class="mx-auto max-w-6xl px-4 py-8 md:py-12 animate-in fade-in duration-300">
+  @if (isLoading()) {
+    <div class="flex flex-col items-center justify-center py-32 gap-4 animate-pulse">
+      <span
+        class="inline-block animate-spin h-10 w-10 border-4 border-(--ui-color-primary) border-t-transparent rounded-full"
+      ></span>
+      <span class="text-sm font-semibold text-(--ui-color-text-muted)">Loading editor...</span>
+    </div>
+  } @else if (errorMessage()) {
+    <div
+      class="rounded-2xl bg-red-500/10 border border-red-500/20 p-8 text-center max-w-md mx-auto space-y-4 shadow-sm animate-in zoom-in-95 duration-200"
+    >
+      <div
+        class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-500"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="h-6 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          />
+        </svg>
+      </div>
+      <h3 class="text-lg font-bold text-(--ui-color-text)">Failed to load prompt</h3>
+      <p class="text-xs text-(--ui-color-text-muted)">{{ errorMessage() }}</p>
+      <a
+        class="inline-block px-5 py-2 font-semibold"
+        routerLink="/prompt"
+        ui-button
+        variant="outline"
+      >
+        Back to Prompts
+      </a>
+    </div>
+  } @else if (prompt()) {
+    <div
+      class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center border-b border-(--ui-color-border) pb-6"
+    >
+      <div>
+        <div
+          class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-(--ui-color-text-muted) mb-2"
+        >
+          <a class="hover:text-(--ui-color-primary) transition-colors" routerLink="/">Home</a>
+          <span>/</span>
+          <a class="hover:text-(--ui-color-primary) transition-colors" routerLink="/prompt"
+            >Prompts</a
+          >
+          <span>/</span>
+          <a
+            class="hover:text-(--ui-color-primary) transition-colors"
+            [routerLink]="['/prompt', prompt()!.id]"
+          >
+            {{ prompt()!.name }}
+          </a>
+          <span>/</span>
+          <span class="text-(--ui-color-text)">Edit</span>
+        </div>
+        <h1 class="text-2xl font-extrabold tracking-tight text-(--ui-color-text) md:text-3xl">
+          Edit Prompt
+        </h1>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a
+          class="px-4 py-2 font-semibold"
+          ui-button
+          variant="outline"
+          [routerLink]="['/prompt', prompt()!.id]"
+        >
+          Cancel
+        </a>
+        <button
+          class="flex items-center gap-2 px-5 py-2 font-semibold shadow-xs"
+          type="button"
+          ui-button
+          variant="primary"
+          [disabled]="isSaving() || promptForm().invalid()"
+          (click)="onSave($event)"
+        >
+          @if (isSaving()) {
+            <span
+              class="inline-block animate-spin h-3.5 w-3.5 border-2 border-current border-t-transparent rounded-full align-middle"
+            ></span>
+            Saving...
+          } @else {
+            Save Changes
+          }
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <ui-card class="shadow-xs" padding="lg" variant="outline">
+          <form class="space-y-6" [formRoot]="promptForm" (submit)="onSave($event)">
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label
+                  class="text-sm font-bold text-(--ui-color-text) uppercase tracking-wide"
+                  for="edit-prompt-name"
+                >
+                  Template Name
+                </label>
+                <span class="text-xs text-(--ui-color-text-muted)">
+                  {{ promptForm.name().value().length }}/100 chars
+                </span>
+              </div>
+
+              <ui-input-text
+                id="edit-prompt-name"
+                placeholder="Enter template name..."
+                [formField]="promptForm.name"
+              />
+
+              @if (promptForm.name().touched() && promptForm.name().errors().length > 0) {
+                <div
+                  class="text-xs font-semibold text-(--ui-color-accent) animate-in fade-in duration-200 mt-1"
+                >
+                  {{
+                    promptForm.name().errors()[0].message ||
+                      'Name must be between 3 and 100 characters'
+                  }}
+                </div>
+              }
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between items-center">
+                <label
+                  class="text-sm font-bold text-(--ui-color-text) uppercase tracking-wide"
+                  for="edit-prompt-content"
+                >
+                  Template Content
+                </label>
+                <span class="text-xs text-(--ui-color-text-muted)">
+                  {{ lineCount() }}/200 lines
+                </span>
+              </div>
+
+              <ui-input-textarea
+                id="edit-prompt-content"
+                placeholder="Write prompt templates using {varName} dynamic fields..."
+                [formField]="promptForm.content"
+                [rows]="14"
+              />
+
+              @if (promptForm.content().touched() && promptForm.content().errors().length > 0) {
+                <div
+                  class="text-xs font-semibold text-(--ui-color-accent) animate-in fade-in duration-200 mt-1"
+                >
+                  {{
+                    promptForm.content().errors()[0].message || 'Content cannot exceed 200 lines'
+                  }}
+                </div>
+              } @else {
+                <p class="text-xs text-(--ui-color-text-muted)">
+                  Inject parameter inputs dynamically by writing
+                  <code
+                    class="font-mono text-xs text-(--ui-color-primary) bg-(--ui-color-surface-muted) px-1 py-0.5 rounded"
+                    >&#123;variableName&#125;</code
+                  >
+                  inside your template.
+                </p>
+              }
+            </div>
+          </form>
+        </ui-card>
+      </div>
+
+      <div class="lg:col-span-5">
+        <ui-card
+          class="h-full flex flex-col shadow-xs bg-(--ui-color-surface)"
+          padding="lg"
+          variant="outline"
+        >
+          <div class="border-b border-(--ui-color-border) pb-4 mb-5">
+            <h2
+              class="text-xs font-extrabold uppercase tracking-wider text-(--ui-color-text-muted)"
+            >
+              Live Inspector & Preview
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 mb-6">
+            <div
+              class="bg-(--ui-color-surface-muted) border border-(--ui-color-border) rounded-lg p-2.5 text-center"
+            >
+              <div class="text-xs font-semibold text-(--ui-color-text-muted)">Lines</div>
+              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">{{ lineCount() }}</div>
+            </div>
+            <div
+              class="bg-(--ui-color-surface-muted) border border-(--ui-color-border) rounded-lg p-2.5 text-center"
+            >
+              <div class="text-xs font-semibold text-(--ui-color-text-muted)">Words</div>
+              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">{{ wordCount() }}</div>
+            </div>
+            <div
+              class="bg-(--ui-color-surface-muted) border border-(--ui-color-border) rounded-lg p-2.5 text-center"
+            >
+              <div class="text-xs font-semibold text-(--ui-color-text-muted)">Characters</div>
+              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">{{ charCount() }}</div>
+            </div>
+          </div>
+
+          <div class="mb-5 space-y-2">
+            <h3 class="text-xs font-bold text-(--ui-color-text)">Extracted Variables</h3>
+            <div class="flex flex-wrap gap-1.5">
+              @for (variable of detectedVariables(); track variable) {
+                <span class="font-mono text-xs uppercase" size="sm" ui-badge variant="primary">
+                  {{ variable }}
+                </span>
+              } @empty {
+                <span class="text-xs text-(--ui-color-text-muted) italic">
+                  No variables detected yet. Add curly brackets:
+                  <code class="font-mono">&#123;myVar&#125;</code>.
+                </span>
+              }
+            </div>
+          </div>
+
+          <div class="flex-1 flex flex-col min-h-64">
+            <h3 class="text-xs font-bold text-(--ui-color-text) mb-2">Output Template</h3>
+            <div
+              class="flex-1 rounded-xl border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-4 font-mono text-sm leading-relaxed overflow-auto max-h-[300px] lg:max-h-[350px]"
+            >
+              @if (promptForm.content().value()) {
+                <div class="whitespace-pre-wrap text-(--ui-color-text) break-words select-text">
+                  {{ promptForm.content().value() }}
+                </div>
+              } @else {
+                <div
+                  class="h-full flex items-center justify-center text-center text-xs text-(--ui-color-text-muted) italic"
+                >
+                  Template content is currently empty...
+                </div>
+              }
+            </div>
+          </div>
+        </ui-card>
+      </div>
+    </div>
+  }
+</div>

@@ -1,1 +1,261 @@
-<p>prompt-detail-page works!</p>
+<div class="mx-auto max-w-6xl px-4 py-8 md:py-12 animate-in fade-in duration-300">
+  @if (isLoading()) {
+    <div class="flex flex-col items-center justify-center py-32 gap-4 animate-pulse">
+      <span
+        class="inline-block animate-spin h-10 w-10 border-4 border-(--ui-color-primary) border-t-transparent rounded-full"
+      ></span>
+      <span class="text-sm font-semibold text-(--ui-color-text-muted)"
+        >Loading template details...</span
+      >
+    </div>
+  } @else if (errorMessage()) {
+    <div
+      class="rounded-2xl bg-red-500/10 border border-red-500/20 p-8 text-center max-w-md mx-auto space-y-4 shadow-sm animate-in zoom-in-95 duration-200"
+    >
+      <div
+        class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-500"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2"
+          stroke="currentColor"
+          class="h-6 w-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          />
+        </svg>
+      </div>
+      <h3 class="text-lg font-bold text-(--ui-color-text)">Failed to load prompt</h3>
+      <p class="text-xs text-(--ui-color-text-muted)">{{ errorMessage() }}</p>
+      <a
+        class="inline-block px-5 py-2 font-semibold"
+        routerLink="/prompt"
+        ui-button
+        variant="outline"
+      >
+        Back to Prompts
+      </a>
+    </div>
+  } @else if (prompt()) {
+    <div
+      class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center border-b border-(--ui-color-border) pb-6"
+    >
+      <div>
+        <div
+          class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-(--ui-color-text-muted) mb-2"
+        >
+          <a class="hover:text-(--ui-color-primary) transition-colors" routerLink="/">Home</a>
+          <span>/</span>
+          <a class="hover:text-(--ui-color-primary) transition-colors" routerLink="/prompt"
+            >Prompts</a
+          >
+          <span>/</span>
+          <span class="text-(--ui-color-text)">{{ prompt()!.name }}</span>
+        </div>
+        <h1 class="text-2xl font-extrabold tracking-tight text-(--ui-color-text) md:text-3xl">
+          {{ prompt()!.name }}
+        </h1>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a class="px-4 py-2 font-semibold" routerLink="/prompt" ui-button variant="outline">
+          Back
+        </a>
+        <a
+          class="flex items-center gap-2 px-5 py-2 font-semibold"
+          ui-button
+          variant="primary"
+          [routerLink]="['/prompt', prompt()!.id, 'edit']"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.83 18.291a8.96 8.96 0 01-3.06 1.981l-1.751.4-.4-1.751a8.96 8.96 0 011.981-3.06l11.894-11.893z"
+            />
+          </svg>
+          Edit Prompt
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <ui-card class="shadow-xs" padding="lg" variant="outline">
+          <div class="border-b border-(--ui-color-border) pb-4 mb-6">
+            <h2 class="text-sm font-extrabold uppercase tracking-wider text-(--ui-color-text)">
+              Interactive Playground
+            </h2>
+            <p class="mt-1 text-xs text-(--ui-color-text-muted)">
+              Fill out the fields below to dynamically generate your prompt.
+            </p>
+          </div>
+
+          <div class="space-y-5">
+            @for (variable of detectedVariables(); track variable) {
+              <div class="space-y-2 animate-in slide-in-from-left duration-200">
+                <div class="flex justify-between items-center">
+                  <label
+                    class="text-xs font-extrabold uppercase tracking-wider text-(--ui-color-text-muted)"
+                    [for]="'var-' + variable"
+                  >
+                    {{ variable }}
+                  </label>
+                  @if (playgroundValues()[variable]) {
+                    <span
+                      class="text-[10px] bg-(--ui-color-primary)/10 text-(--ui-color-primary) px-1.5 py-0.5 rounded font-mono uppercase font-bold"
+                    >
+                      Set
+                    </span>
+                  }
+                </div>
+
+                <ui-input-text
+                  placeholder="Enter value for this variable..."
+                  [id]="'var-' + variable"
+                  [value]="playgroundValues()[variable] || ''"
+                  (valueChange)="updatePlaygroundValue(variable, $event)"
+                />
+              </div>
+            } @empty {
+              <div
+                class="rounded-xl bg-(--ui-color-surface-muted) border border-(--ui-color-border) border-dashed p-10 text-center space-y-3"
+              >
+                <h3 class="text-sm font-bold text-(--ui-color-text)">Static Template</h3>
+                <p class="text-xs text-(--ui-color-text-muted) max-w-xs mx-auto">
+                  This template does not contain reactive variables.
+                </p>
+              </div>
+            }
+          </div>
+        </ui-card>
+      </div>
+
+      <div class="lg:col-span-5 flex flex-col gap-6">
+        <ui-card
+          class="flex flex-col shadow-xs bg-(--ui-color-surface) flex-1 min-h-[450px]"
+          padding="lg"
+          variant="outline"
+        >
+          <div class="border-b border-(--ui-color-border) pb-4 mb-5">
+            <h2
+              class="text-xs font-extrabold uppercase tracking-wider text-(--ui-color-text-muted)"
+            >
+              Live Inspector & Preview
+            </h2>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 mb-6">
+            <div
+              class="bg-(--ui-color-surface-muted) border border-(--ui-color-border) rounded-lg p-2.5 text-center"
+            >
+              <div class="text-xs font-semibold text-(--ui-color-text-muted)">Lines</div>
+              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">{{ lineCount() }}</div>
+            </div>
+            <div
+              class="bg-(--ui-color-surface-muted) border border-(--ui-color-border) rounded-lg p-2.5 text-center"
+            >
+              <div class="text-xs font-semibold text-(--ui-color-text-muted)">Words</div>
+              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">{{ wordCount() }}</div>
+            </div>
+            <div
+              class="bg-(--ui-color-surface-muted) border border-(--ui-color-border) rounded-lg p-2.5 text-center"
+            >
+              <div class="text-xs font-semibold text-(--ui-color-text-muted)">Characters</div>
+              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">{{ charCount() }}</div>
+            </div>
+          </div>
+
+          <div class="flex-1 flex flex-col min-h-64">
+            <h3 class="text-xs font-bold text-(--ui-color-text) mb-2">Interpolated Output</h3>
+            <div
+              class="flex-1 rounded-xl border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-4 font-mono text-sm leading-relaxed overflow-auto max-h-[300px] lg:max-h-[350px]"
+            >
+              @if (previewText()) {
+                <div class="whitespace-pre-wrap text-(--ui-color-text) break-words select-text">
+                  {{ previewText() }}
+                </div>
+              } @else {
+                <div
+                  class="h-full flex items-center justify-center text-center text-xs text-(--ui-color-text-muted) italic"
+                >
+                  Template content is currently empty...
+                </div>
+              }
+            </div>
+          </div>
+
+          @if (previewText()) {
+            <div class="mt-5 border-t border-(--ui-color-border) pt-4">
+              <button
+                class="flex w-full items-center justify-center gap-2 px-5 py-2.5 font-semibold shadow-xs"
+                type="button"
+                ui-button
+                variant="primary"
+                (click)="copyToClipboard()"
+              >
+                Copy Rendered Prompt
+              </button>
+            </div>
+          }
+        </ui-card>
+
+        <ui-card
+          class="border border-(--ui-color-border) bg-(--ui-color-surface-muted) shadow-xs"
+          padding="md"
+          variant="outline"
+        >
+          <h3
+            class="text-xs font-extrabold uppercase tracking-wider text-(--ui-color-text-muted) mb-3 border-b border-(--ui-color-border) pb-2"
+          >
+            Audit Records
+          </h3>
+          <div class="space-y-2.5 text-xs">
+            <div class="flex justify-between items-center">
+              <span class="text-(--ui-color-text-muted)">Created By:</span>
+              <span
+                class="font-mono bg-(--ui-color-surface) px-1.5 py-0.5 rounded text-(--ui-color-text) truncate max-w-[200px]"
+                [title]="prompt()!.createdBy"
+              >
+                {{ getCreatorName(prompt()!.createdBy) }}
+              </span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-(--ui-color-text-muted)">Created At:</span>
+              <span class="font-semibold text-(--ui-color-text)">{{
+                formatDate(prompt()!.createdAt)
+              }}</span>
+            </div>
+            <div class="flex justify-between items-center border-t border-(--ui-color-border) pt-2">
+              <span class="text-(--ui-color-text-muted)">Last Edited By:</span>
+              <span
+                class="font-mono bg-(--ui-color-surface) px-1.5 py-0.5 rounded text-(--ui-color-text) truncate max-w-[200px]"
+                [title]="prompt()!.editedBy"
+              >
+                {{ getCreatorName(prompt()!.editedBy) }}
+              </span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-(--ui-color-text-muted)">Last Edited At:</span>
+              <span class="font-semibold text-(--ui-color-text)">{{
+                formatDate(prompt()!.editedAt)
+              }}</span>
+            </div>
+          </div>
+        </ui-card>
+      </div>
+    </div>
+  }
+</div>

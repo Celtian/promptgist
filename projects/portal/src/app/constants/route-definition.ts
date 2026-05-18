@@ -3,6 +3,7 @@ export const ROUTE_DEFINITION = {
     HOME: '',
     LOGIN: 'login',
     ACCOUNT: 'account',
+    PROMPT: 'prompt',
     NOT_FOUND: '**',
   },
 } as const;

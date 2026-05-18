@@ -15,6 +15,12 @@ export const routesPrompt: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'prompt/:id/edit',
+    loadComponent: () =>
+      import('./prompt-edit-page/prompt-edit-page').then((m) => m.PromptEditPage),
+    canActivate: [authGuard],
+  },
+  {
     path: 'prompt/:id',
     loadComponent: () =>
       import('./prompt-detail-page/prompt-detail-page').then((m) => m.PromptDetailPage),
