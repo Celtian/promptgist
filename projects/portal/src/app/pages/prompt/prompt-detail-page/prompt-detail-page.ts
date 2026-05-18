@@ -1,4 +1,4 @@
-import { Button, Card, InputText, ToastService } from '@/ui';
+import { Badge, Button, Card, InputText, ToastService } from '@/ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +13,7 @@ import { Prompt, PromptService } from '../../../core/services/prompt.service';
 
 @Component({
   selector: 'app-prompt-detail-page',
-  imports: [RouterLink, Button, Card, InputText],
+  imports: [RouterLink, Button, Card, InputText, Badge],
   templateUrl: './prompt-detail-page.html',
   styleUrl: './prompt-detail-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

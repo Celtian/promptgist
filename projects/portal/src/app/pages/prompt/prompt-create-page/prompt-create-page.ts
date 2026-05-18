@@ -9,13 +9,23 @@ import {
   FormField,
   FormRoot,
 } from '@angular/forms/signals';
-import { Button, Card, Badge, InputText, InputTextarea } from '@/ui';
+import { Button, Card, Badge, InputText, InputTextarea, InputToggle } from '@/ui';
 import { PromptService } from '../../../core/services/prompt.service';
 import { ToastService } from '@/ui';
 
 @Component({
   selector: 'app-prompt-create-page',
-  imports: [RouterLink, FormField, FormRoot, Button, Card, Badge, InputText, InputTextarea],
+  imports: [
+    RouterLink,
+    FormField,
+    FormRoot,
+    Button,
+    Card,
+    Badge,
+    InputText,
+    InputTextarea,
+    InputToggle,
+  ],
   templateUrl: './prompt-create-page.html',
   styleUrl: './prompt-create-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +42,7 @@ export class PromptCreatePage {
   private readonly formModel = signal({
     name: '',
     content: '',
+    isPublic: false,
   });
 
   // Signal forms schema & configuration
@@ -93,8 +104,8 @@ export class PromptCreatePage {
     this.isSaving.set(true);
 
     try {
-      const { name, content } = this.formModel();
-      const { error } = await this.promptService.createPrompt(name, content);
+      const { name, content, isPublic } = this.formModel();
+      const { error } = await this.promptService.createPrompt(name, content, isPublic);
 
       if (error) {
         console.error('Failed to create prompt:', error);

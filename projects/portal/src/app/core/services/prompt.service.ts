@@ -1,11 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { SupabaseService } from './supabase.service';
 import { AuthService } from './auth.service';
+import { SupabaseService } from './supabase.service';
 
 export interface Prompt {
   id?: string;
   name: string;
   content: string;
+  isPublic: boolean;
   createdBy: string;
   createdAt: string;
   editedBy: string;
@@ -26,6 +27,7 @@ export class PromptService {
   async createPrompt(
     name: string,
     content: string,
+    isPublic: boolean,
   ): Promise<{ data: Prompt | null; error: { message: string } | null }> {
     const user = this.auth.user();
     if (!user) {
@@ -38,6 +40,7 @@ export class PromptService {
     const promptData: Omit<Prompt, 'id'> = {
       name,
       content,
+      isPublic,
       createdBy: userId,
       createdAt: now,
       editedBy: userId,
@@ -45,7 +48,11 @@ export class PromptService {
     };
 
     // First attempt inserting into the 'prompt' table
-    const { data, error } = await this.supabase.from('prompt').insert(promptData).select().single();
+    const { data, error } = await this.supabase
+      .from('prompts')
+      .insert(promptData)
+      .select()
+      .single();
 
     if (error) {
       // If table is missing or doesn't match singular, try fallback plural table 'prompts'
@@ -69,9 +76,9 @@ export class PromptService {
    */
   async getPrompts(): Promise<{ data: Prompt[] | null; error: { message: string } | null }> {
     const { data, error } = await this.supabase
-      .from('prompt')
+      .from('prompts')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('createdAt', { ascending: false });
 
     if (error) {
       // Fallback to the plural table 'prompts'
@@ -83,7 +90,7 @@ export class PromptService {
         const fallback = await this.supabase
           .from('prompts')
           .select('*')
-          .order('created_at', { ascending: false });
+          .order('createdAt', { ascending: false });
 
         if (fallback.error) {
           // If sorting by created_at failed (maybe they named it createdAt), try sorting by default
@@ -115,7 +122,7 @@ export class PromptService {
    * Standardizes fields robustly mapping case mismatch styles.
    */
   async getPrompt(id: string): Promise<{ data: Prompt | null; error: { message: string } | null }> {
-    const { data, error } = await this.supabase.from('prompt').select('*').eq('id', id).single();
+    const { data, error } = await this.supabase.from('prompts').select('*').eq('id', id).single();
 
     if (error) {
       // Fallback to the plural table 'prompts'
@@ -145,6 +152,7 @@ export class PromptService {
     id: string,
     name: string,
     content: string,
+    isPublic: boolean,
   ): Promise<{ data: Prompt | null; error: { message: string } | null }> {
     const user = this.auth.user();
     if (!user) {
@@ -157,13 +165,14 @@ export class PromptService {
     const updateData = {
       name,
       content,
+      isPublic,
       editedBy: userId,
       editedAt: now,
     };
 
     // First attempt updating the 'prompt' table
     const { data, error } = await this.supabase
-      .from('prompt')
+      .from('prompts')
       .update(updateData)
       .eq('id', id)
       .select()
@@ -202,6 +211,8 @@ interface DatabaseRow {
   id?: string;
   name?: string;
   content?: string;
+  isPublic?: boolean;
+  is_public?: boolean;
   createdBy?: string;
   created_by?: string;
   createdAt?: string;
@@ -220,9 +231,10 @@ function mapPrompt(row: DatabaseRow): Prompt {
     id: row.id,
     name: row.name || 'Untitled Prompt',
     content: row.content || '',
-    createdBy: row.createdBy || row.created_by || 'system',
-    createdAt: row.createdAt || row.created_at || new Date().toISOString(),
-    editedBy: row.editedBy || row.edited_by || 'system',
-    editedAt: row.editedAt || row.edited_at || new Date().toISOString(),
+    isPublic: row.isPublic ?? row.is_public ?? false,
+    createdBy: row.createdBy || 'system',
+    createdAt: row.createdAt || new Date().toISOString(),
+    editedBy: row.editedBy || 'system',
+    editedAt: row.editedAt || new Date().toISOString(),
   };
 }

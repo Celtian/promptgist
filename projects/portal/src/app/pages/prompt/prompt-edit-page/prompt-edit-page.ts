@@ -1,4 +1,4 @@
-import { Badge, Button, Card, InputTextarea, InputText, ToastService } from '@/ui';
+import { Badge, Button, Card, InputTextarea, InputText, InputToggle, ToastService } from '@/ui';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,7 +21,17 @@ import { Prompt, PromptService } from '../../../core/services/prompt.service';
 
 @Component({
   selector: 'app-prompt-edit-page',
-  imports: [RouterLink, FormField, FormRoot, Button, Card, Badge, InputText, InputTextarea],
+  imports: [
+    RouterLink,
+    FormField,
+    FormRoot,
+    Button,
+    Card,
+    Badge,
+    InputText,
+    InputTextarea,
+    InputToggle,
+  ],
   templateUrl: './prompt-edit-page.html',
   styleUrl: './prompt-edit-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,7 +46,7 @@ export class PromptEditPage implements OnInit {
   protected readonly isLoading = signal(true);
   protected readonly isSaving = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
-  protected readonly formModel = signal({ name: '', content: '' });
+  protected readonly formModel = signal({ name: '', content: '', isPublic: false });
 
   protected readonly promptForm = form(this.formModel, (f) => {
     required(f.name, { message: 'Name is required' });
@@ -96,7 +106,7 @@ export class PromptEditPage implements OnInit {
         this.errorMessage.set(error.message || 'Prompt could not be loaded.');
       } else if (data) {
         this.prompt.set(data);
-        this.formModel.set({ name: data.name, content: data.content });
+        this.formModel.set({ name: data.name, content: data.content, isPublic: data.isPublic });
       } else {
         this.errorMessage.set('The requested template does not exist.');
       }
@@ -126,10 +136,15 @@ export class PromptEditPage implements OnInit {
     if (!currentId) return;
 
     this.isSaving.set(true);
-    const { name, content } = this.formModel();
+    const { name, content, isPublic } = this.formModel();
 
     try {
-      const { data, error } = await this.promptService.updatePrompt(currentId, name, content);
+      const { data, error } = await this.promptService.updatePrompt(
+        currentId,
+        name,
+        content,
+        isPublic,
+      );
       if (error) {
         this.toastService.warning(`Database error: ${error.message}`);
       } else {

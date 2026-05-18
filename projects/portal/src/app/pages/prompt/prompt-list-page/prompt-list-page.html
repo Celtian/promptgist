@@ -151,6 +151,9 @@
                 {{ countVariables(prompt.content) }}
                 {{ countVariables(prompt.content) === 1 ? 'var' : 'vars' }}
               </span>
+              <span size="sm" ui-badge [variant]="prompt.isPublic ? 'primary' : 'outline'">
+                {{ prompt.isPublic ? 'Public' : 'Private' }}
+              </span>
             </div>
 
             <!-- Content Sneak Peek -->
