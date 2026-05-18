@@ -4,6 +4,7 @@ export * from './lib/button/public-api';
 export * from './lib/card/public-api';
 export * from './lib/input/public-api';
 export * from './lib/modal/public-api';
+export * from './lib/navigation/public-api';
 export * from './lib/progress-bar/public-api';
 export * from './lib/progress-spinner/public-api';
 export * from './lib/scrollbar/public-api';

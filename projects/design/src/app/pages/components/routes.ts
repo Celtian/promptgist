@@ -58,6 +58,11 @@ export const routesComponents: Routes = [
         path: ROUTE_DEFINITION.COMPONENTS.TOAST,
         loadComponent: () => import('./toast-page/toast-page').then((m) => m.ToastPage),
       },
+      {
+        path: ROUTE_DEFINITION.COMPONENTS.NAVIGATION,
+        loadComponent: () =>
+          import('./navigation-page/navigation-page').then((m) => m.NavigationPage),
+      },
     ],
   },
 ];

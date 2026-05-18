@@ -1,0 +1,141 @@
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Navigation</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Navigation uses Angular Aria listbox behavior on native elements and UI directives for styling
+      only.
+    </p>
+  </header>
+
+  <ui-card variant="surface" padding="lg" uiClass="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Raw Angular Aria</h2>
+    <div
+      ngListbox
+      value="Option 1"
+      class="grid max-w-xs gap-1"
+      aria-label="Raw Angular Aria listbox"
+    >
+      @for (option of options; track option) {
+        <div
+          ngOption
+          class="flex min-h-9 items-center justify-between rounded px-3 py-2 text-sm font-medium text-[var(--ui-color-text-muted)] data-[active=true]:outline data-[active=true]:outline-2 data-[active=true]:outline-offset-[-2px] data-[active=true]:outline-[color-mix(in_srgb,var(--ui-color-primary)_55%,transparent)] aria-selected:bg-[color-mix(in_srgb,var(--ui-color-primary)_12%,transparent)] aria-selected:text-[var(--ui-color-primary)]"
+          [value]="option"
+        >
+          <span>{{ option }}</span>
+          <span aria-hidden="true">check</span>
+        </div>
+      }
+    </div>
+  </ui-card>
+
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div
+      class="rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-4"
+    >
+      <div
+        class="flex min-w-0 flex-wrap items-center justify-between gap-4 rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface)] px-4 py-3"
+      >
+        <a class="font-extrabold text-[var(--ui-color-text)] no-underline" href="#">PromptGist</a>
+        <div
+          uiNavigation
+          ngListbox
+          aria-label="Header navigation"
+          orientation="horizontal"
+          selectionMode="explicit"
+        >
+          <a uiNavigationItem ngOption href="#" value="overview" label="Overview">Overview</a>
+          <a uiNavigationItem ngOption href="#" value="prompts" label="Prompts">Prompts</a>
+          <a uiNavigationItem ngOption href="#" value="collections" label="Collections">
+            Collections
+          </a>
+          <a uiNavigationItem ngOption href="#" value="activity" label="Activity">Activity</a>
+        </div>
+        <button ui-button type="button" size="sm">New prompt</button>
+      </div>
+    </div>
+  </ui-card>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Header</h2>
+    <ui-card variant="surface" padding="lg" uiClass="grid gap-4">
+      <div
+        uiNavigation
+        ngListbox
+        aria-label="Product sections"
+        orientation="horizontal"
+        selectionMode="explicit"
+      >
+        @for (item of items; track item) {
+          <a uiNavigationItem ngOption href="#" [value]="item" [label]="item">
+            {{ item }}
+          </a>
+        }
+      </div>
+      <code class="text-xs text-[var(--ui-color-text-muted)]">
+        &lt;div uiNavigation ngListbox&gt;&lt;a uiNavigationItem ngOption
+        value="overview"&gt;Overview&lt;/a&gt;&lt;/div&gt;
+      </code>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Footer</h2>
+    <ui-card variant="surface" padding="lg" uiClass="grid gap-6">
+      <footer class="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
+        <div class="grid gap-2">
+          <h3 class="m-0 text-base font-bold">PromptGist</h3>
+          <p class="m-0 max-w-md text-sm leading-6 text-[var(--ui-color-text-muted)]">
+            Shared prompt collections, review notes, and workspace activity in one place.
+          </p>
+        </div>
+        <div
+          uiNavigation
+          ngListbox
+          aria-label="Footer navigation"
+          orientation="vertical"
+          selectionMode="explicit"
+        >
+          @for (item of footerItems; track item) {
+            <a
+              uiNavigationItem
+              ngOption
+              href="#"
+              tone="subtle"
+              [value]="item"
+              [label]="item"
+              [fullWidth]="true"
+            >
+              {{ item }}
+            </a>
+          }
+        </div>
+      </footer>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Option Elements</h2>
+    <ui-card variant="surface" padding="lg">
+      <div
+        uiNavigation
+        ngListbox
+        aria-label="Button navigation"
+        orientation="horizontal"
+        selectionMode="explicit"
+      >
+        <button uiNavigationItem ngOption type="button" value="default" label="Default">
+          Default
+        </button>
+        <button uiNavigationItem ngOption type="button" value="strong" label="Strong" tone="strong">
+          Strong
+        </button>
+        <button uiNavigationItem ngOption type="button" value="disabled" label="Disabled" disabled>
+          Disabled
+        </button>
+      </div>
+    </ui-card>
+  </section>
+</section>

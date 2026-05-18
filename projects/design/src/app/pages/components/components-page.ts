@@ -60,5 +60,9 @@ export class ComponentsPage {
       label: 'Toast',
       route: ROUTE_DEFINITION.COMPONENTS.TOAST,
     },
+    {
+      label: 'Navigation',
+      route: ROUTE_DEFINITION.COMPONENTS.NAVIGATION,
+    },
   ].sort((a, b) => a.label.localeCompare(b.label));
 }
