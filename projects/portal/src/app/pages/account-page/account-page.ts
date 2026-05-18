@@ -4,9 +4,10 @@ import { AuthService } from '../../core/services/auth.service';
 import { Card, Badge, Button } from '@/ui';
 
 @Component({
-  selector: 'app-account',
+  selector: 'app-account-page',
   imports: [Card, Badge, Button, UpperCasePipe, SlicePipe],
-  templateUrl: './account.html',
+  templateUrl: './account-page.html',
+  styleUrl: './account-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'block w-full',

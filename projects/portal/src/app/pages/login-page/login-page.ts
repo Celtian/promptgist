@@ -1,12 +1,13 @@
+import { Button, InputText } from '@/ui';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { InputText, Button } from '@/ui';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-page',
   imports: [InputText, Button],
-  templateUrl: './login.html',
+  templateUrl: './login-page.html',
+  styleUrl: './login-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'block w-full',

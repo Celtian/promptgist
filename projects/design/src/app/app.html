@@ -1,8 +1,8 @@
 <header
-  class="sticky top-0 z-20 border-b border-[var(--ui-color-border)] bg-[color-mix(in_srgb,var(--ui-color-surface)_92%,transparent)]"
+  class="sticky top-0 z-20 border-b border-(--ui-color-border) bg-(--ui-color-surface)/92 backdrop-blur-md"
 >
   <a
-    class="fixed left-4 top-3 z-40 -translate-y-40 bg-[var(--ui-color-primary)] px-3 py-2 font-bold text-[var(--ui-color-primary-contrast)] focus:translate-y-0"
+    class="fixed left-4 top-3 z-40 -translate-y-40 bg-primary px-3 py-2 font-bold text-primary-contrast focus:translate-y-0"
     href="#main-content"
   >
     Skip to content
@@ -19,7 +19,7 @@
     >
       <span
         aria-hidden="true"
-        class="inline-flex size-8 items-center justify-center bg-[var(--ui-color-primary)] font-black text-[var(--ui-color-primary-contrast)]"
+        class="inline-flex size-8 items-center justify-center bg-primary font-black text-primary-contrast"
       >
         P
       </span>
@@ -39,16 +39,25 @@
   </div>
 </main>
 
-<footer class="border-t border-[var(--ui-color-border)] text-[var(--ui-color-text-muted)]">
+<footer class="w-full border-t border-(--ui-color-border) bg-(--ui-color-surface-muted)">
   <div
-    class="mx-auto flex min-h-14 w-full max-w-7xl items-center justify-between gap-4 px-8 max-md:flex-col max-md:items-start max-md:px-4 max-md:py-3"
+    class="mx-auto max-w-7xl px-8 py-8 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4"
   >
-    <p>Shared UI foundations and Angular components.</p>
-    <a
-      class="font-bold text-[var(--ui-color-primary)] no-underline hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color-mix(in_srgb,var(--ui-color-primary)_60%,transparent)]"
-      [routerLink]="[ROUTE_DEFINITION.APP.HOME]"
+    <!-- Brand / Credits -->
+    <div class="flex items-center gap-2 text-sm text-(--ui-color-text-muted)">
+      <span>© 2026 Promptgist Inc. All rights reserved.</span>
+    </div>
+
+    <!-- Footer Nav -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-6 text-sm text-(--ui-color-text-muted)"
     >
-      Home
-    </a>
+      <a href="#" class="hover:text-(--ui-color-text) transition-colors">Privacy Policy</a>
+      <a href="#" class="hover:text-(--ui-color-text) transition-colors">Terms of Service</a>
+      <a href="#" class="hover:text-(--ui-color-text) transition-colors">Support</a>
+      <a href="/" class="font-semibold text-primary hover:text-(--ui-color-text) transition-colors">
+        Console Portal
+      </a>
+    </div>
   </div>
 </footer>

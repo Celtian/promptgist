@@ -1,4 +1,5 @@
 export * from './lib/alert/public-api';
+export * from './lib/avatar/public-api';
 export * from './lib/badge/public-api';
 export * from './lib/button/public-api';
 export * from './lib/card/public-api';
@@ -7,6 +8,7 @@ export * from './lib/input/public-api';
 export * from './lib/ltr-switcher/public-api';
 export * from './lib/modal/public-api';
 export * from './lib/navigation/public-api';
+export * from './lib/not-found/public-api';
 export * from './lib/progress-bar/public-api';
 export * from './lib/progress-spinner/public-api';
 export * from './lib/scrollbar/public-api';
@@ -15,4 +17,3 @@ export * from './lib/spinner/public-api';
 export * from './lib/theme-switcher/public-api';
 export * from './lib/toast/public-api';
 export * from './lib/tooltip/public-api';
-export * from './lib/avatar/public-api';
