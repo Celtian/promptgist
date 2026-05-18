@@ -1,1 +1,47 @@
-<p>modal-page works!</p>
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-[var(--ui-color-surface)] p-8 text-[var(--ui-color-text)] max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-[var(--ui-color-accent)]">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Modal</h1>
+    <p class="m-0 max-w-2xl leading-7 text-[var(--ui-color-text-muted)]">
+      Modals focus a short workflow above the page. Keep the copy direct and make the safest
+      dismissal path obvious.
+    </p>
+  </header>
+
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem]">
+      <div
+        class="grid min-h-72 place-items-center rounded-md border border-[var(--ui-color-border)] bg-[var(--ui-color-surface-muted)] p-6"
+      >
+        <div class="grid max-w-md justify-items-center gap-4 text-center">
+          <div
+            class="grid size-14 place-items-center rounded-full bg-[color-mix(in_srgb,var(--ui-color-primary)_14%,transparent)] text-xl font-bold text-[var(--ui-color-primary)]"
+          >
+            M
+          </div>
+          <div class="grid gap-2">
+            <h2 class="m-0 text-xl font-bold">Preview dialog</h2>
+            <p class="m-0 text-sm leading-6 text-[var(--ui-color-text-muted)]">
+              Open the modal to inspect overlay behavior, sizing, header, content, and footer
+              composition.
+            </p>
+          </div>
+          <button ui-button type="button" (click)="openModal()">Open modal</button>
+        </div>
+      </div>
+
+      <div class="grid content-start gap-4">
+        <ui-input-select
+          ariaLabel="Modal size"
+          placeholder="Size"
+          fullWidth
+          [options]="sizeOptions"
+          [value]="size()"
+          (valueChange)="setSize($event)"
+        />
+      </div>
+    </div>
+  </ui-card>
+</section>

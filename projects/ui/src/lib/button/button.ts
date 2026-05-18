@@ -5,7 +5,7 @@ import { cn } from '../utils/utils';
 
 const buttonVariants = cva(
   [
-    'inline-flex min-w-0 items-center justify-center gap-2 rounded-md border font-medium',
+    'inline-flex min-w-0 cursor-pointer items-center justify-center gap-2 rounded-md border font-medium',
     'transition-colors duration-150',
     'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
     'focus-visible:outline-[color-mix(in_srgb,var(--ui-button-focus,var(--ui-color-primary))_60%,transparent)]',

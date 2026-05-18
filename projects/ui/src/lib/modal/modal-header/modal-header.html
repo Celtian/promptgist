@@ -1,1 +1,28 @@
-<p>modal-header works!</p>
+<div class="min-w-0">
+  @if (headerTitle()) {
+    <h2 class="m-0 text-xl font-bold leading-7" [id]="titleId() || null">
+      {{ headerTitle() }}
+    </h2>
+  }
+
+  @if (headerSubtitle()) {
+    <p class="m-0 mt-1 text-sm leading-6 text-[var(--ui-color-text-muted)]">
+      {{ headerSubtitle() }}
+    </p>
+  }
+
+  <ng-content />
+</div>
+
+@if (showClose()) {
+  <button
+    ui-button
+    type="button"
+    variant="ghost"
+    size="icon"
+    [attr.aria-label]="closeLabel()"
+    (click)="closeClick.emit()"
+  >
+    <span aria-hidden="true">x</span>
+  </button>
+}

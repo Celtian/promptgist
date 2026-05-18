@@ -1,0 +1,35 @@
+<ui-modal-container>
+  <ui-modal-header
+    showClose
+    [headerTitle]="data.title"
+    [headerSubtitle]="data.subtitle"
+    [closeLabel]="data.closeLabel ?? 'Close dialog'"
+    (closeClick)="close()"
+  />
+
+  <ui-modal-content>
+    @if (data.content) {
+      <p>{{ data.content }}</p>
+    } @else {
+      <ng-content />
+    }
+  </ui-modal-content>
+
+  <ui-modal-footer>
+    @if (data.actions?.length) {
+      @for (action of data.actions; track action.label) {
+        <button
+          ui-button
+          type="button"
+          [variant]="action.variant ?? 'primary'"
+          (click)="close(action.result)"
+        >
+          {{ action.label }}
+        </button>
+      }
+    } @else {
+      <button ui-button type="button" variant="outline" (click)="close()">Close</button>
+      <button ui-button type="button" (click)="close(true)">Save</button>
+    }
+  </ui-modal-footer>
+</ui-modal-container>

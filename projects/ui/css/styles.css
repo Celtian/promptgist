@@ -116,3 +116,24 @@ body {
   color: var(--ui-color-text);
   margin: 0;
 }
+
+.modal-backdrop-animate {
+  animation: ui-modal-backdrop-in 150ms ease-out;
+}
+
+.modal-panel-animate {
+  animation: ui-modal-panel-in 160ms ease-out;
+}
+
+@keyframes ui-modal-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes ui-modal-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.98);
+  }
+}
