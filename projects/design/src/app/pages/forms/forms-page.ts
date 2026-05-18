@@ -56,5 +56,9 @@ export class FormsPage {
       label: 'Number',
       route: ROUTE_DEFINITION.FORMS.INPUT_NUMBER,
     },
+    {
+      label: 'OTP',
+      route: ROUTE_DEFINITION.FORMS.INPUT_OTP,
+    },
   ].sort((a, b) => a.label.localeCompare(b.label));
 }

@@ -1,0 +1,64 @@
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-(--ui-color-surface) p-8 text-(--ui-color-text) max-md:p-4"
+>
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-(--ui-color-accent)">Forms</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">OTP Input</h1>
+    <p class="m-0 max-w-2xl leading-7 text-(--ui-color-text-muted)">
+      A sequential input control for One-Time Passwords (OTP) and verification codes. Supports
+      pasting, keyboard navigation, and automatic shifting of focus.
+    </p>
+  </header>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Interactive Demo</h2>
+    <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+      <div class="grid max-w-sm gap-2">
+        <label for="demo-input-otp" class="text-sm font-semibold">Verification Code</label>
+        <ui-input-otp id="demo-input-otp" [(value)]="otpValue" />
+      </div>
+
+      <div class="rounded-md bg-(--ui-color-surface-muted) p-4 font-mono text-sm">
+        <p class="m-0">Value: "{{ otpValue() }}"</p>
+      </div>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Sizes</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-col gap-8">
+      <div class="grid gap-2">
+        <h3 class="m-0 text-sm font-semibold text-(--ui-color-text-muted)">
+          Small (sm) - 4 Digits
+        </h3>
+        <ui-input-otp size="sm" length="4" placeholder="•" />
+      </div>
+      <div class="grid gap-2">
+        <h3 class="m-0 text-sm font-semibold text-(--ui-color-text-muted)">
+          Medium (md) - 6 Digits
+        </h3>
+        <ui-input-otp size="md" length="6" placeholder="#" />
+      </div>
+      <div class="grid gap-2">
+        <h3 class="m-0 text-sm font-semibold text-(--ui-color-text-muted)">
+          Large (lg) - 8 Digits
+        </h3>
+        <ui-input-otp size="lg" length="8" placeholder="-" />
+      </div>
+    </ui-card>
+  </section>
+
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">States</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-col gap-6 sm:flex-row sm:gap-12">
+      <div class="grid w-full max-w-sm gap-4">
+        <h3 class="m-0 text-sm font-semibold text-(--ui-color-text-muted)">Pre-filled</h3>
+        <ui-input-otp value="123456" />
+      </div>
+      <div class="grid w-full max-w-sm gap-4">
+        <h3 class="m-0 text-sm font-semibold text-(--ui-color-text-muted)">Disabled</h3>
+        <ui-input-otp disabled value="987654" />
+      </div>
+    </ui-card>
+  </section>
+</section>

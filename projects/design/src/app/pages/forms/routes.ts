@@ -78,6 +78,11 @@ export const routesForms: Routes = [
         loadComponent: () =>
           import('./input-number-page/input-number-page').then((m) => m.InputNumberPage),
       },
+      {
+        path: ROUTE_DEFINITION.FORMS.INPUT_OTP,
+        title: TITLE_DEFINITION.FORMS.INPUT_OTP,
+        loadComponent: () => import('./input-otp-page/input-otp-page').then((m) => m.InputOtpPage),
+      },
     ],
   },
 ];

@@ -23,6 +23,7 @@ export const ROUTE_DEFINITION = {
     INPUT_MULTISELECT: 'multiselect',
     INPUT_AUTOCOMPLETE: 'autocomplete',
     INPUT_NUMBER: 'number',
+    INPUT_OTP: 'otp',
   },
   COMPONENTS: {
     ALERT: 'alert',

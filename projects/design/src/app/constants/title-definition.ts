@@ -23,6 +23,7 @@ export const TITLE_DEFINITION = {
     INPUT_MULTISELECT: 'Multiselect',
     INPUT_AUTOCOMPLETE: 'Autocomplete',
     INPUT_NUMBER: 'Number',
+    INPUT_OTP: 'OTP',
   },
   COMPONENTS: {
     ALERT: 'Alert',

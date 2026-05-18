@@ -2,6 +2,7 @@ export * from './input-autocomplete/input-autocomplete';
 export * from './input-checkbox/input-checkbox';
 export * from './input-multiselect/input-multiselect';
 export * from './input-number/input-number';
+export * from './input-otp/input-otp';
 export * from './input-password/input-password';
 export * from './input-radio/input-radio';
 export * from './input-range/input-range';
