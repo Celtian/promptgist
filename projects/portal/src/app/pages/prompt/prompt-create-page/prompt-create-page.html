@@ -1,1 +1,203 @@
-<p>prompt-create-page works!</p>
+<div class="mx-auto max-w-6xl px-4 py-8 md:py-12 animate-in fade-in duration-300">
+  <!-- Breadcrumb & Header -->
+  <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-center">
+    <div>
+      <div
+        class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-(--ui-color-text-muted)"
+      >
+        <a routerLink="/" class="hover:text-(--ui-color-primary) transition-colors">Home</a>
+        <span>/</span>
+        <a routerLink="/prompt" class="hover:text-(--ui-color-primary) transition-colors"
+          >Prompts</a
+        >
+        <span>/</span>
+        <span class="text-(--ui-color-text)">New</span>
+      </div>
+      <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-(--ui-color-text) md:text-4xl">
+        Create New Prompt
+      </h1>
+      <p class="mt-1 text-sm text-(--ui-color-text-muted)">
+        Compose, validate, and store your custom prompts for Gist sharing.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+    <!-- Left Column: Form -->
+    <div class="lg:col-span-7">
+      <ui-card variant="outline" padding="lg" class="shadow-sm">
+        <form class="space-y-6" [formRoot]="promptForm" (submit)="onSubmit($event)">
+          <!-- Name Field Group -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <label for="prompt-name" class="block text-sm font-bold text-(--ui-color-text)">
+                Prompt Name
+              </label>
+              <span class="text-xs text-(--ui-color-text-muted)">
+                {{ promptForm.name().value().length }} / 100
+              </span>
+            </div>
+            <ui-input-text
+              id="prompt-name"
+              placeholder="e.g., Code Review Assistant"
+              uiClass="w-full"
+              [formField]="promptForm.name"
+            />
+            @if (promptForm.name().touched() && promptForm.name().errors().length > 0) {
+              <div
+                class="text-xs font-semibold text-(--ui-color-accent) animate-in fade-in duration-200 mt-1"
+              >
+                {{
+                  promptForm.name().errors()[0].message ||
+                    'Name must be between 3 and 100 characters'
+                }}
+              </div>
+            } @else {
+              <p class="text-xs text-(--ui-color-text-muted)">
+                A short, memorable title describing what this prompt template does.
+              </p>
+            }
+          </div>
+
+          <!-- Content Field Group -->
+          <div class="space-y-2">
+            <div class="flex justify-between items-center">
+              <label for="prompt-content" class="block text-sm font-bold text-(--ui-color-text)">
+                Template Content
+              </label>
+              <div class="flex gap-2">
+                <span ui-badge size="sm" [variant]="lineCount() > 200 ? 'accent' : 'primary'">
+                  {{ lineCount() }} / 200 lines
+                </span>
+              </div>
+            </div>
+            <ui-input-textarea
+              id="prompt-content"
+              placeholder="Type your system instruction or user prompt here. Surround placeholders in curly braces: e.g., 'Act as a {role} and analyze...'"
+              uiClass="font-mono text-sm leading-relaxed"
+              [formField]="promptForm.content"
+              [rows]="12"
+            />
+            @if (promptForm.content().touched() && promptForm.content().errors().length > 0) {
+              <div
+                class="text-xs font-semibold text-(--ui-color-accent) animate-in fade-in duration-200 mt-1"
+              >
+                {{
+                  promptForm.content().errors()[0].message ||
+                    'Prompt content cannot exceed 200 lines'
+                }}
+              </div>
+            } @else {
+              <p class="text-xs text-(--ui-color-text-muted)">
+                Write your template text. You can define variables like
+                <code
+                  class="font-mono text-xs text-(--ui-color-primary) bg-(--ui-color-surface-muted) px-1 py-0.5 rounded"
+                  >&#123;variable&#125;</code
+                >
+                to prompt for dynamic inputs.
+              </p>
+            }
+          </div>
+
+          <!-- Form Actions -->
+          <div class="flex items-center justify-end gap-3 pt-4 border-t border-(--ui-color-border)">
+            <a ui-button variant="outline" routerLink="/prompt" class="px-5 py-2"> Cancel </a>
+            <button
+              class="px-6 py-2"
+              type="submit"
+              ui-button
+              variant="primary"
+              [disabled]="isSaving() || promptForm().invalid()"
+            >
+              @if (isSaving()) {
+                <span
+                  class="inline-block animate-spin mr-2 h-3.5 w-3.5 border-2 border-current border-t-transparent rounded-full align-middle"
+                ></span>
+                Saving...
+              } @else {
+                Create Prompt
+              }
+            </button>
+          </div>
+        </form>
+      </ui-card>
+    </div>
+
+    <!-- Right Column: Interactive Live Preview -->
+    <div class="lg:col-span-5">
+      <ui-card
+        variant="outline"
+        padding="lg"
+        class="h-full flex flex-col shadow-sm bg-(--ui-color-surface)"
+      >
+        <div class="border-b border-(--ui-color-border) pb-4 mb-4">
+          <h2 class="text-xs font-extrabold uppercase tracking-wider text-(--ui-color-text-muted)">
+            Live Inspector & Preview
+          </h2>
+          <p class="mt-1 text-xs text-(--ui-color-text-muted)">
+            Check layout structure and variable parsing in real-time.
+          </p>
+        </div>
+
+        <!-- Real-time Counters Grid -->
+        <div class="grid grid-cols-3 gap-2 mb-6">
+          <div
+            class="bg-(--ui-color-surface-muted) border border-(--ui-color-border) rounded-lg p-2.5 text-center"
+          >
+            <div class="text-xs font-semibold text-(--ui-color-text-muted)">Lines</div>
+            <div class="mt-1 text-lg font-bold text-(--ui-color-text)">{{ lineCount() }}</div>
+          </div>
+          <div
+            class="bg-(--ui-color-surface-muted) border border-(--ui-color-border) rounded-lg p-2.5 text-center"
+          >
+            <div class="text-xs font-semibold text-(--ui-color-text-muted)">Words</div>
+            <div class="mt-1 text-lg font-bold text-(--ui-color-text)">{{ wordCount() }}</div>
+          </div>
+          <div
+            class="bg-(--ui-color-surface-muted) border border-(--ui-color-border) rounded-lg p-2.5 text-center"
+          >
+            <div class="text-xs font-semibold text-(--ui-color-text-muted)">Characters</div>
+            <div class="mt-1 text-lg font-bold text-(--ui-color-text)">{{ charCount() }}</div>
+          </div>
+        </div>
+
+        <!-- Detected Variables list -->
+        <div class="mb-6 space-y-2">
+          <h3 class="text-xs font-bold text-(--ui-color-text)">Extracted Variables</h3>
+          <div class="flex flex-wrap gap-1.5">
+            @for (v of detectedVariables(); track v) {
+              <span ui-badge variant="primary" size="sm" class="font-mono text-xs uppercase">
+                {{ '{' + v + '}' }}
+              </span>
+            } @empty {
+              <span class="text-xs text-(--ui-color-text-muted) italic">
+                No variables detected yet. Add curly braces like
+                <code class="font-mono text-xs">&#123;topic&#125;</code>.
+              </span>
+            }
+          </div>
+        </div>
+
+        <!-- Live Code Block Preview -->
+        <div class="flex-1 flex flex-col min-h-64">
+          <h3 class="text-xs font-bold text-(--ui-color-text) mb-2">Output Template</h3>
+          <div
+            class="flex-1 rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-4 font-mono text-sm leading-relaxed overflow-auto max-h-[300px] lg:max-h-none"
+          >
+            @if (promptForm.content().value()) {
+              <div class="whitespace-pre-wrap text-(--ui-color-text)">
+                {{ promptForm.content().value() }}
+              </div>
+            } @else {
+              <div
+                class="h-full flex items-center justify-center text-center text-xs text-(--ui-color-text-muted) italic"
+              >
+                Start typing template content on the left to see the interactive preview...
+              </div>
+            }
+          </div>
+        </div>
+      </ui-card>
+    </div>
+  </div>
+</div>

@@ -21,17 +21,49 @@ export class AuthService {
   public readonly ready: Promise<boolean>;
 
   constructor() {
-    // 1. Fetch initial session state on load and resolve ready promise
+    // 1. Check for development mockAuth bypass in URL or localStorage
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('mockAuth') === 'true' || localStorage.getItem('mockAuth') === 'true') {
+        localStorage.setItem('mockAuth', 'true');
+        const mockUser: User = {
+          id: 'mock-user-uuid-12345',
+          app_metadata: {},
+          user_metadata: {},
+          aud: 'authenticated',
+          created_at: new Date().toISOString(),
+          email: 'test@promptgist.com',
+        };
+        const mockSession: Session = {
+          access_token: 'mock-jwt-token',
+          token_type: 'bearer',
+          expires_in: 3600,
+          refresh_token: 'mock-refresh-token',
+          user: mockUser,
+        };
+        this._session.set(mockSession);
+        this._user.set(mockUser);
+      }
+    }
+
+    // 2. Fetch initial session state on load and resolve ready promise
     this.ready = new Promise<boolean>((resolve) => {
       this.supabase.auth.getSession().then(({ data: { session } }) => {
-        this._session.set(session);
-        this._user.set(session?.user ?? null);
+        // Only set session if not already mocked
+        if (!this._user()) {
+          this._session.set(session);
+          this._user.set(session?.user ?? null);
+        }
         resolve(true);
       });
     });
 
-    // 2. Synchronize Supabase subscription with Signals
+    // 3. Synchronize Supabase subscription with Signals
     this.supabase.auth.onAuthStateChange((_event, session) => {
+      // Only sync if not currently mocked
+      if (typeof window !== 'undefined' && localStorage.getItem('mockAuth') === 'true') {
+        return;
+      }
       this._session.set(session);
       this._user.set(session?.user ?? null);
     });
