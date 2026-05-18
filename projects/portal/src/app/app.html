@@ -62,8 +62,8 @@
       <!-- Mock User Profile / Action button -->
       @if (auth.isAuthenticated()) {
         <a
-          href="/account"
           class="text-xs font-mono text-(--ui-color-text-muted) hover:text-primary transition-colors hidden sm:inline"
+          [routerLink]="['/', ROUTE_DEFINITION.APP.ACCOUNT]"
         >
           {{ auth.user()?.email }}
         </a>
@@ -75,8 +75,8 @@
           ui-button
           variant="primary"
           size="sm"
-          href="/login"
           class="hidden sm:inline-flex shadow-sm"
+          [routerLink]="['/', ROUTE_DEFINITION.APP.LOGIN]"
         >
           Sign In
         </a>

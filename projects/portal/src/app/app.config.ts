@@ -2,12 +2,14 @@ import { VERSION_INFO } from '@/generated/version-info';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import {
   provideRouter,
+  TitleStrategy,
   withComponentInputBinding,
   withInMemoryScrolling,
   withViewTransitions,
 } from '@angular/router';
 import { provideAppVersion } from 'ngx-app-version';
 import { routes } from './app.routes';
+import { AppTitleStrategy } from './app-title-strategy';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,5 +26,9 @@ export const appConfig: ApplicationConfig = {
     provideAppVersion({
       version: VERSION_INFO.version,
     }),
+    {
+      provide: TitleStrategy,
+      useClass: AppTitleStrategy,
+    },
   ],
 };
