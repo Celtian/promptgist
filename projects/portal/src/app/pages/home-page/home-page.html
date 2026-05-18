@@ -1,1 +1,199 @@
-<p>home-page works!</p>
+<div
+  class="relative overflow-hidden py-12 sm:py-16 flex flex-col gap-16 select-none animate-in fade-in slide-in-from-bottom-2 duration-300"
+>
+  <!-- Glowing Background Orbs for Premium Contrast -->
+  <div
+    class="absolute top-0 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl -z-10 animate-pulse duration-[8000ms]"
+  ></div>
+  <div
+    class="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl -z-10 animate-pulse duration-[6000ms]"
+  ></div>
+
+  <!-- Hero Text & CTA Section -->
+  <div class="flex flex-col items-center justify-center text-center gap-6 max-w-4xl mx-auto">
+    <span
+      ui-badge
+      variant="primary"
+      size="md"
+      class="cursor-pointer"
+      tooltipPlacement="top"
+      [uiTooltip]="'Edge node prompt delivery latency is currently 12ms!'"
+    >
+      <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      Promptgist Active Node: Prague-01
+    </span>
+
+    <h1
+      class="text-4xl font-extrabold tracking-tight text-(--ui-color-text) sm:text-6xl leading-tight"
+    >
+      Deploy your prompts with
+      <span
+        class="text-transparent bg-clip-text bg-linear-to-r from-primary-400 via-emerald-400 to-indigo-500 animate-gradient"
+      >
+        anti-gravity
+      </span>
+      speeds.
+    </h1>
+
+    <p class="max-w-2xl text-lg text-(--ui-color-text-muted) leading-relaxed">
+      The ultimate command station to orchestrate prompt templates, track real-time LLM telemetry,
+      and trigger version rollback instantly on the edge.
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-4 mt-4">
+      <a
+        ui-button
+        variant="primary"
+        size="lg"
+        class="shadow-lg shadow-primary-500/20 hover:scale-[1.02] active:scale-[0.98] transition-transform"
+        [routerLink]="['/login']"
+      >
+        Launch Dashboard
+      </a>
+      <a
+        ui-button
+        variant="secondary"
+        size="lg"
+        class="hover:scale-[1.02] active:scale-[0.98] transition-transform"
+        href="https://github.com/Celtian/promptgist"
+        target="_blank"
+      >
+        Read Documentation
+      </a>
+    </div>
+  </div>
+
+  <!-- Interactive Telemetry & Code Dashboard Mockup -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-6xl mx-auto w-full mt-4">
+    <!-- Left Card: Real-time Analytics Visualiser -->
+    <div
+      class="lg:col-span-7 rounded-2xl border border-(--ui-color-border) bg-(--ui-color-surface)/60 backdrop-blur-md p-6 shadow-xl flex flex-col gap-6"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="h-3 w-3 rounded-full bg-rose-500"></span>
+          <span class="h-3 w-3 rounded-full bg-yellow-500"></span>
+          <span class="h-3 w-3 rounded-full bg-emerald-500"></span>
+          <span class="text-xs font-mono font-bold text-(--ui-color-text-muted) ml-2"
+            >TELEMETRY STREAM</span
+          >
+        </div>
+        <span
+          class="text-[10px] font-mono font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded"
+          >LIVE</span
+        >
+      </div>
+
+      <div class="grid grid-cols-3 gap-4">
+        <div
+          class="border border-(--ui-color-border) rounded-xl p-3 bg-(--ui-color-surface-muted)/40"
+        >
+          <span class="text-[10px] font-bold text-(--ui-color-text-muted) block mb-1"
+            >REQ SUCCESS RATE</span
+          >
+          <span class="text-xl font-extrabold text-emerald-400">99.98%</span>
+        </div>
+        <div
+          class="border border-(--ui-color-border) rounded-xl p-3 bg-(--ui-color-surface-muted)/40"
+        >
+          <span class="text-[10px] font-bold text-(--ui-color-text-muted) block mb-1"
+            >CACHE HIT RATE</span
+          >
+          <span class="text-xl font-extrabold text-primary-400">94.2%</span>
+        </div>
+        <div
+          class="border border-(--ui-color-border) rounded-xl p-3 bg-(--ui-color-surface-muted)/40"
+        >
+          <span class="text-[10px] font-bold text-(--ui-color-text-muted) block mb-1"
+            >AVG RESPONSE TIME</span
+          >
+          <span class="text-xl font-extrabold text-indigo-400">12ms</span>
+        </div>
+      </div>
+
+      <!-- Graphical Peak Stream (Mock HTML Bar Graph) -->
+      <div class="flex flex-col gap-2 mt-2">
+        <span class="text-xs font-bold text-(--ui-color-text-muted)"
+          >Edge Latency Distribution</span
+        >
+        <div
+          class="flex items-end gap-2.5 h-32 pt-6 border-b border-l border-(--ui-color-border) px-3"
+        >
+          <div
+            class="flex-1 bg-indigo-500/30 hover:bg-indigo-500/60 rounded-t h-12 transition-all cursor-pointer"
+            tooltipPlacement="top"
+            [uiTooltip]="'Frankfurt Node: 14ms'"
+          ></div>
+          <div
+            class="flex-1 bg-primary-500/30 hover:bg-primary-500/60 rounded-t h-20 transition-all cursor-pointer"
+            tooltipPlacement="top"
+            [uiTooltip]="'London Node: 24ms'"
+          ></div>
+          <div
+            class="flex-1 bg-emerald-500/30 hover:bg-emerald-500/60 rounded-t h-16 transition-all cursor-pointer"
+            tooltipPlacement="top"
+            [uiTooltip]="'Prague Node: 12ms'"
+          ></div>
+          <div
+            class="flex-1 bg-indigo-500/30 hover:bg-indigo-500/60 rounded-t h-28 transition-all cursor-pointer"
+            tooltipPlacement="top"
+            [uiTooltip]="'Stockholm Node: 32ms'"
+          ></div>
+          <div
+            class="flex-1 bg-primary-500/30 hover:bg-primary-500/60 rounded-t h-24 transition-all cursor-pointer"
+            tooltipPlacement="top"
+            [uiTooltip]="'New York Node: 48ms'"
+          ></div>
+          <div
+            class="flex-1 bg-emerald-500/30 hover:bg-emerald-500/60 rounded-t h-10 transition-all cursor-pointer"
+            tooltipPlacement="top"
+            [uiTooltip]="'Paris Node: 9ms'"
+          ></div>
+          <div
+            class="flex-1 bg-indigo-500/30 hover:bg-indigo-500/60 rounded-t h-18 transition-all cursor-pointer"
+            tooltipPlacement="top"
+            [uiTooltip]="'Warsaw Node: 16ms'"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Card: Sleek Interactive Code Box -->
+    <div
+      class="lg:col-span-5 rounded-2xl border border-(--ui-color-border) bg-(--ui-color-surface)/60 backdrop-blur-md p-6 shadow-xl flex flex-col gap-4"
+    >
+      <div class="flex items-center justify-between">
+        <span class="text-xs font-mono font-bold text-(--ui-color-text-muted)"
+          >promptgist-client.ts</span
+        >
+        <button
+          type="button"
+          class="text-xs font-semibold text-primary hover:underline cursor-pointer focus:outline-none"
+          tooltipPlacement="left"
+          [uiTooltip]="'Copied key successfully!'"
+        >
+          Copy SDK Usage
+        </button>
+      </div>
+
+      <pre
+        class="font-mono text-xs text-(--ui-color-text) bg-(--ui-color-surface-muted) rounded-xl p-4 overflow-x-auto border border-(--ui-color-border) leading-relaxed"
+      >
+<span class="text-indigo-400">import</span> {{ '{' }} PromptGist {{ '}' }} <span class="text-indigo-400">from</span> <span class="text-emerald-400">'@promptgist/sdk'</span>;
+
+<span class="text-indigo-400">const</span> client = <span class="text-indigo-400">new</span> <span class="text-primary-400">PromptGist</span>({{ '{' }}
+  apiKey: <span class="text-emerald-400">'pg_live_anti_gravity'</span>
+{{ '}' }});
+
+<span class="text-indigo-400">const</span> prompt = <span class="text-indigo-400">await</span> client.prompts.<span class="text-sky-400">get</span>(
+  <span class="text-emerald-400">'welcome-card'</span>,
+  {{ '{' }}
+    variables: {{ '{' }}
+      name: <span class="text-emerald-400">'Dominik'</span>,
+      speed: <span class="text-emerald-400">'12ms'</span>
+    {{ '}' }}
+  {{ '}' }}
+);</pre>
+    </div>
+  </div>
+</div>
