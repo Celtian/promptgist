@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ROUTE_DEFINITION } from './constants/route-definition';
 import { TITLE_DEFINITION } from './constants/title-definition';
 import { authGuard } from './core/guards/auth.guard';
+import { routesPrompt } from './pages/prompt/routes';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/account-page/account-page').then((m) => m.AccountPage),
     canActivate: [authGuard],
   },
+  ...routesPrompt,
   {
     path: ROUTE_DEFINITION.APP.NOT_FOUND,
     title: TITLE_DEFINITION.APP.NOT_FOUND,
