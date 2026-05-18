@@ -108,33 +108,106 @@
                 Job Sequence
               </h2>
               <p class="mt-1 text-xs text-(--ui-color-text-muted)">
-                Jobs will run in the order they appear in this workflow.
+                Drag handles to reorder. Jobs will run sequentially in this workflow.
               </p>
             </div>
-            <a
+            <button
+              type="button"
               class="flex items-center gap-2 px-4 py-2 font-semibold"
-              routerLink="/workspace/job/create"
               ui-button
               variant="outline"
+              (click)="isSelectModalOpen.set(true)"
             >
               <ng-icon name="faSolidPlus" class="h-3.5 w-3.5" />
-              Add Job
-            </a>
+              Attach Job
+            </button>
           </div>
 
-          <div
-            class="rounded-lg border border-dashed border-(--ui-color-border) bg-(--ui-color-surface-muted) p-10 text-center"
-          >
-            <div
-              class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-lg bg-(--ui-color-surface) text-(--ui-color-text-muted)"
-            >
-              <ng-icon name="faSolidBriefcase" class="h-6 w-6" />
+          @if (isLoadingItems()) {
+            <div class="flex flex-col items-center justify-center gap-2 py-16 animate-pulse">
+              <span
+                class="inline-block h-6 w-6 animate-spin rounded-full border-2 border-(--ui-color-primary) border-t-transparent"
+              ></span>
+              <span class="text-xs text-(--ui-color-text-muted)">Loading sequence...</span>
             </div>
-            <h3 class="text-base font-bold text-(--ui-color-text)">No jobs attached yet</h3>
-            <p class="mx-auto mt-2 max-w-sm text-sm text-(--ui-color-text-muted)">
-              This workflow exists, but its ordered job list has not been configured.
-            </p>
-          </div>
+          } @else if (workflowItems().length === 0) {
+            <div
+              class="rounded-lg border border-dashed border-(--ui-color-border) bg-(--ui-color-surface-muted) p-10 text-center"
+            >
+              <div
+                class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-lg bg-(--ui-color-surface) text-(--ui-color-text-muted)"
+              >
+                <ng-icon name="faSolidBriefcase" class="h-6 w-6" />
+              </div>
+              <h3 class="text-base font-bold text-(--ui-color-text)">No jobs attached yet</h3>
+              <p class="mx-auto mt-2 max-w-sm text-sm text-(--ui-color-text-muted)">
+                This workflow exists, but its ordered job list has not been configured.
+              </p>
+              <button
+                type="button"
+                class="mt-5 inline-flex items-center gap-2 px-4 py-2 font-semibold"
+                ui-button
+                variant="primary"
+                (click)="isSelectModalOpen.set(true)"
+              >
+                <ng-icon name="faSolidPlus" class="h-3.5 w-3.5" />
+                Attach Existing Job
+              </button>
+            </div>
+          } @else {
+            <div
+              cdkDropList
+              class="space-y-3"
+              [class.opacity-60]="isReordering()"
+              (cdkDropListDropped)="onDrop($event)"
+            >
+              @for (item of workflowItems(); track item.id; let idx = $index) {
+                <div
+                  cdkDrag
+                  class="group flex items-center justify-between rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface) p-4 shadow-xs transition-all hover:border-(--ui-color-primary) hover:shadow-xs"
+                >
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="flex cursor-grab items-center text-(--ui-color-text-muted) hover:text-(--ui-color-primary) active:cursor-grabbing"
+                      title="Drag to reorder"
+                    >
+                      <ng-icon name="faSolidBars" class="h-4 w-4" />
+                    </div>
+                    <span
+                      class="flex h-6 w-6 items-center justify-center rounded-full bg-(--ui-color-surface-muted) text-xs font-extrabold text-(--ui-color-text-muted)"
+                    >
+                      {{ idx + 1 }}
+                    </span>
+                    <div>
+                      <div class="text-sm font-bold text-(--ui-color-text)">
+                        {{ item.jobs?.name || 'Unnamed Job' }}
+                      </div>
+                      <div class="text-xs text-(--ui-color-text-muted) font-mono">
+                        ID: {{ item.jobId.substring(0, 8) }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <a
+                      class="flex h-8 w-8 items-center justify-center rounded-lg text-(--ui-color-text-muted) hover:bg-(--ui-color-surface-muted) hover:text-(--ui-color-text) transition-colors"
+                      title="View Job Details"
+                      [routerLink]="['/workspace/job', item.jobId]"
+                    >
+                      <ng-icon name="faSolidBriefcase" class="h-4 w-4" />
+                    </a>
+                    <button
+                      type="button"
+                      class="flex h-8 w-8 items-center justify-center rounded-lg text-red-500 hover:bg-red-500/10 transition-colors"
+                      title="Detach Job"
+                      (click)="detachJob(item.id)"
+                    >
+                      <ng-icon name="faSolidTrash" class="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          }
         </ui-card>
       </div>
 
@@ -171,13 +244,17 @@
               class="rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-3"
             >
               <div class="text-xs font-semibold text-(--ui-color-text-muted)">Jobs</div>
-              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">0</div>
+              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">
+                {{ workflowItems().length }}
+              </div>
             </div>
             <div
               class="rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-3"
             >
               <div class="text-xs font-semibold text-(--ui-color-text-muted)">State</div>
-              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">Draft</div>
+              <div class="mt-1 text-lg font-bold text-(--ui-color-text)">
+                {{ workflowItems().length > 0 ? 'Active' : 'Draft' }}
+              </div>
             </div>
           </div>
         </ui-card>
@@ -229,5 +306,89 @@
         </ui-card>
       </div>
     </div>
+
+    <!-- Select Modal -->
+    @if (isSelectModalOpen()) {
+      <div
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-200"
+      >
+        <div
+          class="w-full max-w-md overflow-hidden rounded-xl border border-(--ui-color-border) bg-(--ui-color-surface) shadow-2xl animate-in zoom-in-95 duration-200"
+        >
+          <div
+            class="flex items-center justify-between border-b border-(--ui-color-border) px-5 py-4"
+          >
+            <h3 class="text-base font-extrabold text-(--ui-color-text)">Attach Job to Workflow</h3>
+            <button
+              type="button"
+              class="rounded-lg p-1.5 text-(--ui-color-text-muted) hover:bg-(--ui-color-surface-muted) hover:text-(--ui-color-text) transition-colors"
+              (click)="isSelectModalOpen.set(false)"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div class="p-5 max-h-[350px] overflow-y-auto space-y-2.5">
+            @if (unattachedJobs().length === 0) {
+              <div class="py-8 text-center text-(--ui-color-text-muted) text-sm">
+                @if (availableJobs().length === 0) {
+                  No jobs found in your database. Let's create one!
+                } @else {
+                  All available jobs are already attached to this workflow.
+                }
+              </div>
+            } @else {
+              <p class="text-xs text-(--ui-color-text-muted) mb-3">
+                Select a job from your library to append to this workflow sequence:
+              </p>
+              @for (job of unattachedJobs(); track job.id) {
+                <button
+                  type="button"
+                  class="w-full flex items-center justify-between rounded-lg border border-(--ui-color-border) bg-(--ui-color-surface-muted) px-4 py-3 text-left hover:border-(--ui-color-primary) hover:bg-(--ui-color-surface) transition-all cursor-pointer"
+                  [disabled]="isAttachingJob()"
+                  (click)="attachJob(job.id)"
+                >
+                  <div class="min-w-0 pr-3">
+                    <div class="truncate text-sm font-bold text-(--ui-color-text)">
+                      {{ job.name || 'Unnamed Job' }}
+                    </div>
+                    <div class="text-xs text-(--ui-color-text-muted) font-mono">
+                      ID: {{ job.id.substring(0, 8) }}
+                    </div>
+                  </div>
+                  <span
+                    class="shrink-0 text-xs text-(--ui-color-primary) font-semibold hover:underline"
+                  >
+                    Select →
+                  </span>
+                </button>
+              }
+            }
+          </div>
+
+          <div
+            class="flex items-center justify-between gap-3 border-t border-(--ui-color-border) px-5 py-3.5 bg-(--ui-color-surface-muted)"
+          >
+            <button
+              type="button"
+              ui-button
+              variant="outline"
+              (click)="isSelectModalOpen.set(false)"
+            >
+              Cancel
+            </button>
+            <a
+              routerLink="/workspace/job/create"
+              ui-button
+              variant="primary"
+              class="flex items-center gap-1.5 font-semibold"
+            >
+              <ng-icon name="faSolidPlus" class="h-3.5 w-3.5" />
+              Create New Job
+            </a>
+          </div>
+        </div>
+      </div>
+    }
   }
 </div>

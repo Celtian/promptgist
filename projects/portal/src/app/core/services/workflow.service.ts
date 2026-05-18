@@ -173,7 +173,84 @@ export class WorkflowService {
 
     return { error };
   }
+
+  async getWorkflowItems(
+    workflowId: WorkflowId,
+  ): Promise<{ data: WorkflowItem[] | null; error: { message: string } | null }> {
+    const { data, error } = await this.supabase
+      .from('workflowItems')
+      .select('*, jobs(*)')
+      .eq('workflowId', workflowId)
+      .order('order', { ascending: true });
+
+    return { data: data as WorkflowItem[] | null, error };
+  }
+
+  async addWorkflowItem(
+    workflowId: WorkflowId,
+    jobId: string,
+    order: number,
+  ): Promise<{ data: Tables<'workflowItems'> | null; error: { message: string } | null }> {
+    const user = this.auth.user();
+    if (!user) {
+      return { data: null, error: new Error('User must be authenticated to add a job.') };
+    }
+
+    const now = new Date().toISOString();
+    const itemData: TablesInsert<'workflowItems'> = {
+      workflowId,
+      jobId,
+      order,
+      createdBy: user.id,
+      createdAt: now,
+      updatedBy: user.id,
+      updatedAt: now,
+    };
+
+    const { data, error } = await this.supabase
+      .from('workflowItems')
+      .insert(itemData)
+      .select()
+      .single();
+
+    return { data, error };
+  }
+
+  async updateWorkflowItemsOrder(
+    items: { id: string; order: number }[],
+  ): Promise<{ error: { message: string } | null }> {
+    const user = this.auth.user();
+    if (!user) {
+      return { error: new Error('User must be authenticated to update order.') };
+    }
+
+    const now = new Date().toISOString();
+    const promises = items.map((item) =>
+      this.supabase
+        .from('workflowItems')
+        .update({
+          order: item.order,
+          updatedBy: user.id,
+          updatedAt: now,
+        })
+        .eq('id', item.id),
+    );
+
+    const results = await Promise.all(promises);
+    const firstError = results.find((r) => r.error)?.error;
+
+    return { error: firstError || null };
+  }
+
+  async deleteWorkflowItem(itemId: string): Promise<{ error: { message: string } | null }> {
+    const { error } = await this.supabase.from('workflowItems').delete().eq('id', itemId);
+    return { error };
+  }
 }
+
+export type WorkflowItem = Tables<'workflowItems'> & {
+  jobs: Tables<'jobs'> | null;
+};
 
 function mapWorkflow(row: WorkflowRow): Workflow {
   return {
