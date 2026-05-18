@@ -1,0 +1,21 @@
+<button
+  ui-button
+  type="button"
+  variant="outline"
+  size="icon"
+  role="switch"
+  tooltipPlacement="bottom"
+  [attr.aria-checked]="currentDir() === 'rtl'"
+  [attr.aria-label]="
+    currentDir() === 'rtl'
+      ? 'Switch to left-to-right direction'
+      : 'Switch to right-to-left direction'
+  "
+  [disabled]="isDisabled"
+  [uiTooltip]="currentDir() === 'rtl' ? 'Switch to left-to-right' : 'Switch to right-to-left'"
+  (click)="toggleDirection()"
+>
+  <span class="text-xs font-black tracking-wider transition-opacity duration-200">
+    {{ currentDir() === 'ltr' ? 'LTR' : 'RTL' }}
+  </span>
+</button>

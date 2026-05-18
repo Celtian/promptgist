@@ -12,3 +12,5 @@ export * from './lib/skeleton/public-api';
 export * from './lib/spinner/public-api';
 export * from './lib/toast/public-api';
 export * from './lib/tooltip/public-api';
+export * from './lib/theme-switcher/public-api';
+export * from './lib/ltr-switcher/public-api';
