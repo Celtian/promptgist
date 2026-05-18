@@ -1,0 +1,217 @@
+<section
+  class="grid w-full max-w-4xl justify-self-center gap-8 bg-(--ui-color-surface) p-8 text-(--ui-color-text) max-md:p-4"
+>
+  <!-- Header -->
+  <header class="grid gap-3">
+    <p class="m-0 text-xs font-bold uppercase text-(--ui-color-accent)">Components</p>
+    <h1 class="m-0 text-4xl font-extrabold leading-none md:text-5xl">Avatar</h1>
+    <p class="m-0 max-w-2xl leading-7 text-(--ui-color-text-muted)">
+      Avatars identify users visually via profile photos, dynamic initials fallback, and custom
+      theme-reactive color schemes.
+    </p>
+  </header>
+
+  <!-- Interactive Sandbox Card -->
+  <ui-card variant="outline" padding="lg" uiClass="grid gap-6">
+    <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_20rem]">
+      <!-- Live Preview Area -->
+      <div
+        class="grid place-items-center rounded-md border border-(--ui-color-border) bg-(--ui-color-surface-muted) p-8 min-h-56"
+      >
+        <ui-avatar
+          [name]="name()"
+          [shape]="shape()"
+          [size]="size()"
+          [src]="src()"
+          [variant]="variant()"
+        />
+      </div>
+
+      <!-- Controls Area -->
+      <div class="grid content-start gap-4">
+        <!-- Edit Name -->
+        <div class="space-y-1">
+          <span class="block text-xs font-bold text-(--ui-color-text-muted)"
+            >User Name / Email</span
+          >
+          <ui-input-text id="avatar-name" placeholder="Name or Email" [(value)]="name" />
+        </div>
+
+        <!-- Edit Image Source -->
+        <div class="space-y-1">
+          <span class="block text-xs font-bold text-(--ui-color-text-muted)">Image Source URL</span>
+          <ui-input-text
+            id="avatar-src"
+            placeholder="Optional URL"
+            [value]="src() || ''"
+            (valueChange)="setSource($event)"
+          />
+        </div>
+
+        <!-- Select Variant -->
+        <div class="space-y-1">
+          <span class="block text-xs font-bold text-(--ui-color-text-muted)">Theme Variant</span>
+          <ui-input-select
+            ariaLabel="Avatar variant"
+            placeholder="Variant"
+            fullWidth
+            [options]="variantOptions"
+            [value]="variant()"
+            (valueChange)="setVariant($event)"
+          />
+        </div>
+
+        <!-- Select Size -->
+        <div class="space-y-1">
+          <span class="block text-xs font-bold text-(--ui-color-text-muted)">Size scale</span>
+          <ui-input-select
+            ariaLabel="Avatar size"
+            placeholder="Size"
+            fullWidth
+            [options]="sizeOptions"
+            [value]="size()"
+            (valueChange)="setSize($event)"
+          />
+        </div>
+
+        <!-- Select Shape -->
+        <div class="space-y-1">
+          <span class="block text-xs font-bold text-(--ui-color-text-muted)">Frame Shape</span>
+          <ui-input-select
+            ariaLabel="Avatar shape"
+            placeholder="Shape"
+            fullWidth
+            [options]="shapeOptions"
+            [value]="shape()"
+            (valueChange)="setShape($event)"
+          />
+        </div>
+      </div>
+    </div>
+  </ui-card>
+
+  <!-- Theme Variants Showcase -->
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Theme Colors & Gradients</h2>
+    <ui-card variant="outline" padding="lg" uiClass="flex flex-wrap gap-4 items-center">
+      @for (item of variants; track item) {
+        <div class="flex flex-col items-center gap-2">
+          <ui-avatar name="John Doe" size="lg" [variant]="item" />
+          <span class="text-xs font-mono text-(--ui-color-text-muted)">{{ item }}</span>
+        </div>
+      }
+    </ui-card>
+  </section>
+
+  <!-- Sizes & Shapes Showcase -->
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Sizes & Frame Shapes</h2>
+    <ui-card variant="outline" padding="lg" uiClass="space-y-6">
+      <!-- Row: Circles -->
+      <div class="space-y-2">
+        <h3 class="m-0 text-sm font-semibold text-(--ui-color-text-muted)">Circles</h3>
+        <div class="flex flex-wrap items-end gap-4">
+          @for (scale of sizes; track scale) {
+            <div class="flex items-center gap-2">
+              <ui-avatar name="Scale" shape="circle" variant="gradient" [size]="scale" />
+              <span class="text-xs font-mono text-(--ui-color-text-muted)">{{ scale }}</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Row: Squares -->
+      <div class="space-y-2">
+        <h3 class="m-0 text-sm font-semibold text-(--ui-color-text-muted)">Rounded Squares</h3>
+        <div class="flex flex-wrap items-end gap-4">
+          @for (scale of sizes; track scale) {
+            <div class="flex items-center gap-2">
+              <ui-avatar name="Scale" shape="square" variant="primary" [size]="scale" />
+              <span class="text-xs font-mono text-(--ui-color-text-muted)">{{ scale }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    </ui-card>
+  </section>
+
+  <!-- Parser Logic Testing Cases -->
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Smart Initials Parsing Engine</h2>
+    <div class="grid gap-4 md:grid-cols-2">
+      <!-- Parser: Space Separators -->
+      <ui-card variant="surface" padding="md" uiClass="flex items-center gap-3">
+        <ui-avatar name="Dominik Hladík" variant="emerald" />
+        <div>
+          <h3 class="m-0 text-sm font-bold">Space Separation</h3>
+          <p class="m-0 text-xs text-(--ui-color-text-muted)">"Dominik Hladík" ➔ "DH"</p>
+        </div>
+      </ui-card>
+
+      <!-- Parser: Email Addressing -->
+      <ui-card variant="surface" padding="md" uiClass="flex items-center gap-3">
+        <ui-avatar name="dominik.hladik@seznam.cz" variant="accent" />
+        <div>
+          <h3 class="m-0 text-sm font-bold">Email Filtering</h3>
+          <p class="m-0 text-xs text-(--ui-color-text-muted)">
+            "dominik.hladik&#64;seznam.cz" ➔ "DH"
+          </p>
+        </div>
+      </ui-card>
+
+      <!-- Parser: Dashes & Underscores -->
+      <ui-card variant="surface" padding="md" uiClass="flex items-center gap-3">
+        <ui-avatar name="john-doe" variant="secondary" />
+        <div>
+          <h3 class="m-0 text-sm font-bold">Dash & Underscore Separation</h3>
+          <p class="m-0 text-xs text-(--ui-color-text-muted)">"john-doe" ➔ "JD"</p>
+        </div>
+      </ui-card>
+
+      <!-- Parser: Single names fallback -->
+      <ui-card variant="surface" padding="md" uiClass="flex items-center gap-3">
+        <ui-avatar name="Single" variant="surface" />
+        <div>
+          <h3 class="m-0 text-sm font-bold">Single Name Fallback</h3>
+          <p class="m-0 text-xs text-(--ui-color-text-muted)">"Single" ➔ "SI"</p>
+        </div>
+      </ui-card>
+    </div>
+  </section>
+
+  <!-- Image Error Fallbacks -->
+  <section class="grid gap-4">
+    <h2 class="m-0 text-xl font-bold">Image Resolution & Fallback States</h2>
+    <div class="grid gap-4 md:grid-cols-2">
+      <!-- Case: Valid Image -->
+      <ui-card variant="surface" padding="md" uiClass="flex items-center gap-3">
+        <ui-avatar
+          name="Google Logo"
+          src="https://lh3.googleusercontent.com/COxitSgCNw5tZ815sUVEAca1o_C7ghGB3s1aT1YPm555R35g8PPz7RyoJ4q3m19KWg=w240-h240"
+          variant="gradient"
+        />
+        <div>
+          <h3 class="m-0 text-sm font-bold">Valid Image URL</h3>
+          <p class="m-0 text-xs text-(--ui-color-text-muted)">
+            Successfully resolves and displays image.
+          </p>
+        </div>
+      </ui-card>
+
+      <!-- Case: Broken Image Fallback -->
+      <ui-card variant="surface" padding="md" uiClass="flex items-center gap-3">
+        <ui-avatar
+          name="Broken Link"
+          src="https://this-is-a-broken-link.com/photo.png"
+          variant="primary"
+        />
+        <div>
+          <h3 class="m-0 text-sm font-bold">Invalid Image Fallback</h3>
+          <p class="m-0 text-xs text-(--ui-color-text-muted)">
+            Gracefully falls back to initials ("BL") on error.
+          </p>
+        </div>
+      </ui-card>
+    </div>
+  </section>
+</section>

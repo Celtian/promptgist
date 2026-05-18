@@ -1,0 +1,13 @@
+@if (src() && !hasImageError()) {
+  <img
+    class="h-full w-full object-cover"
+    [src]="src()"
+    [alt]="name()"
+    [class.rounded-full]="shape() === 'circle'"
+    [class.rounded-xl]="shape() === 'square'"
+    (load)="onImageLoad()"
+    (error)="onImageError()"
+  />
+} @else {
+  <span>{{ initials() }}</span>
+}

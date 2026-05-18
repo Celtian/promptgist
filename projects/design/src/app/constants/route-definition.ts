@@ -38,6 +38,7 @@ export const ROUTE_DEFINITION = {
     PROGRESS_SPINNER: 'progress-spinner',
     TOAST: 'toast',
     NAVIGATION: 'navigation',
+    AVATAR: 'avatar',
   },
   VISUALS: {
     FLAG: 'flag',

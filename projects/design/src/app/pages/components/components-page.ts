@@ -64,5 +64,9 @@ export class ComponentsPage {
       label: 'Navigation',
       route: ROUTE_DEFINITION.COMPONENTS.NAVIGATION,
     },
+    {
+      label: 'Avatar',
+      route: ROUTE_DEFINITION.COMPONENTS.AVATAR,
+    },
   ].sort((a, b) => a.label.localeCompare(b.label));
 }

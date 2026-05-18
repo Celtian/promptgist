@@ -78,6 +78,11 @@ export const routesComponents: Routes = [
         loadComponent: () =>
           import('./navigation-page/navigation-page').then((m) => m.NavigationPage),
       },
+      {
+        path: ROUTE_DEFINITION.COMPONENTS.AVATAR,
+        title: TITLE_DEFINITION.COMPONENTS.AVATAR,
+        loadComponent: () => import('./avatar-page/avatar-page').then((m) => m.AvatarPage),
+      },
     ],
   },
 ];

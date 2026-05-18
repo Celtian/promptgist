@@ -15,3 +15,4 @@ export * from './lib/spinner/public-api';
 export * from './lib/theme-switcher/public-api';
 export * from './lib/toast/public-api';
 export * from './lib/tooltip/public-api';
+export * from './lib/avatar/public-api';

@@ -38,6 +38,7 @@ export const TITLE_DEFINITION = {
     PROGRESS_SPINNER: 'Progress Spinner',
     TOAST: 'Toast',
     NAVIGATION: 'Navigation',
+    AVATAR: 'Avatar',
   },
   VISUALS: {
     FLAG: 'Flag',
