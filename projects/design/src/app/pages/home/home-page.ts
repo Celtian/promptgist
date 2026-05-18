@@ -28,5 +28,10 @@ export class HomePage {
       description: 'Explore reusable UI primitives and their visual states.',
       route: ROUTE_DEFINITION.APP.COMPONENTS,
     },
+    {
+      label: 'Visuals',
+      description: 'View specific graphics, flags, dynamic visuals, and country representations.',
+      route: ROUTE_DEFINITION.APP.VISUALS,
+    },
   ];
 }

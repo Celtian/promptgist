@@ -1,0 +1,56 @@
+<section class="flag-showcase">
+  <!-- Premium Modern Header -->
+  <header class="showcase-header">
+    <div class="header-content">
+      <h1>Flag Showcase</h1>
+      <p class="description">
+        Browse and search high-quality responsive country flags from the UI library's local asset
+        directory.
+      </p>
+    </div>
+
+    <!-- Positioned Search Input -->
+    <div class="search-wrapper">
+      <ui-input-text
+        placeholder="Search country name or code..."
+        uiClass="flag-search-input"
+        [(value)]="search"
+      />
+    </div>
+  </header>
+
+  <!-- Flag Cards Grid -->
+  <div class="flag-grid">
+    @for (flag of filteredFlags(); track flag[0]) {
+      <ui-card variant="outline" padding="md" uiClass="flag-card-item">
+        <div class="flag-preview-box">
+          <ui-flag size="lg" [countryCode]="flag[0]" [countryName]="flag[1]" />
+        </div>
+
+        <div class="flag-details">
+          <span class="country-name" [title]="flag[1]">{{ flag[1] }}</span>
+          <span class="country-code">{{ flag[0].toUpperCase() }}</span>
+        </div>
+      </ui-card>
+    } @empty {
+      <div class="no-results-state">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="empty-icon"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 7.5h.008v.008H12v-.008Z"
+          />
+        </svg>
+        <h3>No flags found</h3>
+        <p>Try searching for a different country name or ISO-2 code.</p>
+      </div>
+    }
+  </div>
+</section>

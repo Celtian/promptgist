@@ -5,6 +5,7 @@ export const ROUTE_DEFINITION = {
     FOUNDATIONS: 'foundations',
     FORMS: 'forms',
     COMPONENTS: 'components',
+    VISUALS: 'visuals',
   },
   FOUNDATIONS: {
     COLORS: 'colors',
@@ -37,5 +38,8 @@ export const ROUTE_DEFINITION = {
     PROGRESS_SPINNER: 'progress-spinner',
     TOAST: 'toast',
     NAVIGATION: 'navigation',
+  },
+  VISUALS: {
+    FLAG: 'flag',
   },
 } as const;

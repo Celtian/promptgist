@@ -5,6 +5,7 @@ export const TITLE_DEFINITION = {
     FOUNDATIONS: 'Foundations',
     FORMS: 'Forms',
     COMPONENTS: 'Components',
+    VISUALS: 'Visuals',
   },
   FOUNDATIONS: {
     COLORS: 'Colors',
@@ -37,5 +38,8 @@ export const TITLE_DEFINITION = {
     PROGRESS_SPINNER: 'Progress Spinner',
     TOAST: 'Toast',
     NAVIGATION: 'Navigation',
+  },
+  VISUALS: {
+    FLAG: 'Flag',
   },
 } as const;

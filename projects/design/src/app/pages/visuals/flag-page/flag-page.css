@@ -1,0 +1,171 @@
+.flag-showcase {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+/* Header & Typography */
+.showcase-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--ui-color-border);
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .showcase-header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.showcase-header h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem 0;
+  color: var(--ui-color-text);
+}
+
+.showcase-header .description {
+  font-size: 0.95rem;
+  color: var(--ui-color-text-muted);
+  margin: 0;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.search-wrapper {
+  width: 100%;
+  max-width: 320px;
+}
+
+/* Custom style inside ui-input-text */
+.flag-search-input {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Grid & Spacing */
+.flag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Cards & Layout */
+.flag-card-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  cursor: pointer;
+  background: var(--ui-color-surface) !important;
+  border-color: var(--ui-color-border) !important;
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.2s ease !important;
+}
+
+.flag-card-item:hover {
+  transform: translateY(-4px);
+  border-color: var(--ui-color-primary) !important;
+  box-shadow: 0 12px 24px -10px color-mix(in srgb, var(--ui-color-secondary-950) 18%, transparent);
+}
+
+.flag-preview-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 0 1rem 0;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.flag-preview-box ui-flag {
+  transition: transform 0.2s ease;
+}
+
+.flag-card-item:hover .flag-preview-box ui-flag {
+  transform: scale(1.06);
+}
+
+.flag-details {
+  width: 100%;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--ui-color-border) 40%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.country-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ui-color-text);
+  line-height: 1.25;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 0.5rem;
+}
+
+.country-code {
+  font-size: 0.75rem;
+  font-family: monospace;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--ui-color-text-muted);
+  background: var(--ui-color-surface-muted);
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--ui-color-border);
+}
+
+.flag-card-item:hover .country-code {
+  color: var(--ui-color-primary);
+  background: color-mix(in srgb, var(--ui-color-primary) 8%, transparent);
+  border-color: color-mix(in srgb, var(--ui-color-primary) 20%, transparent);
+}
+
+/* Empty State */
+.no-results-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: var(--ui-color-surface-muted);
+  border: 1px dashed var(--ui-color-border);
+  border-radius: 12px;
+}
+
+.empty-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--ui-color-text-muted);
+  margin-bottom: 1rem;
+  opacity: 0.6;
+}
+
+.no-results-state h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: var(--ui-color-text);
+}
+
+.no-results-state p {
+  font-size: 0.9rem;
+  color: var(--ui-color-text-muted);
+  margin: 0;
+}

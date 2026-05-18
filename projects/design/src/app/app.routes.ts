@@ -3,6 +3,7 @@ import { TITLE_DEFINITION } from './constants/title-definition';
 import { routesComponents } from './pages/components/routes';
 import { routesForms } from './pages/forms/routes';
 import { routesFoundations } from './pages/foundations/routes';
+import { routesVisuals } from './pages/visuals/routes';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
   ...routesForms,
   ...routesFoundations,
   ...routesComponents,
+  ...routesVisuals,
   {
     path: '**',
     title: TITLE_DEFINITION.APP.NOT_FOUND,

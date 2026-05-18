@@ -37,6 +37,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/portal/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/ui/assets/flags",
+                "output": "/assets/flags"
               }
             ],
             "styles": ["projects/portal/src/styles.css"]
@@ -105,8 +110,14 @@
               {
                 "glob": "**/*",
                 "input": "projects/design/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/ui/assets/flags",
+                "output": "/assets/flags"
               }
             ],
+
             "styles": ["projects/design/src/styles.css"]
           },
           "configurations": {
