@@ -2,11 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { AuthService } from './auth.service';
 import { SupabaseService } from './supabase.service';
 
+type PromptId = string | number;
+
 export interface Prompt {
-  id?: string;
+  id?: PromptId;
   name: string;
   content: string;
   isPublic: boolean;
+  isStarred: boolean;
   createdBy: string;
   createdAt: string;
   editedBy: string;
@@ -37,7 +40,7 @@ export class PromptService {
     const userId = user.id;
     const now = new Date().toISOString();
 
-    const promptData: Omit<Prompt, 'id'> = {
+    const promptData: Omit<Prompt, 'id' | 'isStarred'> = {
       name,
       content,
       isPublic,
@@ -68,6 +71,88 @@ export class PromptService {
     }
 
     return { data: data ? mapPrompt(data) : null, error: null };
+  }
+
+  async getStarredPromptIds(
+    promptIds: readonly PromptId[],
+  ): Promise<{ data: Set<string>; error: { message: string } | null }> {
+    const user = this.auth.user();
+    if (!user || promptIds.length === 0) {
+      return { data: new Set<string>(), error: null };
+    }
+
+    const { data, error } = await this.supabase
+      .from('promptStars')
+      .select('promptId')
+      .eq('userId', user.id)
+      .in('promptId', promptIds);
+
+    if (error) {
+      return { data: new Set<string>(), error };
+    }
+
+    return {
+      data: new Set(
+        (data || [])
+          .map((row) => row.promptId)
+          .filter(Boolean)
+          .map(String),
+      ),
+      error: null,
+    };
+  }
+
+  async isPromptStarred(
+    promptId: PromptId,
+  ): Promise<{ data: boolean; error: { message: string } | null }> {
+    const user = this.auth.user();
+    if (!user) {
+      return { data: false, error: null };
+    }
+
+    const { data, error } = await this.supabase
+      .from('promptStars')
+      .select('promptId')
+      .eq('promptId', promptId)
+      .eq('userId', user.id)
+      .maybeSingle();
+
+    if (error) {
+      return { data: false, error };
+    }
+
+    return { data: Boolean(data), error: null };
+  }
+
+  async setPromptStarred(
+    promptId: PromptId,
+    isStarred: boolean,
+  ): Promise<{ error: { message: string } | null }> {
+    const user = this.auth.user();
+    if (!user) {
+      return { error: new Error('User must be authenticated to star a prompt.') };
+    }
+
+    if (isStarred) {
+      const { error } = await this.supabase.from('promptStars').upsert(
+        {
+          promptId,
+          userId: user.id,
+          createdAt: new Date().toISOString(),
+        },
+        { onConflict: 'promptId,userId' },
+      );
+
+      return { error };
+    }
+
+    const { error } = await this.supabase
+      .from('promptStars')
+      .delete()
+      .eq('promptId', promptId)
+      .eq('userId', user.id);
+
+    return { error };
   }
 
   /**
@@ -149,7 +234,7 @@ export class PromptService {
    * Updates editedBy and editedAt automatically.
    */
   async updatePrompt(
-    id: string,
+    id: PromptId,
     name: string,
     content: string,
     isPublic: boolean,
@@ -208,7 +293,7 @@ export class PromptService {
  * Database row interface matching either camelCase or snake_case column styles.
  */
 interface DatabaseRow {
-  id?: string;
+  id?: PromptId;
   name?: string;
   content?: string;
   isPublic?: boolean;
@@ -232,6 +317,7 @@ function mapPrompt(row: DatabaseRow): Prompt {
     name: row.name || 'Untitled Prompt',
     content: row.content || '',
     isPublic: row.isPublic ?? row.is_public ?? false,
+    isStarred: false,
     createdBy: row.createdBy || 'system',
     createdAt: row.createdAt || new Date().toISOString(),
     editedBy: row.editedBy || 'system',

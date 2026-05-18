@@ -27,8 +27,10 @@ export class PromptDetailPage implements OnInit {
 
   protected readonly prompt = signal<Prompt | null>(null);
   protected readonly isLoading = signal(true);
+  protected readonly isTogglingStar = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly playgroundValues = signal<Record<string, string>>({});
+  protected readonly isAuthenticated = this.authService.isAuthenticated;
 
   protected readonly detectedVariables = computed(() => {
     const content = this.prompt()?.content || '';
@@ -73,6 +75,8 @@ export class PromptDetailPage implements OnInit {
   });
 
   async ngOnInit(): Promise<void> {
+    await this.authService.ready;
+
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       this.toastService.warning('Prompt ID was not provided in the route.');
@@ -92,7 +96,13 @@ export class PromptDetailPage implements OnInit {
       if (error) {
         this.errorMessage.set(error.message || 'Prompt could not be loaded.');
       } else if (data) {
-        this.prompt.set(data);
+        const { data: isStarred, error: starError } = await this.promptService.isPromptStarred(id);
+        if (starError) {
+          this.errorMessage.set(starError.message || 'Prompt star state could not be loaded.');
+          return;
+        }
+
+        this.prompt.set({ ...data, isStarred });
       } else {
         this.errorMessage.set('The requested template does not exist.');
       }
@@ -123,6 +133,25 @@ export class PromptDetailPage implements OnInit {
       this.toastService.success('Interpolated prompt copied to clipboard!');
     } catch {
       this.toastService.warning('Copy failed. Please select and copy manually.');
+    }
+  }
+
+  protected async toggleStar(): Promise<void> {
+    const currentPrompt = this.prompt();
+    if (!currentPrompt?.id || !this.isAuthenticated()) return;
+
+    const nextIsStarred = !currentPrompt.isStarred;
+    this.isTogglingStar.set(true);
+    this.prompt.set({ ...currentPrompt, isStarred: nextIsStarred });
+
+    try {
+      const { error } = await this.promptService.setPromptStarred(currentPrompt.id, nextIsStarred);
+      if (error) {
+        this.prompt.set(currentPrompt);
+        this.toastService.warning(error.message || 'Unable to update starred prompt.');
+      }
+    } finally {
+      this.isTogglingStar.set(false);
     }
   }
 

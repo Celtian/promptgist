@@ -19,8 +19,11 @@ export class PromptListPage implements OnInit {
   protected readonly prompts = signal<Prompt[] | null>(null);
   protected readonly isLoading = signal<boolean>(true);
   protected readonly errorMessage = signal<string | null>(null);
+  protected readonly isTogglingStar = signal<Record<string, boolean>>({});
+  protected readonly isAuthenticated = this.authService.isAuthenticated;
 
   async ngOnInit(): Promise<void> {
+    await this.authService.ready;
     await this.fetchPrompts();
   }
 
@@ -36,7 +39,24 @@ export class PromptListPage implements OnInit {
       if (error) {
         this.errorMessage.set(error.message || 'Unable to retrieve prompts.');
       } else {
-        this.prompts.set(data);
+        const prompts = data || [];
+        const promptIds = prompts
+          .map((prompt) => prompt.id)
+          .filter((id): id is NonNullable<Prompt['id']> => Boolean(id));
+        const { data: starredPromptIds, error: starredError } =
+          await this.promptService.getStarredPromptIds(promptIds);
+
+        if (starredError) {
+          this.errorMessage.set(starredError.message || 'Unable to retrieve starred prompts.');
+          return;
+        }
+
+        this.prompts.set(
+          prompts.map((prompt) => ({
+            ...prompt,
+            isStarred: Boolean(prompt.id && starredPromptIds.has(String(prompt.id))),
+          })),
+        );
       }
     } catch (err: unknown) {
       this.errorMessage.set(
@@ -94,5 +114,35 @@ export class PromptListPage implements OnInit {
 
     if (createdBy === 'system') return 'System';
     return `User (${createdBy.substring(0, 8)})`;
+  }
+
+  protected async toggleStar(prompt: Prompt): Promise<void> {
+    const promptId = prompt.id;
+    if (!promptId || !this.isAuthenticated()) return;
+
+    const nextIsStarred = !prompt.isStarred;
+    const promptKey = String(promptId);
+    this.isTogglingStar.update((state) => ({ ...state, [promptKey]: true }));
+    this.prompts.update(
+      (prompts) =>
+        prompts?.map((item) =>
+          item.id === promptId ? { ...item, isStarred: nextIsStarred } : item,
+        ) ?? null,
+    );
+
+    try {
+      const { error } = await this.promptService.setPromptStarred(promptId, nextIsStarred);
+      if (error) {
+        this.prompts.update(
+          (prompts) =>
+            prompts?.map((item) =>
+              item.id === promptId ? { ...item, isStarred: prompt.isStarred } : item,
+            ) ?? null,
+        );
+        this.errorMessage.set(error.message || 'Unable to update starred prompt.');
+      }
+    } finally {
+      this.isTogglingStar.update((state) => ({ ...state, [promptKey]: false }));
+    }
   }
 }
