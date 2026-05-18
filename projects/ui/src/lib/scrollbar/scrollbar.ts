@@ -6,22 +6,14 @@ import { cn } from '../utils/utils';
 const scrollbarVariants = cva(
   [
     'overflow-auto',
-    // Firefox
-    '[scrollbar-width:thin]',
-    '[scrollbar-color:var(--ui-scrollbar-thumb)_transparent]',
-    // Webkit basics
-    '[&::-webkit-scrollbar]:w-[var(--ui-scrollbar-size,8px)]',
-    '[&::-webkit-scrollbar]:h-[var(--ui-scrollbar-size,8px)]',
-    '[&::-webkit-scrollbar-track]:bg-transparent',
-    '[&::-webkit-scrollbar-track]:rounded-full',
-    '[&::-webkit-scrollbar-thumb]:rounded-full',
-    '[&::-webkit-scrollbar-thumb]:border-2',
-    '[&::-webkit-scrollbar-thumb]:border-solid',
-    '[&::-webkit-scrollbar-thumb]:border-transparent',
-    '[&::-webkit-scrollbar-thumb]:bg-clip-padding',
-    '[&::-webkit-scrollbar-thumb]:bg-[var(--ui-scrollbar-thumb)]',
-    '[&::-webkit-scrollbar-thumb:hover]:bg-[var(--ui-scrollbar-thumb-hover)]',
-    '[&::-webkit-scrollbar-corner]:bg-transparent',
+    'scrollbar',
+    'scrollbar-w-[var(--ui-scrollbar-size,8px)]',
+    'scrollbar-h-[var(--ui-scrollbar-size,8px)]',
+    'scrollbar-track-transparent',
+    'scrollbar-thumb-rounded-full',
+    'scrollbar-track-rounded-full',
+    'scrollbar-thumb-[var(--ui-scrollbar-thumb)]',
+    'hover:scrollbar-thumb-[var(--ui-scrollbar-thumb-hover)]',
   ],
   {
     variants: {
