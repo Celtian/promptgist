@@ -3,7 +3,10 @@
 >
   <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
     <!-- Brand / Logo -->
-    <div class="flex items-center gap-3">
+    <a
+      routerLink="/"
+      class="flex items-center gap-3 hover:opacity-90 transition-opacity cursor-pointer decoration-none"
+    >
       <div
         class="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-primary-400 to-primary-600 text-primary-contrast shadow-md shadow-primary-500/20"
       >
@@ -15,31 +18,7 @@
           >Portal</span
         >
       </span>
-    </div>
-
-    <!-- Navigation links -->
-    <nav class="hidden md:flex items-center gap-6">
-      <a
-        href="#"
-        class="text-sm font-semibold text-(--ui-color-text) hover:text-primary transition-colors"
-        >Dashboard</a
-      >
-      <a
-        href="#"
-        class="text-sm font-semibold text-(--ui-color-text-muted) hover:text-(--ui-color-text) transition-colors"
-        >Analytics</a
-      >
-      <a
-        href="#"
-        class="text-sm font-semibold text-(--ui-color-text-muted) hover:text-(--ui-color-text) transition-colors"
-        >Projects</a
-      >
-      <a
-        href="#"
-        class="text-sm font-semibold text-(--ui-color-text-muted) hover:text-(--ui-color-text) transition-colors"
-        >Settings</a
-      >
-    </nav>
+    </a>
 
     <!-- Right-aligned controls -->
     <div class="flex items-center gap-4">

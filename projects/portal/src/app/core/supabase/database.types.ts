@@ -13,6 +13,7 @@ export type Database = {
           createdAt: string;
           createdBy: string;
           id: string;
+          jobId: string;
           order: number;
           promptId: string;
           updatedAt: string;
@@ -22,6 +23,7 @@ export type Database = {
           createdAt?: string;
           createdBy: string;
           id?: string;
+          jobId: string;
           order: number;
           promptId: string;
           updatedAt: string;
@@ -31,12 +33,20 @@ export type Database = {
           createdAt?: string;
           createdBy?: string;
           id?: string;
+          jobId?: string;
           order?: number;
           promptId?: string;
           updatedAt?: string;
           updatedBy?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: 'jobItems_jobId_fkey';
+            columns: ['jobId'];
+            isOneToOne: false;
+            referencedRelation: 'jobs';
+            referencedColumns: ['id'];
+          },
           {
             foreignKeyName: 'jobItems_promptId_fkey';
             columns: ['promptId'];
