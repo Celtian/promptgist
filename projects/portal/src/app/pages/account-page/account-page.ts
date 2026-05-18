@@ -2,13 +2,16 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { UpperCasePipe, SlicePipe } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { Card, Badge, Button } from '@/ui';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidCheck, faSolidCopy, faSolidUser } from '@ng-icons/font-awesome/solid';
 
 @Component({
   selector: 'app-account-page',
-  imports: [Card, Badge, Button, UpperCasePipe, SlicePipe],
+  imports: [Card, Badge, Button, UpperCasePipe, SlicePipe, NgIcon],
   templateUrl: './account-page.html',
   styleUrl: './account-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidCheck, faSolidCopy, faSolidUser })],
   host: {
     class: 'block w-full',
   },

@@ -13,6 +13,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidMoon, faSolidSun } from '@ng-icons/font-awesome/solid';
 import { Button } from '../button/button';
 import { Tooltip } from '../tooltip/tooltip';
 import { StorageService } from '../utils/local-storage';
@@ -25,10 +27,11 @@ export const THEME_SWITCHER_VALUE_ACCESSOR: Provider = {
 
 @Component({
   selector: 'ui-theme-switcher',
-  imports: [Button, Tooltip],
+  imports: [Button, Tooltip, NgIcon],
   templateUrl: './theme-switcher.html',
   providers: [THEME_SWITCHER_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidMoon, faSolidSun })],
 })
 export class ThemeSwitcher implements ControlValueAccessor, OnInit {
   private readonly storage = inject(StorageService);

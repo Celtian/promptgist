@@ -8,6 +8,8 @@ import {
   signal,
 } from '@angular/core';
 import { FormValueControl, ValidationError } from '@angular/forms/signals';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidEye, faSolidEyeSlash } from '@ng-icons/font-awesome/solid';
 import { cva } from 'class-variance-authority';
 import { cn } from '../../utils/utils';
 
@@ -37,10 +39,11 @@ const inputPasswordVariants = cva([
 
 @Component({
   selector: 'ui-input-password',
-  imports: [],
+  imports: [NgIcon],
   templateUrl: './input-password.html',
   styleUrl: './input-password.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidEye, faSolidEyeSlash })],
 })
 export class InputPassword implements FormValueControl<string> {
   private static nextId = 0;

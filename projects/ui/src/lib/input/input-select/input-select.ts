@@ -18,6 +18,8 @@ import {
   viewChildren,
 } from '@angular/core';
 import { FormValueControl, ValidationError } from '@angular/forms/signals';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidCheck, faSolidChevronDown } from '@ng-icons/font-awesome/solid';
 import { cva } from 'class-variance-authority';
 
 import { cn } from '../../utils/utils';
@@ -79,10 +81,12 @@ const optionClasses = cva([
     Listbox,
     Option,
     OverlayModule,
+    NgIcon,
   ],
   templateUrl: './input-select.html',
   styleUrl: './input-select.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidCheck, faSolidChevronDown })],
 })
 export class InputSelect implements FormValueControl<string | null> {
   private static nextId = 0;

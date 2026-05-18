@@ -1,14 +1,17 @@
 import { Button, InputText } from '@/ui';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidBolt, faSolidTriangleExclamation } from '@ng-icons/font-awesome/solid';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
-  imports: [InputText, Button],
+  imports: [InputText, Button, NgIcon],
   templateUrl: './login-page.html',
   styleUrl: './login-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidBolt, faSolidTriangleExclamation })],
   host: {
     class: 'block w-full',
   },

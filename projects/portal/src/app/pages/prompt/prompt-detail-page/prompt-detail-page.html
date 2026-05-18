@@ -15,20 +15,7 @@
       <div
         class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-500"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          class="h-6 w-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-          />
-        </svg>
+        <ng-icon name="faSolidTriangleExclamation" class="h-6 w-6" />
       </div>
       <h3 class="text-lg font-bold text-(--ui-color-text)">Failed to load prompt</h3>
       <p class="text-xs text-(--ui-color-text-muted)">{{ errorMessage() }}</p>
@@ -82,20 +69,7 @@
             [title]="prompt()!.isStarred ? 'Remove star' : 'Add star'"
             (click)="toggleStar()"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="h-4 w-4"
-              [attr.fill]="prompt()!.isStarred ? 'currentColor' : 'none'"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0l-4.725 2.885a.562.562 0 01-.84-.61l1.285-5.385a.563.563 0 00-.182-.557L3.04 10.385a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345l2.125-5.111z"
-              />
-            </svg>
+            <ng-icon name="faSolidStar" class="h-4 w-4" [class.opacity-45]="!prompt()!.isStarred" />
             {{ prompt()!.isStarred ? 'Starred' : 'Star' }}
           </button>
         }
@@ -105,20 +79,7 @@
           variant="primary"
           [routerLink]="['/prompt', prompt()!.id, 'edit']"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            class="h-4 w-4"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.83 18.291a8.96 8.96 0 01-3.06 1.981l-1.751.4-.4-1.751a8.96 8.96 0 011.981-3.06l11.894-11.893z"
-            />
-          </svg>
+          <ng-icon name="faSolidPenToSquare" class="h-4 w-4" />
           Edit Prompt
         </a>
       </div>

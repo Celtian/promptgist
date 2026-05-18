@@ -16,6 +16,8 @@ import {
   required,
   validate,
 } from '@angular/forms/signals';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidTriangleExclamation } from '@ng-icons/font-awesome/solid';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Prompt, PromptService } from '../../../core/services/prompt.service';
 
@@ -31,10 +33,12 @@ import { Prompt, PromptService } from '../../../core/services/prompt.service';
     InputText,
     InputTextarea,
     InputToggle,
+    NgIcon,
   ],
   templateUrl: './prompt-edit-page.html',
   styleUrl: './prompt-edit-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidTriangleExclamation })],
 })
 export class PromptEditPage implements OnInit {
   private readonly route = inject(ActivatedRoute);

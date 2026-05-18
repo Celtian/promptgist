@@ -1,4 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  faSolidFileLines,
+  faSolidPenToSquare,
+  faSolidPlus,
+  faSolidStar,
+  faSolidTriangleExclamation,
+} from '@ng-icons/font-awesome/solid';
 import { RouterLink } from '@angular/router';
 import { Button, Card, Badge } from '@/ui';
 import { PromptService, Prompt } from '../../../core/services/prompt.service';
@@ -6,10 +14,19 @@ import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-prompt-list-page',
-  imports: [RouterLink, Button, Card, Badge],
+  imports: [RouterLink, Button, Card, Badge, NgIcon],
   templateUrl: './prompt-list-page.html',
   styleUrl: './prompt-list-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [
+    provideIcons({
+      faSolidFileLines,
+      faSolidPenToSquare,
+      faSolidPlus,
+      faSolidStar,
+      faSolidTriangleExclamation,
+    }),
+  ],
 })
 export class PromptListPage implements OnInit {
   private readonly promptService = inject(PromptService);

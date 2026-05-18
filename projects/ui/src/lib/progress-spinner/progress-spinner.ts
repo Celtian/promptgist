@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidSpinner } from '@ng-icons/font-awesome/solid';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../utils/utils';
 
@@ -33,10 +35,11 @@ type ProgressSpinnerVariants = VariantProps<typeof progressSpinnerVariants>;
 
 @Component({
   selector: 'ui-progress-spinner',
-  imports: [],
+  imports: [NgIcon],
   templateUrl: './progress-spinner.html',
   styleUrl: './progress-spinner.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidSpinner })],
   host: {
     role: 'progressbar',
     '[class]': 'hostClasses()',
@@ -53,19 +56,6 @@ export class ProgressSpinner {
   readonly uiClass = input('');
 
   protected readonly isIndeterminate = computed(() => this.value() == null);
-
-  protected readonly circumference = computed(() => 2 * Math.PI * 20); // r=20
-
-  protected readonly percentage = computed(() => {
-    const val = this.value();
-    if (val == null) return 0;
-    return Math.min(100, Math.max(0, (val / this.max()) * 100));
-  });
-
-  protected readonly dashoffset = computed(() => {
-    if (this.isIndeterminate()) return null;
-    return this.circumference() - (this.percentage() / 100) * this.circumference();
-  });
 
   protected readonly hostClasses = computed(() =>
     cn(

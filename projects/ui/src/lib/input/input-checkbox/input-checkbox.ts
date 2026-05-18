@@ -7,6 +7,8 @@ import {
   model,
 } from '@angular/core';
 import { FormValueControl, ValidationError } from '@angular/forms/signals';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidCheck } from '@ng-icons/font-awesome/solid';
 import { cva } from 'class-variance-authority';
 
 import { cn } from '../../utils/utils';
@@ -34,10 +36,11 @@ const checkboxControl = cva([
 
 @Component({
   selector: 'ui-input-checkbox',
-  imports: [],
+  imports: [NgIcon],
   templateUrl: './input-checkbox.html',
   styleUrl: './input-checkbox.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidCheck })],
 })
 export class InputCheckbox implements FormValueControl<boolean> {
   private static nextId = 0;

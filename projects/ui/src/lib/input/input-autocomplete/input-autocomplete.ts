@@ -21,6 +21,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FormValueControl, ValidationError } from '@angular/forms/signals';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidCheck, faSolidChevronDown } from '@ng-icons/font-awesome/solid';
 import { cva } from 'class-variance-authority';
 
 import { cn } from '../../utils/utils';
@@ -83,10 +85,12 @@ const optionClasses = cva([
     Option,
     OverlayModule,
     FormsModule,
+    NgIcon,
   ],
   templateUrl: './input-autocomplete.html',
   styleUrl: './input-autocomplete.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidCheck, faSolidChevronDown })],
 })
 export class InputAutocomplete implements FormValueControl<string | null> {
   private static nextId = 0;

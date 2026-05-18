@@ -7,16 +7,23 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  faSolidPenToSquare,
+  faSolidStar,
+  faSolidTriangleExclamation,
+} from '@ng-icons/font-awesome/solid';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Prompt, PromptService } from '../../../core/services/prompt.service';
 
 @Component({
   selector: 'app-prompt-detail-page',
-  imports: [RouterLink, Button, Card, InputText, Badge],
+  imports: [RouterLink, Button, Card, InputText, Badge, NgIcon],
   templateUrl: './prompt-detail-page.html',
   styleUrl: './prompt-detail-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [provideIcons({ faSolidPenToSquare, faSolidStar, faSolidTriangleExclamation })],
 })
 export class PromptDetailPage implements OnInit {
   private readonly route = inject(ActivatedRoute);

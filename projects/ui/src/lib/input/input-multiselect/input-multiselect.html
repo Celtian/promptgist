@@ -13,20 +13,11 @@
       [placeholder]="placeholder()"
       (blur)="touched.set(true)"
     />
-    <svg
+    <ng-icon
+      name="faSolidChevronDown"
       aria-hidden="true"
       class="pointer-events-none size-4 shrink-0 text-[var(--ui-color-text-muted)]"
-      viewBox="0 0 16 16"
-      fill="none"
-    >
-      <path
-        d="M4 6 8 10 12 6"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1.8"
-      />
-    </svg>
+    />
   </div>
 
   <ng-template ngComboboxPopupContainer>
@@ -54,20 +45,11 @@
               [disabled]="option.disabled ?? false"
             >
               <span class="min-w-0 flex-1 truncate">{{ option.label }}</span>
-              <svg
+              <ng-icon
+                name="faSolidCheck"
                 aria-hidden="true"
                 class="size-4 shrink-0 opacity-0 group-aria-selected:opacity-100 transition-opacity"
-                viewBox="0 0 16 16"
-                fill="none"
-              >
-                <path
-                  d="M3.5 8.5 6.5 11.5 12.5 4.5"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                />
-              </svg>
+              />
             </div>
           }
         </div>

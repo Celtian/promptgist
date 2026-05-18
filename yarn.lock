@@ -1820,6 +1820,20 @@
   dependencies:
     "@tybys/wasm-util" "^0.10.1"
 
+"@ng-icons/core@^33.2.2":
+  version "33.2.2"
+  resolved "https://registry.yarnpkg.com/@ng-icons/core/-/core-33.2.2.tgz#6933bfde3b55bdeed2242bc0c1b6df730c5142b9"
+  integrity sha512-MwxREFbCx5p+x+Lx26V1FkHFpqHR/6g1TmBG7aYx+FFe1DIfrxUVXM+LW/Mviv3dN5sLE/Fi0ULP79Gz9uG0SQ==
+  dependencies:
+    tslib "^2.3.0"
+
+"@ng-icons/font-awesome@^33.2.2":
+  version "33.2.2"
+  resolved "https://registry.yarnpkg.com/@ng-icons/font-awesome/-/font-awesome-33.2.2.tgz#3272766163daa0e031454db1f942148737bd9b53"
+  integrity sha512-16Rfzb3zAlTIY3uGUeSwdxYXN7bSgIiDPkg2uhzB9xaaJnVic4nw9CEXn+r2W4iCSCFWZO/h0WyZyvxk5Leu9g==
+  dependencies:
+    tslib "^2.3.0"
+
 "@npmcli/agent@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@npmcli/agent/-/agent-4.0.0.tgz#2bb2b1c0a170940511554a7986ae2a8be9fedcce"

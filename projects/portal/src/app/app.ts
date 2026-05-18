@@ -7,6 +7,15 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import {
+  faSolidAngleUp,
+  faSolidBolt,
+  faSolidFileLines,
+  faSolidGear,
+  faSolidRightFromBracket,
+  faSolidRightToBracket,
+} from '@ng-icons/font-awesome/solid';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgxAppVersionDirective } from 'ngx-app-version';
 import { NgxScrollTopDirective } from 'ngx-scrolltop';
@@ -22,11 +31,22 @@ import { AuthService } from './core/services/auth.service';
     Button,
     Avatar,
     Tooltip,
+    NgIcon,
     NgxScrollTopDirective,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  viewProviders: [
+    provideIcons({
+      faSolidAngleUp,
+      faSolidBolt,
+      faSolidFileLines,
+      faSolidGear,
+      faSolidRightFromBracket,
+      faSolidRightToBracket,
+    }),
+  ],
   host: {
     class: 'flex flex-col h-full',
   },
