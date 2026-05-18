@@ -1,0 +1,240 @@
+<div class="mx-auto max-w-5xl py-8 px-4 sm:px-6 lg:px-8 space-y-8">
+  <!-- Profile Page Header -->
+  <div
+    class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-(--ui-color-border) pb-6"
+  >
+    <div class="space-y-1">
+      <h1 class="text-3xl font-extrabold tracking-tight text-(--ui-color-text)">
+        Account Security Console
+      </h1>
+      <p class="text-sm text-(--ui-color-text-muted)">
+        Review complete session state, auth metadata, and linked account telemetry.
+      </p>
+    </div>
+    <div class="flex gap-3">
+      <button
+        type="button"
+        ui-button
+        variant="secondary"
+        size="sm"
+        class="shadow-sm"
+        (click)="auth.signOut()"
+      >
+        Sign Out Session
+      </button>
+    </div>
+  </div>
+
+  @if (auth.user(); as user) {
+    <!-- Main Two-Column Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left Column: User Summary & Core Telemetry -->
+      <div class="lg:col-span-2 space-y-8">
+        <!-- Identity Summary Card -->
+        <ui-card variant="surface" padding="lg">
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+            <!-- Gradient Avatar -->
+            <div
+              class="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-linear-to-br from-primary-400 to-emerald-500 text-primary-contrast font-black text-2xl shadow-lg shadow-primary-500/20"
+            >
+              {{ userInitials() }}
+            </div>
+
+            <!-- Basic Details -->
+            <div class="space-y-3 flex-1 text-center sm:text-left">
+              <div class="space-y-1">
+                <h2 class="text-xl font-bold text-(--ui-color-text)">{{ user.email }}</h2>
+                <div class="flex flex-wrap justify-center sm:justify-start gap-2">
+                  <span ui-badge variant="primary" size="sm">
+                    role: {{ user.role || 'authenticated' }}
+                  </span>
+                  @if (user.email_confirmed_at) {
+                    <span ui-badge variant="accent" size="sm"> verified </span>
+                  } @else {
+                    <span ui-badge variant="surface" size="sm"> unverified </span>
+                  }
+                </div>
+              </div>
+              <p class="text-xs text-(--ui-color-text-muted) max-w-md leading-relaxed">
+                Your authentication identity is securely verified through Supabase. Below is a
+                comprehensive readout of your system profile metadata.
+              </p>
+            </div>
+          </div>
+        </ui-card>
+
+        <!-- Core Telemetry Table -->
+        <ui-card variant="outline" padding="lg" class="overflow-hidden">
+          <h3 class="text-lg font-bold text-(--ui-color-text) mb-4">Identity Telemetry</h3>
+          <div class="divide-y divide-(--ui-color-border) text-sm">
+            <!-- Row: User UUID -->
+            <div class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <span class="font-semibold text-(--ui-color-text-muted)">User UUID</span>
+              <div class="flex items-center gap-2">
+                <code
+                  class="px-2.5 py-1 rounded bg-(--ui-color-surface-muted) font-mono text-xs text-(--ui-color-text)"
+                >
+                  {{ user.id }}
+                </code>
+                <button
+                  type="button"
+                  ui-button
+                  variant="secondary"
+                  size="sm"
+                  class="h-8 w-8 p-0! inline-flex items-center justify-center"
+                  (click)="copyUserId(user.id)"
+                >
+                  @if (isCopied()) {
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="2.5"
+                      stroke="currentColor"
+                      class="h-4 w-4 text-emerald-500"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m4.5 12.75 6 6 9-13.5"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="2"
+                      stroke="currentColor"
+                      class="h-4 w-4"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M16.5 8.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v8.25A2.25 2.25 0 0 0 6 16.5h2.25m8.25-8.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-7.5A2.25 2.25 0 0 1 8.25 18v-1.5m8.25-8.25h-6a2.25 2.25 0 0 0-2.25 2.25v6"
+                      />
+                    </svg>
+                  }
+                </button>
+              </div>
+            </div>
+
+            <!-- Row: Created At -->
+            <div class="py-4 flex items-center justify-between">
+              <span class="font-semibold text-(--ui-color-text-muted)">Created At</span>
+              <span class="text-(--ui-color-text) font-medium">
+                {{ formatDate(user.created_at) }}
+              </span>
+            </div>
+
+            <!-- Row: Last Signed In -->
+            <div class="py-4 flex items-center justify-between">
+              <span class="font-semibold text-(--ui-color-text-muted)">Last Sign In</span>
+              <span class="text-(--ui-color-text) font-medium">
+                {{ formatDate(user.last_sign_in_at) }}
+              </span>
+            </div>
+
+            <!-- Row: Email Confirmed At -->
+            <div class="py-4 flex items-center justify-between">
+              <span class="font-semibold text-(--ui-color-text-muted)">Email Verified At</span>
+              <span class="text-(--ui-color-text) font-medium">
+                {{ formatDate(user.email_confirmed_at) }}
+              </span>
+            </div>
+
+            <!-- Row: Phone -->
+            <div class="py-4 flex items-center justify-between">
+              <span class="font-semibold text-(--ui-color-text-muted)">Associated Phone</span>
+              <span class="text-(--ui-color-text) font-mono">
+                {{ user.phone || 'None linked' }}
+              </span>
+            </div>
+          </div>
+        </ui-card>
+      </div>
+
+      <!-- Right Column: Metadata Details & Providers -->
+      <div class="space-y-8">
+        <!-- Linked Identity Providers -->
+        <ui-card variant="outline" padding="lg">
+          <h3 class="text-lg font-bold text-(--ui-color-text) mb-3">Linked Identities</h3>
+          <div class="space-y-3">
+            @for (identity of user.identities; track identity.identity_id) {
+              <div
+                class="flex items-center justify-between p-3 rounded-xl bg-(--ui-color-surface-muted) border border-(--ui-color-border)"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="2.5"
+                      stroke="currentColor"
+                      class="h-4 w-4"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-(--ui-color-text)">
+                      {{ identity.provider | uppercase }}
+                    </div>
+                    <div class="text-xs text-(--ui-color-text-muted)">
+                      ID: {{ identity.id | slice: 0 : 10 }}...
+                    </div>
+                  </div>
+                </div>
+                <span ui-badge variant="primary" size="sm"> Active </span>
+              </div>
+            } @empty {
+              <p class="text-sm text-(--ui-color-text-muted) text-center py-4">
+                No linked identity configurations found.
+              </p>
+            }
+          </div>
+        </ui-card>
+
+        <!-- App Metadata -->
+        <ui-card variant="surface" padding="md">
+          <h3 class="text-sm font-bold text-(--ui-color-text) mb-2">App Metadata</h3>
+          @if (appMetadataJson(); as json) {
+            <pre
+              class="p-3 rounded-lg bg-(--ui-color-surface)/70 border border-(--ui-color-border) text-xs font-mono overflow-auto max-h-48 text-(--ui-color-text) whitespace-pre-wrap"
+              >{{ json }}</pre
+            >
+          } @else {
+            <p class="text-xs text-(--ui-color-text-muted) italic">No app metadata present.</p>
+          }
+        </ui-card>
+
+        <!-- User Metadata -->
+        <ui-card variant="surface" padding="md">
+          <h3 class="text-sm font-bold text-(--ui-color-text) mb-2">User Metadata</h3>
+          @if (userMetadataJson(); as json) {
+            <pre
+              class="p-3 rounded-lg bg-(--ui-color-surface)/70 border border-(--ui-color-border) text-xs font-mono overflow-auto max-h-48 text-(--ui-color-text) whitespace-pre-wrap"
+              >{{ json }}</pre
+            >
+          } @else {
+            <p class="text-xs text-(--ui-color-text-muted) italic text-center py-2">
+              No custom metadata linked.
+            </p>
+          }
+        </ui-card>
+      </div>
+    </div>
+  } @else {
+    <!-- Unauthorized Fallback UI (though guard will redirect) -->
+    <ui-card variant="surface" padding="lg" class="text-center py-12">
+      <p class="text-lg text-(--ui-color-text-muted)">Redirecting to authentication console...</p>
+    </ui-card>
+  }
+</div>

@@ -61,9 +61,12 @@
 
       <!-- Mock User Profile / Action button -->
       @if (auth.isAuthenticated()) {
-        <span class="text-xs font-mono text-(--ui-color-text-muted) hidden sm:inline">
+        <a
+          href="/account"
+          class="text-xs font-mono text-(--ui-color-text-muted) hover:text-primary transition-colors hidden sm:inline"
+        >
           {{ auth.user()?.email }}
-        </span>
+        </a>
         <button type="button" ui-button variant="secondary" size="sm" (click)="auth.signOut()">
           Sign Out
         </button>

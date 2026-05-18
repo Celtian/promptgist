@@ -17,11 +17,17 @@ export class AuthService {
   public readonly user = this._user.asReadonly();
   public readonly isAuthenticated = computed(() => this._user() !== null);
 
+  // Promise resolved once the initial Supabase session restoration check completes
+  public readonly ready: Promise<boolean>;
+
   constructor() {
-    // 1. Fetch initial session state on load
-    this.supabase.auth.getSession().then(({ data: { session } }) => {
-      this._session.set(session);
-      this._user.set(session?.user ?? null);
+    // 1. Fetch initial session state on load and resolve ready promise
+    this.ready = new Promise<boolean>((resolve) => {
+      this.supabase.auth.getSession().then(({ data: { session } }) => {
+        this._session.set(session);
+        this._user.set(session?.user ?? null);
+        resolve(true);
+      });
     });
 
     // 2. Synchronize Supabase subscription with Signals
