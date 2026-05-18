@@ -4756,6 +4756,14 @@ ngx-app-version@^2.2.1:
   dependencies:
     tslib "^2.3.0"
 
+ngx-scrolltop@^21.0.1:
+  version "21.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-scrolltop/-/ngx-scrolltop-21.0.1.tgz#0d3530bdee41b5dafad098f0a7ab720e41bf46af"
+  integrity sha512-FOjuvzGRdwFwhJ5d0kgmdhG7nwbwczQl6v8dSGrukzvOEtv2VH89oYZLv0B6UHPNhruuyaGWLKjlRizaj46Kiw==
+  dependencies:
+    seamless-scroll-polyfill "2.3.4"
+    tslib "^2.3.0"
+
 node-addon-api@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-6.1.0.tgz#ac8470034e58e67d0c6f1204a18ae6995d9c0d76"
@@ -5395,6 +5403,11 @@ saxes@^6.0.0:
   integrity sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==
   dependencies:
     xmlchars "^2.2.0"
+
+seamless-scroll-polyfill@2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/seamless-scroll-polyfill/-/seamless-scroll-polyfill-2.3.4.tgz#d2fd1833993a2ad41a3ac319c65dc839bf0746d5"
+  integrity sha512-Biobd4LDoeFODX1bfiru84GveSajzFELFB3ejMZsRR2TpD73W46uEZYAEqSx5RtKpN2umhGWaoSRivs0ZcHp9g==
 
 semver@7.7.4:
   version "7.7.4"

@@ -1,20 +1,29 @@
+import { Avatar, Button, ThemeSwitcher, Tooltip } from '@/ui';
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  HostListener,
   inject,
   signal,
-  HostListener,
-  ElementRef,
 } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgxAppVersionDirective } from 'ngx-app-version';
-import { ThemeSwitcher, Button, Avatar, Tooltip } from '@/ui';
-import { AuthService } from './core/services/auth.service';
+import { NgxScrollTopDirective } from 'ngx-scrolltop';
 import { ROUTE_DEFINITION } from './constants/route-definition';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, ThemeSwitcher, Button, Avatar, Tooltip],
+  imports: [
+    RouterOutlet,
+    RouterLink,
+    ThemeSwitcher,
+    Button,
+    Avatar,
+    Tooltip,
+    NgxScrollTopDirective,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
